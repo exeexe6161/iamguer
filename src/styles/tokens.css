@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  /* Surfaces */
+  --color-canvas:   #0a0a0a;
+  --color-surface:  #0f0f0f;
+  --color-elevated: #1a1a1a;
+  --color-tile:     #161616;
+
+  /* Text scale (lightest → darkest) */
+  --color-text-primary:   #f5f1eb;
+  --color-text-body:      #e8e6e1;
+  --color-text-secondary: #b8b6b1;
+  --color-text-muted:     #888580;
+  --color-text-faint:     #6a6862;
+  --color-text-trace:     #555550;
+
+  /* Brand accent */
+  --color-accent:      #c08672;
+  --color-accent-deep: #1a0f0a;
+
+  /* Lines */
+  --color-line:        rgb(255 255 255 / 0.06);
+  --color-line-strong: rgb(255 255 255 / 0.15);
+
+  /* Fonts */
+  --font-sans:  'Inter Variable', system-ui, sans-serif;
+  --font-serif: 'Fraunces Variable', Georgia, serif;
+  --font-mono:  ui-monospace, 'SF Mono', monospace;
+}
+
+@font-face {
+  font-family: 'Inter Variable';
+  src: url('/fonts/inter/InterVariable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter Variable';
+  src: url('/fonts/inter/InterVariable-Italic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
