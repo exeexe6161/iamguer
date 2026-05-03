@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('galerien');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const dateFmt = new Intl.DateTimeFormat('de-DE', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.excerpt}
+  currentPath="/galerien"
+>
+  <article class="px-7 py-16 max-w-4xl mx-auto">
+    <p class="font-mono text-xs uppercase tracking-widest text-text-muted">
+      {dateFmt.format(entry.data.date)}
+    </p>
+    <h1 class="font-serif text-text-primary text-5xl mt-2">
+      {entry.data.title}
+    </h1>
+    <p class="text-text-secondary mt-4">{entry.data.excerpt}</p>
+    <div class="mt-8 text-text-body leading-relaxed">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('galerien')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const dateFmt = new Intl.DateTimeFormat('de-DE', {
+  year: 'numeric',
+  month: 'long',
+});
+---
+
+<BaseLayout title="Galerien" currentPath="/galerien">
+  <section class="px-7 py-16 max-w-4xl mx-auto">
+    <h1 class="font-serif text-text-primary text-5xl">Galerien</h1>
+    <p class="text-text-secondary mt-4">
+      Visuelle Notizen aus Marburg und unterwegs.
+    </p>
+
+    <ul class="mt-12 space-y-10">
+      {
+        entries.map((entry) => (
+          <li>
+            <a href={`/galerien/${entry.id}`} class="block group">
+              <h2 class="font-serif text-text-primary text-2xl group-hover:text-accent transition-colors">
+                {entry.data.title}
+              </h2>
+              <p class="text-text-secondary mt-2">{entry.data.excerpt}</p>
+              <p class="font-mono text-xs uppercase tracking-widest text-text-muted mt-2">
+                {dateFmt.format(entry.data.date)}
+              </p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

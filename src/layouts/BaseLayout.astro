@@ -18,6 +18,7 @@ const {
   ogImage = '/og-default.jpg',
 } = Astro.props;
 
+const computedTitle = title === 'guer.' ? 'guer.' : `${title} · guer.`;
 const ogImageUrl = new URL(ogImage, Astro.url).toString();
 const canonicalUrl = Astro.url.toString();
 ---
@@ -26,7 +27,7 @@ const canonicalUrl = Astro.url.toString();
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <title>{computedTitle}</title>
     <meta name="description" content={description} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
