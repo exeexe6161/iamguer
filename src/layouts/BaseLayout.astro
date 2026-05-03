@@ -1,16 +1,62 @@
 ---
+import '@fontsource-variable/fraunces/wght.css';
 import '../styles/tokens.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  currentPath?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'guer.',
+  description = 'Bilder aus Marburg und überall sonst.',
+  currentPath = '/',
+  ogImage = '/og-default.jpg',
+} = Astro.props;
+
+const ogImageUrl = new URL(ogImage, Astro.url).toString();
+const canonicalUrl = Astro.url.toString();
 ---
 
 <html lang="de">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link
+      rel="preload"
+      href="/fonts/inter/InterVariable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
     <meta name="generator" content={Astro.generator} />
-    <title>guer.</title>
   </head>
-  <body class="bg-canvas text-text-body font-sans antialiased">
-    <slot />
+  <body class="bg-canvas text-text-body font-sans antialiased min-h-screen flex flex-col">
+    <Nav currentPath={currentPath} />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

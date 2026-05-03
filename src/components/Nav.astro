@@ -1,0 +1,54 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const links = [
+  { href: '/', label: 'Index' },
+  { href: '/galerien', label: 'Galerien' },
+  { href: '/ueber', label: 'Über' },
+  { href: '/notizen', label: 'Notizen' },
+  { href: '/kontakt', label: 'Kontakt' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath === href || currentPath.startsWith(href + '/');
+}
+---
+
+<nav class="flex justify-between items-center px-7 py-5 border-b border-line">
+  <a href="/" class="font-serif text-lg tracking-tight text-text-primary">
+    guer<span class="text-accent">.</span>
+  </a>
+
+  <ul class="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest">
+    {
+      links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class:list={[
+              'transition-colors hover:text-text-primary',
+              isActive(link.href) ? 'text-text-primary' : 'text-text-muted',
+            ]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <button
+    type="button"
+    aria-label="Menü öffnen"
+    class="md:hidden flex flex-col gap-1.5 w-[18px]"
+  >
+    <span class="block h-px w-full bg-text-primary"></span>
+    <span class="block h-px w-full bg-text-primary"></span>
+    <span class="block h-px w-full bg-text-primary"></span>
+  </button>
+</nav>
