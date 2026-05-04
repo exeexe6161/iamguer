@@ -4,14 +4,15 @@ import Splash from '../components/Splash.astro';
 import { loadInstagramPosts, displaySrc, shortCaption } from '../lib/instagram';
 
 const payload = loadInstagramPosts();
-const latest = payload?.posts?.[0];
+const allPosts = payload?.posts ?? [];
+const latest = allPosts[0];
+const gridPosts = allPosts.slice(1, 7);
 
-const heroImage = latest ? displaySrc(latest) : '/splash/portrait-pool.jpg';
-const heroCaption = latest
-  ? shortCaption(latest.caption, 160) ||
-    'Bilder aus Marburg und überall sonst — in voller Auflösung, mit Raum zum Atmen.'
-  : 'Stille Stunden — Bilder aus Marburg und überall sonst, in voller Auflösung, mit Raum zum Atmen.';
-const heroPermalink = latest?.permalink;
+const dateFmt = new Intl.DateTimeFormat('de-DE', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 ---
 
 <BaseLayout currentPath="/">
@@ -43,31 +44,111 @@ const heroPermalink = latest?.permalink;
 
   <Splash />
 
-  <section
-    class="relative isolate overflow-hidden min-h-[80vh] flex items-end"
-    style={`background-image: linear-gradient(180deg, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.05) 35%, rgba(10,10,10,0.85) 100%), url(${heroImage}); background-size: cover; background-position: center;`}
-  >
-    <div class="px-7 py-16 md:py-24 max-w-2xl">
-      <h1
-        class="text-text-primary text-7xl md:text-9xl tracking-tighter leading-none font-light"
-      >
-        iamguer
-      </h1>
-      <p
-        class="text-text-secondary text-lg mt-6 max-w-md leading-relaxed"
-      >
-        {heroCaption}
-      </p>
-      {heroPermalink && (
-        <a
-          href={heroPermalink}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block mt-6 font-mono text-xs uppercase tracking-widest text-text-muted hover:text-text-primary transition-colors"
-        >
-          Auf Instagram ansehen ↗
-        </a>
-      )}
-    </div>
+  <section class="bg-canvas px-7 py-24 md:py-32 text-center">
+    <h1
+      class="text-text-primary text-7xl md:text-9xl tracking-tighter leading-none font-light"
+    >
+      iamguer
+    </h1>
+    <p
+      class="text-text-secondary text-base md:text-lg mt-8 max-w-xl mx-auto leading-relaxed"
+    >
+      Stille Stunden. Lange Schatten. Marburg und der Rest.
+    </p>
+  </section>
+
+  {
+    latest ? (
+      <section class="bg-canvas px-7 pb-20 md:pb-28">
+        <figure class="max-w-5xl mx-auto">
+          <a
+            href={latest.permalink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block overflow-hidden bg-tile group"
+          >
+            <img
+              src={displaySrc(latest)}
+              alt={shortCaption(latest.caption, 120) || 'Neuester Instagram-Post von @iamguer'}
+              loading="eager"
+              decoding="async"
+              class="w-full max-h-[70vh] object-cover transition-opacity duration-500 group-hover:opacity-90"
+            />
+          </a>
+          <figcaption class="mt-6 max-w-2xl mx-auto text-center">
+            <p class="font-mono text-[10px] uppercase tracking-widest text-text-muted">
+              {dateFmt.format(new Date(latest.timestamp))}
+            </p>
+            {latest.caption && (
+              <p class="text-text-secondary text-base md:text-lg mt-3 leading-relaxed">
+                {shortCaption(latest.caption, 220)}
+              </p>
+            )}
+            <a
+              href={latest.permalink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block mt-4 font-mono text-xs uppercase tracking-widest text-text-muted hover:text-text-primary transition-colors"
+            >
+              Auf Instagram ansehen ↗
+            </a>
+          </figcaption>
+        </figure>
+      </section>
+    ) : (
+      <section class="bg-canvas px-7 pb-20 md:pb-28 text-center">
+        <p class="font-mono text-xs uppercase tracking-widest text-text-muted">
+          Noch keine Bilder verfügbar — bald folgen erste Aufnahmen.
+        </p>
+      </section>
+    )
+  }
+
+  {
+    gridPosts.length > 0 && (
+      <section class="bg-canvas px-7 pb-20 md:pb-28">
+        <ul class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+          {gridPosts.map((post) => (
+            <li class="group relative aspect-square overflow-hidden bg-tile">
+              <a
+                href={post.permalink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={shortCaption(post.caption, 80) || 'Instagram-Post öffnen'}
+                class="block w-full h-full"
+              >
+                <img
+                  src={displaySrc(post)}
+                  alt={shortCaption(post.caption, 120) || 'Instagram-Post von @iamguer'}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                {post.media_type === 'VIDEO' && (
+                  <span class="absolute top-2 right-2 font-mono text-[10px] uppercase tracking-widest text-text-primary bg-canvas/70 px-2 py-1 backdrop-blur-sm">
+                    Video
+                  </span>
+                )}
+                {post.media_type === 'CAROUSEL_ALBUM' && (
+                  <span class="absolute top-2 right-2 font-mono text-[10px] uppercase tracking-widest text-text-primary bg-canvas/70 px-2 py-1 backdrop-blur-sm">
+                    Album
+                  </span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="bg-canvas px-7 pb-32 md:pb-40 text-center">
+    <a
+      href="/galerien"
+      class="inline-flex items-baseline gap-3 text-text-secondary hover:text-text-primary text-2xl md:text-3xl font-light tracking-tight transition-colors"
+    >
+      Alle Bilder ansehen
+      <span aria-hidden="true" class="text-xl">→</span>
+    </a>
   </section>
 </BaseLayout>
