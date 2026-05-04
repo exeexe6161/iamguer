@@ -5,13 +5,11 @@ const year = new Date().getFullYear();
 
 const sitemapLinks = [
   { href: '/galerien', label: 'Galerien' },
-  { href: '/notizen', label: 'Notizen' },
   { href: '/kontakt', label: 'Kontakt' },
 ];
 
 const followLinks = [
   { href: 'https://instagram.com/iamguer', label: 'Instagram ↗', external: true },
-  { href: '/notizen', label: 'Newsletter', external: false },
 ];
 
 const legalLinks = [
@@ -91,9 +89,8 @@ const legalLinks = [
   </div>
 
   <div
-    class="border-t border-line mt-8 pt-3 flex justify-between font-mono text-xs text-text-trace"
+    class="border-t border-line mt-8 pt-3 flex font-mono text-xs text-text-trace"
   >
     <span class="inline-flex items-center gap-2">© {year} <BrandMark /></span>
-    <span>v 0.1</span>
   </div>
 </footer>

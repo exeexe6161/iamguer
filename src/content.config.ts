@@ -20,14 +20,4 @@ const galerien = defineCollection({
   }),
 });
 
-const notizen = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/notizen' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    excerpt: z.string().max(200),
-    cover: z.string().optional(),
-  }),
-});
-
-export const collections = { galerien, notizen };
+export const collections = { galerien };

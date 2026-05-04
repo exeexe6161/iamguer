@@ -1,20 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InstagramGallery from '../../components/InstagramGallery.astro';
-import { getCollection } from 'astro:content';
 import { loadInstagramPosts, shortCaption } from '../../lib/instagram';
-
-const entries = (await getCollection('galerien')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
 
 const igPayload = loadInstagramPosts();
 const igPosts = igPayload?.posts ?? [];
-
-const dateFmt = new Intl.DateTimeFormat('de-DE', {
-  year: 'numeric',
-  month: 'long',
-});
 ---
 
 <BaseLayout
@@ -56,9 +46,11 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
     )
   }
   <section class="px-7 py-16 max-w-4xl mx-auto">
-    <h1 class="text-text-primary text-5xl tracking-tight font-light">Galerien</h1>
+    <h1 class="text-text-primary text-5xl tracking-tight font-light">
+      Galerien
+    </h1>
     <p class="text-text-secondary mt-4">
-      Visuelle Notizen aus Marburg und unterwegs.
+      Aufnahmen aus Marburg und unterwegs.
     </p>
 
     <div class="mt-16">
@@ -77,30 +69,5 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
       </header>
       <InstagramGallery />
     </div>
-
-    {
-      entries.length > 0 && (
-        <div class="mt-20">
-          <h2 class="text-text-primary text-2xl tracking-tight font-light mb-6">
-            Notizen
-          </h2>
-          <ul class="space-y-10">
-            {entries.map((entry) => (
-              <li>
-                <a href={`/galerien/${entry.id}`} class="block group">
-                  <h3 class="text-text-primary text-xl group-hover:text-accent transition-colors">
-                    {entry.data.title}
-                  </h3>
-                  <p class="text-text-secondary mt-2">{entry.data.excerpt}</p>
-                  <p class="font-mono text-xs uppercase tracking-widest text-text-muted mt-2">
-                    {dateFmt.format(entry.data.date)}
-                  </p>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
   </section>
 </BaseLayout>
