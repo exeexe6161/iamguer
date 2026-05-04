@@ -52,6 +52,7 @@ const canonicalUrl = Astro.url.toString();
     <meta name="twitter:image" content={ogImageUrl} />
 
     <meta name="generator" content={Astro.generator} />
+    <slot name="head-extra" />
   </head>
   <body class="bg-canvas text-text-body font-sans antialiased min-h-screen flex flex-col">
     <Nav currentPath={currentPath} />

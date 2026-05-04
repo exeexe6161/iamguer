@@ -1,0 +1,322 @@
+---
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+---
+
+<div class="splash-root" id="splashRoot">
+  <div class="stage">
+    <div class="photo"></div>
+    <div class="grade"></div>
+    <div class="grain"></div>
+
+    <div class="centerWrap">
+      <h1 class="title">iamguer</h1>
+    </div>
+
+    <div class="chrome">
+      <div class="topBar">
+        <span class="mark"><span class="dot"></span>iamguer.com</span>
+        <span>MMXXVI</span>
+      </div>
+
+      <div class="bottomRow">
+        <div class="tag">
+          Sun, water, stillness.<br />
+          A place to breathe.
+        </div>
+
+        <div class="rightCol">
+          <div class="ctaRow">
+            <a
+              href="https://instagram.com/iamguer"
+              target="_blank"
+              rel="noopener"
+              class="cta ghost"
+            >
+              @iamguer
+              <span style="font-size:13px;line-height:0;">↗</span>
+            </a>
+            <a
+              href="#"
+              id="splashEnter"
+              role="button"
+              tabindex="0"
+              class="cta"
+            >
+              Enter
+              <span style="font-size:13px;line-height:0;">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  html.splash-skip #splashRoot { display: none; }
+  html.splash-show #splashRoot { display: block; }
+</style>
+
+<style>
+  .splash-root {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 400ms ease;
+    background: #000;
+    color: #fff;
+    font-family: 'Inter Variable', system-ui, sans-serif;
+  }
+  .splash-root.is-leaving {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .splash-root.is-gone {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .splash-root {
+      transition: none;
+    }
+  }
+
+  .stage {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .photo {
+    position: absolute;
+    inset: 0;
+    background-image: url('/splash/portrait-shower.jpg');
+    background-image: image-set(
+      url('/splash/portrait-shower.avif') type('image/avif'),
+      url('/splash/portrait-shower.jpg') type('image/jpeg')
+    );
+    background-size: cover;
+    background-position: center 28%;
+    transform-origin: center center;
+    animation: kenburns 26s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes kenburns {
+    0%   { transform: scale(1.08) translate(0, 0); }
+    100% { transform: scale(1.22) translate(-2%, -2.5%); }
+  }
+
+  .grade {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(120% 80% at 50% 30%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 100%),
+      linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.85) 100%);
+  }
+
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+  }
+
+  .chrome {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 36px 44px;
+  }
+
+  .topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.92);
+    animation: fadeIn 1.6s ease 0.3s both;
+  }
+
+  .mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.85); }
+  }
+
+  .centerWrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .title {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(96px, 22vw, 320px);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    mix-blend-mode: difference;
+    animation: titleIn 2.6s cubic-bezier(.2, .8, .2, 1) 0.2s both;
+  }
+
+  @keyframes titleIn {
+    0% { opacity: 0; letter-spacing: 0.1em; transform: translateY(20px); filter: blur(8px); }
+    100% { opacity: 1; letter-spacing: -0.045em; transform: translateY(0); filter: blur(0); }
+  }
+
+  .bottomRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    animation: fadeIn 1.8s ease 1s both;
+  }
+
+  .tag {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    max-width: 280px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .rightCol {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 18px;
+  }
+
+  .ctaRow {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 12px 22px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #0a0a0a;
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.3s ease, background 0.3s ease;
+    font-weight: 500;
+  }
+
+  .cta:hover {
+    transform: translateY(-2px);
+    background: #fff;
+  }
+
+  .cta.ghost {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+  }
+
+  .cta.ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 640px) {
+    .chrome { padding: 22px 22px; }
+    .bottomRow { flex-direction: column; align-items: flex-start; gap: 22px; }
+    .rightCol { align-items: flex-start; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById('splashRoot');
+    if (!root) return;
+    var enterBtn = document.getElementById('splashEnter');
+    var dismissed = false;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
+      try { sessionStorage.setItem('guer_splash_seen', '1'); } catch (e) {}
+      root.classList.add('is-leaving');
+      var delay = reduceMotion ? 0 : 420;
+      setTimeout(function () { root.classList.add('is-gone'); }, delay);
+    }
+
+    if (enterBtn) {
+      enterBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        dismiss();
+      });
+      enterBtn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          dismiss();
+        }
+      });
+    }
+
+    root.addEventListener('click', function (e) {
+      var instagramLink = e.target.closest('a[target="_blank"]');
+      if (instagramLink) return;
+      dismiss();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (dismissed) return;
+      if (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ') {
+        e.preventDefault();
+        dismiss();
+      }
+    }, { once: false });
+  })();
+</script>

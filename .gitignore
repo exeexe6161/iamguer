@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local source assets (kept locally, not committed)
+IMG_9493.JPG

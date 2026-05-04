@@ -1,8 +1,30 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Splash from '../components/Splash.astro';
 ---
 
 <BaseLayout currentPath="/">
+  <Fragment slot="head-extra">
+    <script is:inline>
+      (function () {
+        try {
+          var url = new URL(window.location.href);
+          var skip = url.searchParams.get('skip') === '1';
+          var seen = sessionStorage.getItem('guer_splash_seen') === '1';
+          if (skip || seen) {
+            document.documentElement.classList.add('splash-skip');
+          } else {
+            document.documentElement.classList.add('splash-show');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('splash-show');
+        }
+      })();
+    </script>
+  </Fragment>
+
+  <Splash />
+
   <section class="px-7 py-24">
     <h1
       class="font-serif text-text-primary text-7xl md:text-9xl tracking-tight leading-none"
