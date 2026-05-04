@@ -46,8 +46,8 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
 
   {
     latest ? (
-      <section class="bg-canvas px-7 pt-20 md:pt-28 pb-20 md:pb-28">
-        <figure class="max-w-6xl mx-auto">
+      <section class="bg-canvas px-4 md:px-8 pt-20 md:pt-28 pb-20 md:pb-28">
+        <figure>
           <a
             href={latest.permalink}
             target="_blank"
@@ -59,7 +59,7 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
               alt={shortCaption(latest.caption, 120) || 'Neuester Instagram-Post von @iamguer'}
               loading="eager"
               decoding="async"
-              class="block mx-auto max-h-[min(75vh,800px)] max-w-full object-contain transition-opacity duration-500 group-hover:opacity-90"
+              class="block mx-auto max-h-[90vh] max-w-full object-contain transition-opacity duration-500 group-hover:opacity-90"
             />
           </a>
           <figcaption class="mt-6 max-w-2xl mx-auto text-center">
