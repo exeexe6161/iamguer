@@ -8,18 +8,39 @@ interface Props {
   description?: string;
   currentPath?: string;
   ogImage?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  noIndex?: boolean;
 }
 
 const {
   title = 'iamguer',
-  description = 'Bilder aus Marburg und überall sonst.',
+  description = 'iamguer — Foto-Tagebuch von Hakan. Bilder aus Marburg und überall sonst, in voller Auflösung.',
   currentPath = '/',
   ogImage = '/brand/og-default.jpg',
+  ogType = 'website',
+  noIndex = false,
 } = Astro.props;
 
+const siteUrl = Astro.site ?? Astro.url;
 const computedTitle = title === 'iamguer' ? 'iamguer' : `${title} · iamguer`;
-const ogImageUrl = new URL(ogImage, Astro.url).toString();
-const canonicalUrl = Astro.url.toString();
+const ogImageUrl = new URL(ogImage, siteUrl).toString();
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Hakan',
+  alternateName: 'iamguer',
+  url: 'https://iamguer.com',
+  jobTitle: 'Fotograf',
+  knowsAbout: [
+    'Fotografie',
+    'Porträtfotografie',
+    'Reisefotografie',
+    'Marburg',
+  ],
+  sameAs: ['https://www.instagram.com/iamguer'],
+};
 ---
 
 <html lang="de">
@@ -28,6 +49,8 @@ const canonicalUrl = Astro.url.toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{computedTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />
@@ -43,10 +66,12 @@ const canonicalUrl = Astro.url.toString();
       crossorigin
     />
 
+    <meta property="og:site_name" content="iamguer" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -54,10 +79,17 @@ const canonicalUrl = Astro.url.toString();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(personJsonLd)}
+    />
+
     <meta name="generator" content={Astro.generator} />
     <slot name="head-extra" />
   </head>
-  <body class="bg-canvas text-text-body font-sans antialiased min-h-screen flex flex-col">
+  <body
+    class="bg-canvas text-text-body font-sans antialiased min-h-screen flex flex-col"
+  >
     <Nav currentPath={currentPath} />
     <main class="flex-1">
       <slot />

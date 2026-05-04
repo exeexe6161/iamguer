@@ -26,12 +26,13 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
               href={post.permalink}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={shortCaption(post.caption, 80) || 'Instagram-Post öffnen'}
+              aria-label={shortCaption(post.caption, 80) || 'Fotografie von Hakan / iamguer'}
               class="block w-full h-full"
             >
               <img
                 src={displaySrc(post)}
-                alt={shortCaption(post.caption, 120) || 'Instagram-Post von @iamguer'}
+                alt={shortCaption(post.caption, 120) || 'Fotografie von Hakan / iamguer'}
+                title={dateFmt.format(new Date(post.timestamp))}
                 loading="lazy"
                 decoding="async"
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

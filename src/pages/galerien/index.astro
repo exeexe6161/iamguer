@@ -2,10 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InstagramGallery from '../../components/InstagramGallery.astro';
 import { getCollection } from 'astro:content';
+import { loadInstagramPosts, shortCaption } from '../../lib/instagram';
 
 const entries = (await getCollection('galerien')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
+
+const igPayload = loadInstagramPosts();
+const igPosts = igPayload?.posts ?? [];
 
 const dateFmt = new Intl.DateTimeFormat('de-DE', {
   year: 'numeric',
@@ -13,7 +17,44 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
 });
 ---
 
-<BaseLayout title="Galerien" currentPath="/galerien">
+<BaseLayout
+  title="Galerien"
+  description="Vollständige Foto-Galerie von iamguer. Aufnahmen aus Marburg und unterwegs, kuratiert von Hakan."
+  currentPath="/galerien"
+>
+  {
+    igPosts.length > 0 && (
+      <Fragment slot="head-extra">
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ImageGallery',
+            name: 'iamguer — Galerien',
+            description:
+              'Vollständige Sammlung der Fotografien von Hakan auf iamguer.com.',
+            url: 'https://iamguer.com/galerien',
+            author: {
+              '@type': 'Person',
+              name: 'Hakan',
+              url: 'https://iamguer.com',
+            },
+            image: igPosts.slice(0, 50).map((p) => ({
+              '@type': 'ImageObject',
+              contentUrl: p.media_url,
+              url: p.permalink,
+              ...(p.caption ? { caption: shortCaption(p.caption, 200) } : {}),
+              uploadDate: p.timestamp,
+              creator: {
+                '@type': 'Person',
+                name: 'Hakan',
+              },
+            })),
+          })}
+        />
+      </Fragment>
+    )
+  }
   <section class="px-7 py-16 max-w-4xl mx-auto">
     <h1 class="text-text-primary text-5xl tracking-tight font-light">Galerien</h1>
     <p class="text-text-secondary mt-4">

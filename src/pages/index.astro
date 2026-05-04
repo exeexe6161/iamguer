@@ -15,7 +15,11 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
 });
 ---
 
-<BaseLayout currentPath="/">
+<BaseLayout
+  title="iamguer"
+  description="iamguer — Foto-Tagebuch von Hakan. Bilder aus Marburg und überall sonst, in voller Auflösung."
+  currentPath="/"
+>
   <Fragment slot="head-extra">
     <script is:inline>
       (function () {
@@ -40,6 +44,37 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
       type="image/avif"
       fetchpriority="high"
     />
+    {
+      allPosts.length > 0 && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ImageGallery',
+            name: 'iamguer — Aktuelle Bilder',
+            description:
+              'Aktuelle Fotografien aus Marburg und unterwegs, kuratiert von Hakan.',
+            url: 'https://iamguer.com/',
+            author: {
+              '@type': 'Person',
+              name: 'Hakan',
+              url: 'https://iamguer.com',
+            },
+            image: allPosts.slice(0, 7).map((p) => ({
+              '@type': 'ImageObject',
+              contentUrl: p.media_url,
+              url: p.permalink,
+              ...(p.caption ? { caption: shortCaption(p.caption, 200) } : {}),
+              uploadDate: p.timestamp,
+              creator: {
+                '@type': 'Person',
+                name: 'Hakan',
+              },
+            })),
+          })}
+        />
+      )
+    }
   </Fragment>
 
   <Splash />
@@ -56,7 +91,8 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
           >
             <img
               src={displaySrc(latest)}
-              alt={shortCaption(latest.caption, 120) || 'Neuester Instagram-Post von @iamguer'}
+              alt={shortCaption(latest.caption, 120) || 'Fotografie von Hakan / iamguer'}
+              title={dateFmt.format(new Date(latest.timestamp))}
               loading="eager"
               decoding="async"
               class="block mx-auto max-h-[90vh] max-w-full object-contain transition-opacity duration-500 group-hover:opacity-90"
@@ -101,12 +137,13 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
                 href={post.permalink}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={shortCaption(post.caption, 80) || 'Instagram-Post öffnen'}
+                aria-label={shortCaption(post.caption, 80) || 'Fotografie von Hakan / iamguer'}
                 class="block w-full h-full"
               >
                 <img
                   src={displaySrc(post)}
-                  alt={shortCaption(post.caption, 120) || 'Instagram-Post von @iamguer'}
+                  alt={shortCaption(post.caption, 120) || 'Fotografie von Hakan / iamguer'}
+                  title={dateFmt.format(new Date(post.timestamp))}
                   loading="lazy"
                   decoding="async"
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

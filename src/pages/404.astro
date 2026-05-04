@@ -2,7 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="404" currentPath="/">
+<BaseLayout
+  title="404"
+  description="Diese Seite existiert nicht."
+  currentPath="/"
+  noIndex
+>
   <section class="px-7 py-16 max-w-4xl mx-auto">
     <h1 class="text-text-primary text-5xl tracking-tight font-light">Verlaufen?</h1>
     <p class="text-text-secondary mt-4">
