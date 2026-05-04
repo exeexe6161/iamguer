@@ -1,16 +1,8 @@
-import { createHmac } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { fetchAllInstagramMedia } from '../lib/fetch-instagram-media.mjs';
 
-const GRAPH_BASE = 'https://graph.facebook.com/v21.0';
-const FIELDS =
-  'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp';
-const LIMIT = 25;
 const OUTPUT_REL = 'src/data/instagram-posts.json';
-
-function appSecretProof(token, secret) {
-  return createHmac('sha256', secret).update(token).digest('hex');
-}
 
 async function loadDotEnvLocalIfNeeded() {
   if (process.env.IG_TOKEN) return;
@@ -35,23 +27,14 @@ async function loadDotEnvLocalIfNeeded() {
   }
 }
 
-async function fetchInstagramMedia({ token, userId, secret }) {
-  const proof = appSecretProof(token, secret);
-  const url = new URL(`${GRAPH_BASE}/${userId}/media`);
-  url.searchParams.set('fields', FIELDS);
-  url.searchParams.set('limit', String(LIMIT));
-  url.searchParams.set('access_token', token);
-  url.searchParams.set('appsecret_proof', proof);
-
-  const res = await fetch(url.toString(), {
-    headers: { accept: 'application/json' },
-  });
-  const text = await res.text();
-  if (!res.ok) {
-    throw new Error(`Graph API ${res.status}: ${text.slice(0, 300)}`);
+async function readExistingCount(outputPath) {
+  try {
+    const raw = await fs.readFile(outputPath, 'utf-8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed.posts) ? parsed.posts.length : 0;
+  } catch {
+    return 0;
   }
-  const parsed = JSON.parse(text);
-  return (parsed.data ?? []).filter((p) => p.media_url && p.permalink);
 }
 
 export default function instagramSync() {
@@ -73,8 +56,27 @@ export default function instagramSync() {
         }
 
         const outputPath = path.resolve(process.cwd(), OUTPUT_REL);
+
         try {
-          const posts = await fetchInstagramMedia({ token, userId, secret });
+          const { posts, calls, warnings, truncated } =
+            await fetchAllInstagramMedia({ token, userId, secret });
+
+          for (const w of warnings) logger.warn(w);
+
+          if (posts.length === 0) {
+            const existing = await readExistingCount(outputPath);
+            if (existing > 0) {
+              logger.warn(
+                `Instagram returned 0 posts but existing JSON has ${existing} — keeping existing data.`,
+              );
+            } else {
+              logger.warn(
+                'Instagram returned 0 posts and no existing JSON — site will show placeholder.',
+              );
+            }
+            return;
+          }
+
           const payload = {
             fetchedAt: new Date().toISOString(),
             source: '@iamguer',
@@ -88,7 +90,7 @@ export default function instagramSync() {
             'utf-8',
           );
           logger.info(
-            `Instagram sync OK — ${posts.length} posts written to ${OUTPUT_REL}`,
+            `Instagram sync OK — ${posts.length} posts written via ${calls} API call(s)${truncated ? ' (truncated at safety limit)' : ''}`,
           );
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err);

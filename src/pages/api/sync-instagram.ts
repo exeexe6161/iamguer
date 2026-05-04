@@ -1,37 +1,9 @@
 import type { APIRoute } from 'astro';
-import { createHmac } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { fetchAllInstagramMedia } from '../../lib/fetch-instagram-media.mjs';
 
 export const prerender = false;
-
-const GRAPH_BASE = 'https://graph.facebook.com/v21.0';
-const FIELDS =
-  'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp';
-const LIMIT = 25;
-
-type IGPost = {
-  id: string;
-  caption?: string;
-  media_type: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
-  media_url: string;
-  thumbnail_url?: string;
-  permalink: string;
-  timestamp: string;
-};
-
-type SyncResult = {
-  ok: boolean;
-  fetchedAt: string;
-  count: number;
-  posts: IGPost[];
-  writtenTo: string[];
-  warnings: string[];
-};
-
-function appSecretProof(token: string, secret: string): string {
-  return createHmac('sha256', secret).update(token).digest('hex');
-}
 
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body, null, 2), {
@@ -50,13 +22,21 @@ async function tryWrite(filepath: string, data: string): Promise<boolean> {
   }
 }
 
+async function readExistingCount(filepath: string): Promise<number> {
+  try {
+    const raw = await fs.readFile(filepath, 'utf-8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed.posts) ? parsed.posts.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export const GET: APIRoute = async () => {
   const token = process.env.IG_TOKEN;
   const secret = process.env.IG_APP_SECRET;
   const userId = process.env.IG_USER_ID;
   const deployHook = process.env.VERCEL_DEPLOY_HOOK_URL;
-
-  const warnings: string[] = [];
 
   if (!token || !secret || !userId) {
     return jsonResponse(
@@ -69,50 +49,51 @@ export const GET: APIRoute = async () => {
     );
   }
 
-  const proof = appSecretProof(token, secret);
-  const url = new URL(`${GRAPH_BASE}/${userId}/media`);
-  url.searchParams.set('fields', FIELDS);
-  url.searchParams.set('limit', String(LIMIT));
-  url.searchParams.set('access_token', token);
-  url.searchParams.set('appsecret_proof', proof);
+  const warnings: string[] = [];
+  const repoPath = path.resolve(process.cwd(), 'src/data/instagram-posts.json');
+  const tmpPath = '/tmp/instagram-posts.json';
 
-  let res: Response;
+  let posts;
+  let calls;
+  let truncated;
   try {
-    res = await fetch(url.toString(), {
-      headers: { accept: 'application/json' },
-    });
+    const result = await fetchAllInstagramMedia({ token, userId, secret });
+    posts = result.posts;
+    calls = result.calls;
+    truncated = result.truncated;
+    warnings.push(...result.warnings);
   } catch (err) {
-    return jsonResponse(
-      { ok: false, error: 'Network error', detail: String(err) },
-      502,
-    );
-  }
-
-  const bodyText = await res.text();
-  if (!res.ok) {
     return jsonResponse(
       {
         ok: false,
-        error: `Graph API ${res.status}`,
-        detail: bodyText.slice(0, 1000),
+        error: 'Instagram fetch failed',
+        detail: err instanceof Error ? err.message : String(err),
       },
-      res.status,
-    );
-  }
-
-  let parsed: { data?: IGPost[] };
-  try {
-    parsed = JSON.parse(bodyText);
-  } catch (err) {
-    return jsonResponse(
-      { ok: false, error: 'Invalid JSON from Graph API', detail: String(err) },
       502,
     );
   }
 
-  const posts: IGPost[] = (parsed.data ?? []).filter(
-    (p) => p.media_url && p.permalink,
-  );
+  if (posts.length === 0) {
+    const existing = await readExistingCount(repoPath);
+    if (existing > 0) {
+      warnings.push(
+        `Instagram returned 0 posts; existing JSON (${existing}) preserved — not overwriting.`,
+      );
+      return jsonResponse(
+        {
+          ok: true,
+          fetchedAt: new Date().toISOString(),
+          count: 0,
+          calls,
+          truncated,
+          posts: [],
+          writtenTo: [],
+          warnings,
+        },
+        200,
+      );
+    }
+  }
 
   const payload = {
     fetchedAt: new Date().toISOString(),
@@ -123,11 +104,8 @@ export const GET: APIRoute = async () => {
   const serialized = JSON.stringify(payload, null, 2);
 
   const writtenTo: string[] = [];
-  const repoPath = path.resolve(process.cwd(), 'src/data/instagram-posts.json');
   if (await tryWrite(repoPath, serialized)) writtenTo.push(repoPath);
-  const tmpPath = '/tmp/instagram-posts.json';
   if (await tryWrite(tmpPath, serialized)) writtenTo.push(tmpPath);
-
   if (writtenTo.length === 0) {
     warnings.push('Could not persist JSON to filesystem.');
   }
@@ -151,14 +129,17 @@ export const GET: APIRoute = async () => {
     'Token refresh is not automated (no IG_APP_ID configured). Long-lived IG tokens expire after 60 days — check Vercel logs and rotate IG_TOKEN manually before expiry.',
   );
 
-  const result: SyncResult = {
-    ok: true,
-    fetchedAt: payload.fetchedAt,
-    count: posts.length,
-    posts,
-    writtenTo,
-    warnings,
-  };
-
-  return jsonResponse(result, 200);
+  return jsonResponse(
+    {
+      ok: true,
+      fetchedAt: payload.fetchedAt,
+      count: posts.length,
+      calls,
+      truncated,
+      posts,
+      writtenTo,
+      warnings,
+    },
+    200,
+  );
 };

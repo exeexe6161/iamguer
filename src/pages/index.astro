@@ -44,22 +44,9 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
 
   <Splash />
 
-  <section class="bg-canvas px-7 py-24 md:py-32 text-center">
-    <h1
-      class="text-text-primary text-7xl md:text-9xl tracking-tighter leading-none font-light"
-    >
-      iamguer
-    </h1>
-    <p
-      class="text-text-secondary text-base md:text-lg mt-8 max-w-xl mx-auto leading-relaxed"
-    >
-      Stille Stunden. Lange Schatten. Marburg und der Rest.
-    </p>
-  </section>
-
   {
     latest ? (
-      <section class="bg-canvas px-7 pb-20 md:pb-28">
+      <section class="bg-canvas px-7 pt-20 md:pt-28 pb-20 md:pb-28">
         <figure class="max-w-5xl mx-auto">
           <a
             href={latest.permalink}
@@ -72,7 +59,7 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
               alt={shortCaption(latest.caption, 120) || 'Neuester Instagram-Post von @iamguer'}
               loading="eager"
               decoding="async"
-              class="w-full max-h-[70vh] object-cover transition-opacity duration-500 group-hover:opacity-90"
+              class="w-full max-h-[75vh] object-cover transition-opacity duration-500 group-hover:opacity-90"
             />
           </a>
           <figcaption class="mt-6 max-w-2xl mx-auto text-center">
@@ -96,7 +83,7 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
         </figure>
       </section>
     ) : (
-      <section class="bg-canvas px-7 pb-20 md:pb-28 text-center">
+      <section class="bg-canvas px-7 pt-20 md:pt-28 pb-20 md:pb-28 text-center">
         <p class="font-mono text-xs uppercase tracking-widest text-text-muted">
           Noch keine Bilder verfügbar — bald folgen erste Aufnahmen.
         </p>
