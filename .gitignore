@@ -25,3 +25,10 @@ pnpm-debug.log*
 
 # local source assets (kept locally, not committed)
 IMG_9493.JPG
+
+# Local source assets — Splash-Quellen, kommen über public/ rein
+IMG_*.JPG
+IMG_*.jpg
+IMG_*.JPEG
+IMG_*.jpeg
+Cinematic*.html
