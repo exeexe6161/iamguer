@@ -5,13 +5,5 @@
       "path": "/api/sync-instagram",
       "schedule": "0 18 * * *"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.iamguer.com" }],
-      "destination": "https://iamguer.com/$1",
-      "permanent": true
-    }
   ]
 }
