@@ -1,10 +1,201 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+const standDatum = '04.05.2026';
 ---
 
-<BaseLayout title="Datenschutz" currentPath="/datenschutz">
-  <section class="px-7 py-16 max-w-4xl mx-auto">
-    <h1 class="text-text-primary text-5xl tracking-tight font-light">Datenschutzerklärung</h1>
-    <p class="text-text-secondary mt-4">Wird befüllt.</p>
-  </section>
+<BaseLayout
+  title="Datenschutz"
+  description="Datenschutzerklärung für iamguer.com nach DSGVO."
+  currentPath="/datenschutz"
+>
+  <article class="px-7 py-16 md:py-24 max-w-3xl mx-auto">
+    <header class="flex items-center gap-4">
+      <Icon name="shield" class="text-text-secondary" size={28} />
+      <h1 class="text-text-primary text-5xl tracking-tight font-light">
+        Datenschutz
+      </h1>
+    </header>
+
+    <section class="mt-16">
+      <h2 class="text-text-primary text-xl font-normal">Verantwortlicher</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Verantwortlicher im Sinne der Datenschutz-Grundverordnung ist der
+        Betreiber dieser Website. Die vollständigen Kontaktdaten finden Sie im
+        <a
+          href="/impressum"
+          class="text-accent hover:text-text-primary transition-colors"
+          >Impressum</a
+        >.
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">Hosting</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Diese Website wird gehostet bei Vercel Inc. (440 N Barranca Ave #4133,
+        Covina, CA 91723, USA). Server-Standort für diese Website ist Frankfurt
+        am Main, Deutschland. Vercel verarbeitet beim Aufruf der Website
+        automatisch Daten wie IP-Adresse, Browser-Typ, Datum und Uhrzeit der
+        Anfrage. Diese Daten dienen ausschließlich dem stabilen Betrieb der
+        Website und werden nicht zu Tracking-Zwecken genutzt.
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Datenschutzerklärung von Vercel:
+        <a
+          href="https://vercel.com/legal/privacy-policy"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-accent hover:text-text-primary transition-colors inline-flex items-baseline gap-1 ml-1"
+        >
+          vercel.com/legal/privacy-policy
+          <Icon name="external-link" class="text-text-secondary" size={12} />
+        </a>
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">Cookies</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Diese Website setzt keine Cookies ein und nutzt keine
+        Tracking-Technologien. Es findet keine Analyse des Nutzerverhaltens
+        statt.
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">Instagram-Inhalte</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Auf dieser Website werden Inhalte von Instagram (Meta Platforms Ireland
+        Limited, 4 Grand Canal Square, Dublin 2, Irland) eingebunden. Die Bilder
+        werden zur Build-Zeit über die offizielle Instagram Graph API abgerufen
+        und als statische Inhalte ausgeliefert. Beim normalen Aufruf der Website
+        werden keine Daten an Meta übertragen. Erst beim Klick auf einen
+        Instagram-Link verlassen Sie diese Website und werden auf instagram.com
+        weitergeleitet.
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Datenschutzerklärung von Meta:
+        <a
+          href="https://www.facebook.com/about/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-accent hover:text-text-primary transition-colors inline-flex items-baseline gap-1 ml-1"
+        >
+          facebook.com/about/privacy
+          <Icon name="external-link" class="text-text-secondary" size={12} />
+        </a>
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">Domain</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Die Domain iamguer.com wird verwaltet über United Domains AG (Gautinger
+        Str. 10, 82319 Starnberg). Beim Aufruf der Website ist die Domain
+        technisch erforderlich; eine Speicherung von personenbezogenen Daten
+        findet beim Domain-Provider nicht statt.
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">Server-Logs</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Beim Aufruf der Website erhebt der Hosting-Provider (Vercel) automatisch
+        technische Daten:
+      </p>
+      <ul
+        class="mt-4 space-y-2 list-disc list-inside text-text-body leading-relaxed font-light marker:text-text-muted"
+      >
+        <li>IP-Adresse (anonymisiert)</li>
+        <li>Browser-Typ und -Version</li>
+        <li>Verwendetes Betriebssystem</li>
+        <li>Datum und Uhrzeit der Anfrage</li>
+        <li>Übertragene Datenmenge</li>
+      </ul>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Diese Daten dienen der technischen Sicherheit und stabilen Auslieferung
+        der Website. Eine Auswertung zu anderen Zwecken oder eine
+        Zusammenführung mit anderen Datenquellen findet nicht statt.
+        Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am
+        stabilen Betrieb).
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2
+        class="text-text-primary text-xl font-normal flex items-center gap-3"
+      >
+        <Icon name="mail" class="text-text-secondary" />
+        Kontaktaufnahme
+      </h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Wenn Sie per E-Mail an <a
+          href="mailto:hello@iamguer.com"
+          class="text-accent hover:text-text-primary transition-colors"
+          >hello@iamguer.com</a
+        > Kontakt aufnehmen, werden Ihre Daten zur Beantwortung Ihrer Anfrage
+        verarbeitet. Die Daten werden nicht an Dritte weitergegeben und nach
+        Erledigung der Anfrage gelöscht, sofern keine gesetzlichen
+        Aufbewahrungsfristen bestehen.
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Anbahnung/Erfüllung
+        Vertrag) bzw. lit. f (berechtigtes Interesse).
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">Ihre Rechte</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Sie haben nach der Datenschutz-Grundverordnung folgende Rechte:
+      </p>
+      <ul
+        class="mt-4 space-y-2 list-disc list-inside text-text-body leading-relaxed font-light marker:text-text-muted"
+      >
+        <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
+        <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
+        <li>Recht auf Löschung (Art. 17 DSGVO)</li>
+        <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+        <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+        <li>Widerspruchsrecht (Art. 21 DSGVO)</li>
+        <li>Recht auf Beschwerde bei einer Aufsichtsbehörde</li>
+      </ul>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Zur Ausübung Ihrer Rechte oder bei Fragen zum Datenschutz wenden Sie
+        sich an
+        <a
+          href="mailto:hello@iamguer.com"
+          class="text-accent hover:text-text-primary transition-colors"
+          >hello@iamguer.com</a
+        >.
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Sie haben das Recht, sich bei der zuständigen Aufsichtsbehörde zu
+        beschweren. Für Hessen ist dies der Hessische Beauftragte für
+        Datenschutz und Informationsfreiheit:
+        <a
+          href="https://datenschutz.hessen.de"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-accent hover:text-text-primary transition-colors inline-flex items-baseline gap-1 ml-1"
+        >
+          datenschutz.hessen.de
+          <Icon name="external-link" class="text-text-secondary" size={12} />
+        </a>
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">Aktualität</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Stand: {standDatum}
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        Bei wesentlichen Änderungen aktualisieren wir diese Datenschutzerklärung.
+        Die jeweils aktuelle Version finden Sie auf dieser Seite.
+      </p>
+    </section>
+  </article>
 </BaseLayout>
