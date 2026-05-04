@@ -1,6 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Splash from '../components/Splash.astro';
+import { loadInstagramPosts, displaySrc, shortCaption } from '../lib/instagram';
+
+const payload = loadInstagramPosts();
+const latest = payload?.posts?.[0];
+
+const heroImage = latest ? displaySrc(latest) : '/splash/portrait-pool.jpg';
+const heroCaption = latest
+  ? shortCaption(latest.caption, 160) ||
+    'Bilder aus Marburg und überall sonst — in voller Auflösung, mit Raum zum Atmen.'
+  : 'Stille Stunden — Bilder aus Marburg und überall sonst, in voller Auflösung, mit Raum zum Atmen.';
+const heroPermalink = latest?.permalink;
 ---
 
 <BaseLayout currentPath="/">
@@ -32,17 +43,31 @@ import Splash from '../components/Splash.astro';
 
   <Splash />
 
-  <section class="px-7 py-24">
-    <h1
-      class="text-text-primary text-7xl md:text-9xl tracking-tighter leading-none font-light"
-    >
-      iamguer
-    </h1>
-    <p
-      class="text-text-secondary text-lg mt-6 max-w-md leading-relaxed"
-    >
-      Bilder aus Marburg und überall sonst — in voller Auflösung, mit Raum zum
-      Atmen.
-    </p>
+  <section
+    class="relative isolate overflow-hidden min-h-[80vh] flex items-end"
+    style={`background-image: linear-gradient(180deg, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.05) 35%, rgba(10,10,10,0.85) 100%), url(${heroImage}); background-size: cover; background-position: center;`}
+  >
+    <div class="px-7 py-16 md:py-24 max-w-2xl">
+      <h1
+        class="text-text-primary text-7xl md:text-9xl tracking-tighter leading-none font-light"
+      >
+        iamguer
+      </h1>
+      <p
+        class="text-text-secondary text-lg mt-6 max-w-md leading-relaxed"
+      >
+        {heroCaption}
+      </p>
+      {heroPermalink && (
+        <a
+          href={heroPermalink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block mt-6 font-mono text-xs uppercase tracking-widest text-text-muted hover:text-text-primary transition-colors"
+        >
+          Auf Instagram ansehen ↗
+        </a>
+      )}
+    </div>
   </section>
 </BaseLayout>

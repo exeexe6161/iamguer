@@ -15,7 +15,14 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.local
 .env.production
+
+# Instagram-Sync — Daten werden zur Laufzeit/Build erzeugt
+src/data/instagram-posts.json
+
+# Vercel
+.vercel/
 
 # macOS-specific files
 .DS_Store
