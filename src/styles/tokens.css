@@ -25,7 +25,7 @@
 
   /* Fonts */
   --font-sans:  'Inter Variable', system-ui, sans-serif;
-  --font-serif: 'Fraunces Variable', Georgia, serif;
+  --font-serif: 'Inter Variable', system-ui, sans-serif;
   --font-mono:  ui-monospace, 'SF Mono', monospace;
 }
 

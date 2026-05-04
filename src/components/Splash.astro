@@ -286,7 +286,7 @@ import '@fontsource/instrument-serif/400-italic.css';
     function dismiss() {
       if (dismissed) return;
       dismissed = true;
-      try { sessionStorage.setItem('guer_splash_seen', '1'); } catch (e) {}
+      try { sessionStorage.setItem('iamguer_splash_seen', '1'); } catch (e) {}
       root.classList.add('is-leaving');
       var delay = reduceMotion ? 0 : 420;
       setTimeout(function () { root.classList.add('is-gone'); }, delay);

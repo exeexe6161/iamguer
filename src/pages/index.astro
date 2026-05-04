@@ -10,7 +10,7 @@ import Splash from '../components/Splash.astro';
         try {
           var url = new URL(window.location.href);
           var skip = url.searchParams.get('skip') === '1';
-          var seen = sessionStorage.getItem('guer_splash_seen') === '1';
+          var seen = sessionStorage.getItem('iamguer_splash_seen') === '1';
           if (skip || seen) {
             document.documentElement.classList.add('splash-skip');
           } else {
@@ -21,18 +21,25 @@ import Splash from '../components/Splash.astro';
         }
       })();
     </script>
+    <link
+      rel="preload"
+      href="/splash/portrait-shower.avif"
+      as="image"
+      type="image/avif"
+      fetchpriority="high"
+    />
   </Fragment>
 
   <Splash />
 
   <section class="px-7 py-24">
     <h1
-      class="font-serif text-text-primary text-7xl md:text-9xl tracking-tight leading-none"
+      class="text-text-primary text-7xl md:text-9xl tracking-tighter leading-none font-light"
     >
-      guer<span class="text-accent">.</span>
+      iamguer
     </h1>
     <p
-      class="font-serif text-text-secondary text-lg mt-6 max-w-md leading-relaxed"
+      class="text-text-secondary text-lg mt-6 max-w-md leading-relaxed"
     >
       Bilder aus Marburg und überall sonst — in voller Auflösung, mit Raum zum
       Atmen.

@@ -1,4 +1,6 @@
 ---
+import BrandMark from './BrandMark.astro';
+
 interface Props {
   currentPath: string;
 }
@@ -20,8 +22,8 @@ function isActive(href: string): boolean {
 ---
 
 <nav class="flex justify-between items-center px-7 py-5 border-b border-line">
-  <a href="/" class="font-serif text-lg tracking-tight text-text-primary">
-    guer<span class="text-accent">.</span>
+  <a href="/" class="text-lg tracking-tight text-text-primary">
+    <BrandMark />
   </a>
 
   <ul class="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest">

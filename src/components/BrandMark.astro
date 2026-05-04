@@ -1,0 +1,41 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label = 'iamguer' } = Astro.props;
+---
+
+<span class="brand-mark">
+  <span class="brand-pulse" aria-hidden="true"></span>
+  <span>{label}</span>
+</span>
+
+<style>
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .brand-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    display: inline-block;
+    animation: brand-pulse-anim 2.4s ease-in-out infinite;
+  }
+
+  @keyframes brand-pulse-anim {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-pulse {
+      animation: none;
+      opacity: 0.8;
+    }
+  }
+</style>
