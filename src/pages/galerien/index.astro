@@ -2,14 +2,18 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InstagramGallery from '../../components/InstagramGallery.astro';
 import { loadInstagramPosts, shortCaption } from '../../lib/instagram';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const igPayload = loadInstagramPosts();
 const igPosts = igPayload?.posts ?? [];
 ---
 
 <BaseLayout
-  title="Galerien"
-  description="Vollständige Foto-Galerie von iamguer. Aufnahmen aus Marburg und unterwegs, kuratiert von Hakan."
+  title={t('galerien.metaTitle')}
+  description={t('galerien.metaDescription')}
   currentPath="/galerien"
 >
   {
@@ -20,9 +24,8 @@ const igPosts = igPayload?.posts ?? [];
           set:html={JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'ImageGallery',
-            name: 'iamguer — Galerien',
-            description:
-              'Vollständige Sammlung der Fotografien von Hakan auf iamguer.com.',
+            name: t('galerien.schemaName'),
+            description: t('galerien.schemaDescription'),
             url: 'https://iamguer.com/galerien',
             author: {
               '@type': 'Person',
@@ -47,16 +50,16 @@ const igPosts = igPayload?.posts ?? [];
   }
   <section class="px-7 py-16 max-w-4xl mx-auto">
     <h1 class="text-text-primary text-5xl tracking-tight font-light">
-      Galerien
+      {t('galerien.heading')}
     </h1>
     <p class="text-text-secondary mt-4">
-      Aufnahmen aus Marburg und unterwegs.
+      {t('galerien.intro')}
     </p>
 
     <div class="mt-16">
       <header class="flex items-baseline justify-between mb-6">
         <h2 class="text-text-primary text-2xl tracking-tight font-light">
-          Aus Instagram
+          {t('galerien.fromInstagram')}
         </h2>
         <a
           href="https://instagram.com/iamguer"

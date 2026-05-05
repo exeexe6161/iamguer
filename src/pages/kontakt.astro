@@ -1,16 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <BaseLayout
-  title="Kontakt"
-  description="Kontaktanfragen und Kollaborationen — schreib direkt an hello@iamguer.com."
+  title={t('kontakt.metaTitle')}
+  description={t('kontakt.metaDescription')}
   currentPath="/kontakt"
 >
   <section class="px-7 py-16 max-w-4xl mx-auto">
-    <h1 class="text-text-primary text-5xl tracking-tight font-light">Kontakt</h1>
+    <h1 class="text-text-primary text-5xl tracking-tight font-light">{t('kontakt.heading')}</h1>
     <p class="text-text-secondary mt-4">
-      Schreib mir gerne. Formular kommt bald — bis dahin direkt:
+      {t('kontakt.intro')}
       <a href="mailto:hello@iamguer.com" class="text-accent">hello@iamguer.com</a>
     </p>
   </section>

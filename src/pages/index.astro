@@ -2,30 +2,29 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Splash from '../components/Splash.astro';
 import { loadInstagramPosts, displaySrc, shortCaption } from '../lib/instagram';
+import { getLangFromUrl, useTranslations, formatDate } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const payload = loadInstagramPosts();
 const allPosts = payload?.posts ?? [];
 const hero = allPosts[0];
 const gridPosts = allPosts.slice(1, 10);
 
-const dateFmt = new Intl.DateTimeFormat('de-DE', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
+const altFallback = t('home.altFallback');
 const heroSrc = hero ? displaySrc(hero) : '/splash/portrait-pool.jpg';
 const heroAlt = hero
-  ? shortCaption(hero.caption, 120) || 'Fotografie von Hakan / iamguer'
-  : 'Fotografie von Hakan / iamguer';
+  ? shortCaption(hero.caption, 120) || altFallback
+  : altFallback;
 const heroCaption = hero ? shortCaption(hero.caption, 280) : '';
-const heroDate = hero ? dateFmt.format(new Date(hero.timestamp)) : '';
+const heroDate = hero ? formatDate(hero.timestamp, lang) : '';
 const heroPermalink = hero?.permalink;
 ---
 
 <BaseLayout
   title="iamguer"
-  description="iamguer — Foto-Tagebuch von Hakan. Bilder aus Marburg und überall sonst, in voller Auflösung."
+  description={t('home.metaDescription')}
   currentPath="/"
 >
   <Fragment slot="head-extra">
@@ -59,9 +58,8 @@ const heroPermalink = hero?.permalink;
           set:html={JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'ImageGallery',
-            name: 'iamguer — Aktuelle Bilder',
-            description:
-              'Aktuelle Fotografien aus Marburg und unterwegs, kuratiert von Hakan.',
+            name: t('home.schemaName'),
+            description: t('home.schemaDescription'),
             url: 'https://iamguer.com/',
             author: {
               '@type': 'Person',
@@ -94,7 +92,7 @@ const heroPermalink = hero?.permalink;
           href={heroPermalink}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={heroCaption || 'Foto auf Instagram öffnen'}
+          aria-label={heroCaption || t('home.openOnInstagram')}
         >
           <img
             src={heroSrc}
@@ -127,7 +125,7 @@ const heroPermalink = hero?.permalink;
               rel="noopener noreferrer"
               class="info-link"
             >
-              Auf Instagram ansehen
+              {t('home.viewOnInstagram')}
               <svg
                 width="10"
                 height="10"
@@ -164,12 +162,12 @@ const heroPermalink = hero?.permalink;
                 href={post.permalink}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={shortCaption(post.caption, 80) || 'Fotografie von Hakan / iamguer'}
+                aria-label={shortCaption(post.caption, 80) || altFallback}
               >
                 <img
                   src={displaySrc(post)}
-                  alt={shortCaption(post.caption, 120) || 'Fotografie von Hakan / iamguer'}
-                  title={dateFmt.format(new Date(post.timestamp))}
+                  alt={shortCaption(post.caption, 120) || altFallback}
+                  title={formatDate(post.timestamp, lang)}
                   loading="lazy"
                   decoding="async"
                 />
@@ -186,14 +184,14 @@ const heroPermalink = hero?.permalink;
       </section>
     ) : (
       <section class="home-grid-empty reveal">
-        <p>Noch keine Bilder verfügbar — bald folgen erste Aufnahmen.</p>
+        <p>{t('home.noImagesYet')}</p>
       </section>
     )
   }
 
   <section class="home-cta reveal">
     <a href="/galerien" class="cta-link">
-      Alle Bilder ansehen
+      {t('home.viewAllImages')}
       <svg
         class="cta-arrow"
         width="0.85em"

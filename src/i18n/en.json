@@ -1,0 +1,128 @@
+{
+  "nav": {
+    "index": "Index",
+    "galerien": "Galleries",
+    "kontakt": "Contact",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
+  },
+  "footer": {
+    "sitemap": "Sitemap",
+    "follow": "Follow",
+    "legal": "Legal",
+    "instagram": "Instagram ↗",
+    "impressum": "Imprint",
+    "datenschutz": "Privacy"
+  },
+  "home": {
+    "metaDescription": "iamguer — a photo diary by Hakan. Images from Marburg and everywhere else, in full resolution.",
+    "altFallback": "Photography by Hakan / iamguer",
+    "viewOnInstagram": "View on Instagram",
+    "openOnInstagram": "Open photo on Instagram",
+    "schemaName": "iamguer — Recent images",
+    "schemaDescription": "Recent photographs from Marburg and the road, curated by Hakan.",
+    "noImagesYet": "No images available yet — the first frames will follow soon.",
+    "viewAllImages": "View all images"
+  },
+  "galerien": {
+    "metaTitle": "Galleries",
+    "metaDescription": "The full photo gallery of iamguer. Images from Marburg and the road, curated by Hakan.",
+    "heading": "Galleries",
+    "intro": "Images from Marburg and the road.",
+    "fromInstagram": "From Instagram",
+    "schemaName": "iamguer — Galleries",
+    "schemaDescription": "The complete collection of photographs by Hakan on iamguer.com."
+  },
+  "kontakt": {
+    "metaTitle": "Contact",
+    "metaDescription": "Enquiries and collaborations — write directly to hello@iamguer.com.",
+    "heading": "Contact",
+    "intro": "Drop me a line. Contact form coming soon — until then:"
+  },
+  "impressum": {
+    "metaTitle": "Imprint",
+    "metaDescription": "Imprint pursuant to §5 TMG (German Telemedia Act) for iamguer.com.",
+    "heading": "Imprint",
+    "tmgHeading": "Information pursuant to §5 TMG",
+    "kontaktHeading": "Contact",
+    "kontaktEmailLabel": "Email:",
+    "mstvHeading": "Responsible for content pursuant to §18 Abs. 2 MStV",
+    "addressLikeAbove": "(address as above)",
+    "haftungInhalteHeading": "Liability for content",
+    "haftungInhalteP1": "As a service provider, we are responsible for our own content on these pages under the general laws pursuant to §7 Abs. 1 TMG. However, pursuant to §§ 8 to 10 TMG, we as a service provider are not obliged to monitor transmitted or stored third-party information or to investigate circumstances that indicate unlawful activity.",
+    "haftungInhalteP2": "Obligations to remove or block the use of information under the general laws remain unaffected by this. Liability in this regard is, however, only possible from the point at which we become aware of a specific infringement. As soon as we become aware of any such infringements, we will remove the relevant content immediately.",
+    "haftungLinksHeading": "Liability for links",
+    "haftungLinksP1": "Our site contains links to external third-party websites whose content we have no influence over. For this reason, we cannot accept any liability for this third-party content. The respective provider or operator of the linked pages is always responsible for their content. The linked pages were checked for possible legal infringements at the time of linking. No unlawful content was apparent at the time of linking.",
+    "haftungLinksP2": "However, ongoing monitoring of the content of linked pages is not reasonable without specific indications of an infringement. Should we become aware of any infringements, we will remove such links immediately.",
+    "urheberrechtHeading": "Copyright",
+    "urheberrechtP1": "All photographs published on this website are protected by copyright. Reproduction, distribution or use of the images — including in extracts — is permitted only with the express written consent of the author.",
+    "euOdrHeading": "EU dispute resolution",
+    "euOdrP1": "The European Commission provides a platform for online dispute resolution (ODR):"
+  },
+  "datenschutz": {
+    "metaTitle": "Privacy",
+    "metaDescription": "Privacy policy for iamguer.com under the DSGVO (Germany's GDPR implementation).",
+    "heading": "Privacy",
+    "verantwortlicherHeading": "Controller",
+    "verantwortlicherP1Before": "The controller within the meaning of the General Data Protection Regulation is the operator of this website. You will find the full contact details in the ",
+    "verantwortlicherP1LinkLabel": "Imprint",
+    "verantwortlicherP1After": ".",
+    "hostingHeading": "Hosting",
+    "hostingP1": "This website is hosted by Vercel Inc. (440 N Barranca Ave #4133, Covina, CA 91723, USA). The server location for this site is Frankfurt am Main, Germany. When the website is accessed, Vercel automatically processes data such as IP address, browser type, and the date and time of the request. This data is used solely for the stable operation of the website and is not used for tracking purposes.",
+    "hostingP2Label": "Vercel privacy policy:",
+    "cookiesHeading": "Cookies",
+    "cookiesP1": "This website does not use cookies and does not employ any tracking technologies. No analysis of user behaviour takes place.",
+    "instagramHeading": "Instagram content",
+    "instagramP1": "This website embeds content from Instagram (Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Ireland). The images are fetched at build time via the official Instagram Graph API and delivered as static content. No data is transmitted to Meta during normal use of the website. Only when you click an Instagram link do you leave this site and get redirected to instagram.com.",
+    "instagramP2Label": "Meta privacy policy:",
+    "domainHeading": "Domain",
+    "domainP1": "The domain iamguer.com is managed via United Domains AG (Gautinger Str. 10, 82319 Starnberg). The domain is technically required for the site to be reached; no personal data is stored at the domain provider.",
+    "logsHeading": "Server logs",
+    "logsP1": "When the website is accessed, the hosting provider (Vercel) automatically collects technical data:",
+    "logsItems": [
+      "IP address (anonymised)",
+      "Browser type and version",
+      "Operating system in use",
+      "Date and time of the request",
+      "Volume of data transferred"
+    ],
+    "logsP2": "This data serves the technical security and stable delivery of the website. It is not analysed for any other purpose, nor is it merged with other data sources. Legal basis: Art. 6 Abs. 1 lit. f DSGVO (legitimate interest in stable operation).",
+    "kontaktHeading": "Getting in touch",
+    "kontaktP1Before": "If you contact us by email at ",
+    "kontaktP1After": ", your data will be processed in order to respond to your enquiry. The data will not be passed on to third parties and will be deleted once your enquiry has been dealt with, unless statutory retention periods apply.",
+    "kontaktP2": "Legal basis: Art. 6 Abs. 1 lit. b DSGVO (initiation/performance of a contract) or lit. f (legitimate interest).",
+    "rechteHeading": "Your rights",
+    "rechteP1": "Under the General Data Protection Regulation, you have the following rights:",
+    "rechteItems": [
+      "Right of access (Art. 15 DSGVO)",
+      "Right to rectification (Art. 16 DSGVO)",
+      "Right to erasure (Art. 17 DSGVO)",
+      "Right to restriction of processing (Art. 18 DSGVO)",
+      "Right to data portability (Art. 20 DSGVO)",
+      "Right to object (Art. 21 DSGVO)",
+      "Right to lodge a complaint with a supervisory authority"
+    ],
+    "rechteP2Before": "To exercise your rights or for any questions about data protection, please contact ",
+    "rechteP2After": ".",
+    "rechteP3": "You have the right to lodge a complaint with the competent supervisory authority. For Hessen, this is the Hessischer Beauftragter für Datenschutz und Informationsfreiheit:",
+    "aktualitaetHeading": "Currency of this notice",
+    "aktualitaetStand": "Last updated: {date}",
+    "aktualitaetP2": "We update this privacy policy when material changes occur. The current version can always be found on this page."
+  },
+  "notFound": {
+    "metaTitle": "404",
+    "metaDescription": "This page does not exist.",
+    "heading": "Lost?",
+    "intro": "This page doesn't exist. Go back to the home page.",
+    "backHome": "To the home page"
+  },
+  "instagramGallery": {
+    "empty": "No posts loaded yet — the cron job syncs every 6 h.",
+    "lastSync": "Last synced:"
+  },
+  "splash": {
+    "taglineLine1": "Salt, sea, summer light.",
+    "taglineLine2": "Always warm somewhere.",
+    "enter": "Enter"
+  }
+}

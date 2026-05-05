@@ -11,6 +11,13 @@ export default defineConfig({
   site: 'https://iamguer.com',
   output: 'static',
   adapter: vercel(),
+  i18n: {
+    defaultLocale: 'de',
+    locales: ['de', 'en', 'tr'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

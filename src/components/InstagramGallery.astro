@@ -1,21 +1,20 @@
 ---
 import { loadInstagramPosts, displaySrc, shortCaption } from '../lib/instagram';
+import { getLangFromUrl, useTranslations, formatDate } from '../i18n/utils';
 
 const payload = loadInstagramPosts();
 const posts = payload?.posts ?? [];
 const fetchedAt = payload?.fetchedAt;
 
-const dateFmt = new Intl.DateTimeFormat('de-DE', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const altFallback = t('home.altFallback');
 ---
 
 {
   posts.length === 0 ? (
     <p class="text-text-muted font-mono text-xs uppercase tracking-widest">
-      Noch keine Posts geladen — der Cron-Job synchronisiert alle 6h.
+      {t('instagramGallery.empty')}
     </p>
   ) : (
     <div class="space-y-6">
@@ -26,13 +25,13 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
               href={post.permalink}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={shortCaption(post.caption, 80) || 'Fotografie von Hakan / iamguer'}
+              aria-label={shortCaption(post.caption, 80) || altFallback}
               class="block w-full h-full"
             >
               <img
                 src={displaySrc(post)}
-                alt={shortCaption(post.caption, 120) || 'Fotografie von Hakan / iamguer'}
-                title={dateFmt.format(new Date(post.timestamp))}
+                alt={shortCaption(post.caption, 120) || altFallback}
+                title={formatDate(post.timestamp, lang)}
                 loading="lazy"
                 decoding="async"
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -54,7 +53,7 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
 
       {fetchedAt && (
         <p class="font-mono text-[10px] uppercase tracking-widest text-text-trace">
-          Zuletzt synchronisiert: {dateFmt.format(new Date(fetchedAt))}
+          {t('instagramGallery.lastSync')} {formatDate(fetchedAt, lang)}
         </p>
       )}
     </div>

@@ -1,48 +1,48 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const logsItems = t<string[]>('datenschutz.logsItems');
+const rechteItems = t<string[]>('datenschutz.rechteItems');
 
 const standDatum = '04.05.2026';
 ---
 
 <BaseLayout
-  title="Datenschutz"
-  description="Datenschutzerklärung für iamguer.com nach DSGVO."
+  title={t('datenschutz.metaTitle')}
+  description={t('datenschutz.metaDescription')}
   currentPath="/datenschutz"
 >
   <article class="px-7 py-16 md:py-24 max-w-3xl mx-auto">
     <header class="flex items-center gap-4">
       <Icon name="shield" class="text-text-secondary" size={28} />
       <h1 class="text-text-primary text-5xl tracking-tight font-light">
-        Datenschutz
+        {t('datenschutz.heading')}
       </h1>
     </header>
 
     <section class="mt-16">
-      <h2 class="text-text-primary text-xl font-normal">Verantwortlicher</h2>
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.verantwortlicherHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Verantwortlicher im Sinne der Datenschutz-Grundverordnung ist der
-        Betreiber dieser Website. Die vollständigen Kontaktdaten finden Sie im
-        <a
+        {t('datenschutz.verantwortlicherP1Before')}<a
           href="/impressum"
           class="text-accent hover:text-text-primary transition-colors"
-          >Impressum</a
-        >.
+          >{t('datenschutz.verantwortlicherP1LinkLabel')}</a
+        >{t('datenschutz.verantwortlicherP1After')}
       </p>
     </section>
 
     <section class="mt-12">
-      <h2 class="text-text-primary text-xl font-normal">Hosting</h2>
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.hostingHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Diese Website wird gehostet bei Vercel Inc. (440 N Barranca Ave #4133,
-        Covina, CA 91723, USA). Server-Standort für diese Website ist Frankfurt
-        am Main, Deutschland. Vercel verarbeitet beim Aufruf der Website
-        automatisch Daten wie IP-Adresse, Browser-Typ, Datum und Uhrzeit der
-        Anfrage. Diese Daten dienen ausschließlich dem stabilen Betrieb der
-        Website und werden nicht zu Tracking-Zwecken genutzt.
+        {t('datenschutz.hostingP1')}
       </p>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Datenschutzerklärung von Vercel:
+        {t('datenschutz.hostingP2Label')}
         <a
           href="https://vercel.com/legal/privacy-policy"
           target="_blank"
@@ -56,27 +56,19 @@ const standDatum = '04.05.2026';
     </section>
 
     <section class="mt-12">
-      <h2 class="text-text-primary text-xl font-normal">Cookies</h2>
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.cookiesHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Diese Website setzt keine Cookies ein und nutzt keine
-        Tracking-Technologien. Es findet keine Analyse des Nutzerverhaltens
-        statt.
+        {t('datenschutz.cookiesP1')}
       </p>
     </section>
 
     <section class="mt-12">
-      <h2 class="text-text-primary text-xl font-normal">Instagram-Inhalte</h2>
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.instagramHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Auf dieser Website werden Inhalte von Instagram (Meta Platforms Ireland
-        Limited, 4 Grand Canal Square, Dublin 2, Irland) eingebunden. Die Bilder
-        werden zur Build-Zeit über die offizielle Instagram Graph API abgerufen
-        und als statische Inhalte ausgeliefert. Beim normalen Aufruf der Website
-        werden keine Daten an Meta übertragen. Erst beim Klick auf einen
-        Instagram-Link verlassen Sie diese Website und werden auf instagram.com
-        weitergeleitet.
+        {t('datenschutz.instagramP1')}
       </p>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Datenschutzerklärung von Meta:
+        {t('datenschutz.instagramP2Label')}
         <a
           href="https://www.facebook.com/about/privacy"
           target="_blank"
@@ -90,36 +82,24 @@ const standDatum = '04.05.2026';
     </section>
 
     <section class="mt-12">
-      <h2 class="text-text-primary text-xl font-normal">Domain</h2>
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.domainHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Die Domain iamguer.com wird verwaltet über United Domains AG (Gautinger
-        Str. 10, 82319 Starnberg). Beim Aufruf der Website ist die Domain
-        technisch erforderlich; eine Speicherung von personenbezogenen Daten
-        findet beim Domain-Provider nicht statt.
+        {t('datenschutz.domainP1')}
       </p>
     </section>
 
     <section class="mt-12">
-      <h2 class="text-text-primary text-xl font-normal">Server-Logs</h2>
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.logsHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Beim Aufruf der Website erhebt der Hosting-Provider (Vercel) automatisch
-        technische Daten:
+        {t('datenschutz.logsP1')}
       </p>
       <ul
         class="mt-4 space-y-2 list-disc list-inside text-text-body leading-relaxed font-light marker:text-text-muted"
       >
-        <li>IP-Adresse (anonymisiert)</li>
-        <li>Browser-Typ und -Version</li>
-        <li>Verwendetes Betriebssystem</li>
-        <li>Datum und Uhrzeit der Anfrage</li>
-        <li>Übertragene Datenmenge</li>
+        {logsItems.map((item) => <li>{item}</li>)}
       </ul>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Diese Daten dienen der technischen Sicherheit und stabilen Auslieferung
-        der Website. Eine Auswertung zu anderen Zwecken oder eine
-        Zusammenführung mit anderen Datenquellen findet nicht statt.
-        Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am
-        stabilen Betrieb).
+        {t('datenschutz.logsP2')}
       </p>
     </section>
 
@@ -128,53 +108,39 @@ const standDatum = '04.05.2026';
         class="text-text-primary text-xl font-normal flex items-center gap-3"
       >
         <Icon name="mail" class="text-text-secondary" />
-        Kontaktaufnahme
+        {t('datenschutz.kontaktHeading')}
       </h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Wenn Sie per E-Mail an <a
+        {t('datenschutz.kontaktP1Before')}<a
           href="mailto:hello@iamguer.com"
           class="text-accent hover:text-text-primary transition-colors"
           >hello@iamguer.com</a
-        > Kontakt aufnehmen, werden Ihre Daten zur Beantwortung Ihrer Anfrage
-        verarbeitet. Die Daten werden nicht an Dritte weitergegeben und nach
-        Erledigung der Anfrage gelöscht, sofern keine gesetzlichen
-        Aufbewahrungsfristen bestehen.
+        >{t('datenschutz.kontaktP1After')}
       </p>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Anbahnung/Erfüllung
-        Vertrag) bzw. lit. f (berechtigtes Interesse).
+        {t('datenschutz.kontaktP2')}
       </p>
     </section>
 
     <section class="mt-12">
-      <h2 class="text-text-primary text-xl font-normal">Ihre Rechte</h2>
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.rechteHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Sie haben nach der Datenschutz-Grundverordnung folgende Rechte:
+        {t('datenschutz.rechteP1')}
       </p>
       <ul
         class="mt-4 space-y-2 list-disc list-inside text-text-body leading-relaxed font-light marker:text-text-muted"
       >
-        <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
-        <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
-        <li>Recht auf Löschung (Art. 17 DSGVO)</li>
-        <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
-        <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
-        <li>Widerspruchsrecht (Art. 21 DSGVO)</li>
-        <li>Recht auf Beschwerde bei einer Aufsichtsbehörde</li>
+        {rechteItems.map((item) => <li>{item}</li>)}
       </ul>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Zur Ausübung Ihrer Rechte oder bei Fragen zum Datenschutz wenden Sie
-        sich an
-        <a
+        {t('datenschutz.rechteP2Before')}<a
           href="mailto:hello@iamguer.com"
           class="text-accent hover:text-text-primary transition-colors"
           >hello@iamguer.com</a
-        >.
+        >{t('datenschutz.rechteP2After')}
       </p>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Sie haben das Recht, sich bei der zuständigen Aufsichtsbehörde zu
-        beschweren. Für Hessen ist dies der Hessische Beauftragte für
-        Datenschutz und Informationsfreiheit:
+        {t('datenschutz.rechteP3')}
         <a
           href="https://datenschutz.hessen.de"
           target="_blank"
@@ -188,13 +154,12 @@ const standDatum = '04.05.2026';
     </section>
 
     <section class="mt-12">
-      <h2 class="text-text-primary text-xl font-normal">Aktualität</h2>
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.aktualitaetHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Stand: {standDatum}
+        {t('datenschutz.aktualitaetStand', { date: standDatum })}
       </p>
       <p class="mt-4 text-text-body leading-relaxed font-light">
-        Bei wesentlichen Änderungen aktualisieren wir diese Datenschutzerklärung.
-        Die jeweils aktuelle Version finden Sie auf dieser Seite.
+        {t('datenschutz.aktualitaetP2')}
       </p>
     </section>
   </article>

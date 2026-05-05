@@ -1,5 +1,6 @@
 ---
 import BrandMark from './BrandMark.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 interface Props {
   currentPath: string;
@@ -7,10 +8,13 @@ interface Props {
 
 const { currentPath } = Astro.props;
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const links = [
-  { href: '/', label: 'Index' },
-  { href: '/galerien', label: 'Galerien' },
-  { href: '/kontakt', label: 'Kontakt' },
+  { href: '/', label: t('nav.index') },
+  { href: '/galerien', label: t('nav.galerien') },
+  { href: '/kontakt', label: t('nav.kontakt') },
 ];
 
 function isActive(href: string): boolean {
@@ -45,7 +49,7 @@ function isActive(href: string): boolean {
   <button
     type="button"
     id="navMobileToggle"
-    aria-label="Menü öffnen"
+    aria-label={t('nav.menuOpen')}
     aria-expanded="false"
     aria-controls="navMobileMenu"
     class="md:hidden flex flex-col items-end justify-center gap-1.5 min-w-[44px] min-h-[44px]"
@@ -67,7 +71,7 @@ function isActive(href: string): boolean {
     <button
       type="button"
       id="navMobileClose"
-      aria-label="Menü schließen"
+      aria-label={t('nav.menuClose')}
       class="min-w-[44px] min-h-[44px] flex items-center justify-center text-text-primary text-3xl leading-none"
     >
       <span aria-hidden="true">×</span>

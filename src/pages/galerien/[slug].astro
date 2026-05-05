@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
+import { getLangFromUrl, formatDate } from '../../i18n/utils';
 
 export async function getStaticPaths() {
   const entries = await getCollection('galerien');
@@ -13,11 +14,7 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 
-const dateFmt = new Intl.DateTimeFormat('de-DE', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const lang = getLangFromUrl(Astro.url);
 ---
 
 <BaseLayout
@@ -27,7 +24,7 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
 >
   <article class="px-7 py-16 max-w-4xl mx-auto">
     <p class="font-mono text-xs uppercase tracking-widest text-text-muted">
-      {dateFmt.format(entry.data.date)}
+      {formatDate(entry.data.date, lang)}
     </p>
     <h1 class="text-text-primary text-5xl mt-2 tracking-tight font-light">
       {entry.data.title}

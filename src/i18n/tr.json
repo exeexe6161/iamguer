@@ -1,0 +1,128 @@
+{
+  "nav": {
+    "index": "Anasayfa",
+    "galerien": "Galeriler",
+    "kontakt": "İletişim",
+    "menuOpen": "Menüyü aç",
+    "menuClose": "Menüyü kapat"
+  },
+  "footer": {
+    "sitemap": "Site haritası",
+    "follow": "Takip edin",
+    "legal": "Yasal",
+    "instagram": "Instagram ↗",
+    "impressum": "Künye",
+    "datenschutz": "Gizlilik"
+  },
+  "home": {
+    "metaDescription": "iamguer — Hakan'ın foto günlüğü. Marburg'dan ve başka her yerden, tam çözünürlükte fotoğraflar.",
+    "altFallback": "Hakan / iamguer fotoğrafları",
+    "viewOnInstagram": "Instagram'da görüntüle",
+    "openOnInstagram": "Fotoğrafı Instagram'da aç",
+    "schemaName": "iamguer — Güncel fotoğraflar",
+    "schemaDescription": "Marburg'dan ve yollardan güncel fotoğraflar; Hakan tarafından derlendi.",
+    "noImagesYet": "Henüz fotoğraf yok — ilk kareler yakında gelecek.",
+    "viewAllImages": "Tüm fotoğrafları gör"
+  },
+  "galerien": {
+    "metaTitle": "Galeriler",
+    "metaDescription": "iamguer'in tam foto galerisi. Marburg'dan ve yollardan kareler; Hakan tarafından derlendi.",
+    "heading": "Galeriler",
+    "intro": "Marburg'dan ve yollardan kareler.",
+    "fromInstagram": "Instagram'dan",
+    "schemaName": "iamguer — Galeriler",
+    "schemaDescription": "Hakan'ın iamguer.com üzerindeki fotoğraflarının tam koleksiyonu."
+  },
+  "kontakt": {
+    "metaTitle": "İletişim",
+    "metaDescription": "İletişim talepleri ve iş birlikleri — doğrudan hello@iamguer.com adresine yazabilirsiniz.",
+    "heading": "İletişim",
+    "intro": "Bana yazmaktan çekinmeyin. İletişim formu yakında — o zamana kadar doğrudan:"
+  },
+  "impressum": {
+    "metaTitle": "Künye",
+    "metaDescription": "iamguer.com için §5 TMG uyarınca künye bilgileri.",
+    "heading": "Künye",
+    "tmgHeading": "§5 TMG (Alman Telemedya Yasası) uyarınca bilgiler",
+    "kontaktHeading": "İletişim",
+    "kontaktEmailLabel": "E-posta:",
+    "mstvHeading": "§18 Abs. 2 MStV uyarınca içerikten sorumlu kişi",
+    "addressLikeAbove": "(Adres yukarıdaki gibidir)",
+    "haftungInhalteHeading": "İçerik sorumluluğu",
+    "haftungInhalteP1": "Hizmet sağlayıcı olarak §7 Abs. 1 TMG uyarınca, bu sayfalardaki kendi içeriklerimizden genel yasalar çerçevesinde sorumluyuz. Ancak §§ 8 bis 10 TMG uyarınca, hizmet sağlayıcı olarak iletilen veya saklanan üçüncü taraf bilgilerini izlemek ya da hukuka aykırı bir faaliyete işaret edebilecek koşulları araştırmak yükümlülüğümüz bulunmamaktadır.",
+    "haftungInhalteP2": "Genel yasalar çerçevesinde bilgilerin kaldırılması veya kullanımının engellenmesine ilişkin yükümlülükler bundan etkilenmez. Bu konudaki sorumluluk ancak somut bir hak ihlalinin öğrenildiği andan itibaren mümkündür. İlgili hak ihlallerinin tarafımıza bildirilmesi durumunda söz konusu içerikleri derhal kaldıracağız.",
+    "haftungLinksHeading": "Bağlantı sorumluluğu",
+    "haftungLinksP1": "Sitemiz, içeriklerine etkimizin bulunmadığı üçüncü taraf web sitelerine bağlantılar içermektedir. Bu nedenle bu yabancı içerikler için sorumluluk üstlenemeyiz. Bağlantı verilen sayfaların içeriğinden her zaman ilgili sağlayıcı veya işletmeci sorumludur. Bağlantı verilen sayfalar, bağlantı anında olası hukuk ihlalleri açısından kontrol edilmiştir. Bağlantının verildiği sırada hukuka aykırı içerik tespit edilmemiştir.",
+    "haftungLinksP2": "Ancak somut bir hak ihlali belirtisi olmaksızın bağlantı verilen sayfaların içeriğinin sürekli denetimi makul biçimde beklenemez. Hak ihlallerinin öğrenilmesi halinde bu tür bağlantıları derhal kaldıracağız.",
+    "urheberrechtHeading": "Telif hakkı",
+    "urheberrechtP1": "Bu web sitesinde yayımlanan tüm fotoğraflar telif hakkıyla korunmaktadır. Fotoğrafların — kısmi olarak dahi — çoğaltılması, yayılması veya kullanılması, yalnızca hak sahibinin açık ve yazılı izniyle mümkündür.",
+    "euOdrHeading": "AB uyuşmazlık çözümü",
+    "euOdrP1": "Avrupa Komisyonu, çevrimiçi uyuşmazlık çözümü (OS) için bir platform sunmaktadır:"
+  },
+  "datenschutz": {
+    "metaTitle": "Gizlilik",
+    "metaDescription": "iamguer.com için DSGVO (Almanya'nın GDPR uygulaması) uyarınca gizlilik politikası.",
+    "heading": "Gizlilik",
+    "verantwortlicherHeading": "Sorumlu kişi",
+    "verantwortlicherP1Before": "Veri Koruma Genel Tüzüğü (DSGVO — Almanya'nın GDPR uygulaması) anlamında sorumlu kişi, bu web sitesinin işletmecisidir. Tam iletişim bilgilerini ",
+    "verantwortlicherP1LinkLabel": "Künye",
+    "verantwortlicherP1After": " sayfasında bulabilirsiniz.",
+    "hostingHeading": "Barındırma",
+    "hostingP1": "Bu web sitesi Vercel Inc. (440 N Barranca Ave #4133, Covina, CA 91723, ABD) tarafından barındırılmaktadır. Bu site için sunucu konumu Frankfurt am Main, Almanya'dır. Vercel, site açıldığında IP adresi, tarayıcı türü, talebin tarih ve saati gibi verileri otomatik olarak işler. Bu veriler yalnızca sitenin sorunsuz çalışmasına hizmet eder ve takip amacıyla kullanılmaz.",
+    "hostingP2Label": "Vercel'in gizlilik politikası:",
+    "cookiesHeading": "Çerezler",
+    "cookiesP1": "Bu web sitesi çerez kullanmaz ve takip teknolojilerinden yararlanmaz. Kullanıcı davranışına ilişkin herhangi bir analiz yapılmaz.",
+    "instagramHeading": "Instagram içerikleri",
+    "instagramP1": "Bu sitede Instagram (Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, İrlanda) içerikleri gömülüdür. Fotoğraflar, derleme zamanında resmi Instagram Graph API üzerinden çekilir ve statik içerik olarak sunulur. Sitenin normal kullanımında Meta'ya hiçbir veri aktarılmaz. Ancak bir Instagram bağlantısına tıkladığınızda bu siteden ayrılır ve instagram.com'a yönlendirilirsiniz.",
+    "instagramP2Label": "Meta'nın gizlilik politikası:",
+    "domainHeading": "Alan adı",
+    "domainP1": "iamguer.com alan adı United Domains AG (Gautinger Str. 10, 82319 Starnberg) üzerinden yönetilmektedir. Sitenin açılışında alan adı teknik olarak gereklidir; alan adı sağlayıcısı tarafında kişisel veri saklanmaz.",
+    "logsHeading": "Sunucu kayıtları",
+    "logsP1": "Site açıldığında barındırma sağlayıcısı (Vercel) otomatik olarak teknik veriler toplar:",
+    "logsItems": [
+      "IP adresi (anonimleştirilmiş)",
+      "Tarayıcı türü ve sürümü",
+      "Kullanılan işletim sistemi",
+      "Talebin tarih ve saati",
+      "Aktarılan veri miktarı"
+    ],
+    "logsP2": "Bu veriler, sitenin teknik güvenliği ve sorunsuz biçimde sunulmasına hizmet eder. Başka amaçlarla değerlendirme veya başka veri kaynaklarıyla birleştirme yapılmaz. Hukuki dayanak: Art. 6 Abs. 1 lit. f DSGVO (sorunsuz çalışmaya yönelik meşru menfaat).",
+    "kontaktHeading": "İletişime geçme",
+    "kontaktP1Before": "E-posta yoluyla ",
+    "kontaktP1After": " adresinden iletişime geçtiğinizde, talebinizi yanıtlamak için verileriniz işlenir. Veriler üçüncü taraflarla paylaşılmaz ve yasal saklama yükümlülükleri bulunmadığı sürece talep tamamlandıktan sonra silinir.",
+    "kontaktP2": "Hukuki dayanak: Art. 6 Abs. 1 lit. b DSGVO (sözleşme öncesi hazırlık/ifa) veya lit. f (meşru menfaat).",
+    "rechteHeading": "Haklarınız",
+    "rechteP1": "Veri Koruma Genel Tüzüğü uyarınca aşağıdaki haklara sahipsiniz:",
+    "rechteItems": [
+      "Bilgi edinme hakkı (Art. 15 DSGVO)",
+      "Düzeltme hakkı (Art. 16 DSGVO)",
+      "Silme hakkı (Art. 17 DSGVO)",
+      "İşlemenin kısıtlanması hakkı (Art. 18 DSGVO)",
+      "Veri taşınabilirliği hakkı (Art. 20 DSGVO)",
+      "İtiraz hakkı (Art. 21 DSGVO)",
+      "Bir denetim makamına şikayette bulunma hakkı"
+    ],
+    "rechteP2Before": "Haklarınızı kullanmak veya gizlilik konusundaki sorularınız için ",
+    "rechteP2After": " adresine başvurabilirsiniz.",
+    "rechteP3": "Yetkili denetim makamına şikayette bulunma hakkına sahipsiniz. Hessen için bu makam, Hessen Veri Koruma ve Bilgi Edinme Özgürlüğü Yetkilisi'dir:",
+    "aktualitaetHeading": "Güncellik",
+    "aktualitaetStand": "Son güncelleme: {date}",
+    "aktualitaetP2": "Önemli değişiklikler olduğunda bu gizlilik politikasını güncelleriz. Güncel sürümünü her zaman bu sayfada bulabilirsiniz."
+  },
+  "notFound": {
+    "metaTitle": "404",
+    "metaDescription": "Bu sayfa mevcut değil.",
+    "heading": "Kayıp mı oldunuz?",
+    "intro": "Bu sayfa mevcut değil. Ana sayfaya dönebilirsiniz.",
+    "backHome": "Ana sayfaya"
+  },
+  "instagramGallery": {
+    "empty": "Henüz gönderi yüklenmedi — cron işi 6 saatte bir senkronize eder.",
+    "lastSync": "Son senkronizasyon:"
+  },
+  "splash": {
+    "taglineLine1": "Tuz, deniz, yaz ışığı.",
+    "taglineLine2": "Her zaman bir yerde sıcak.",
+    "enter": "Giriş"
+  }
+}

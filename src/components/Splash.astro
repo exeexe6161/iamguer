@@ -1,6 +1,10 @@
 ---
 import '@fontsource/instrument-serif/400.css';
 import '@fontsource/instrument-serif/400-italic.css';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <div class="splash-root" id="splashRoot">
@@ -21,8 +25,8 @@ import '@fontsource/instrument-serif/400-italic.css';
 
       <div class="bottomRow">
         <div class="tag">
-          Salz, Meer, Sommerlicht.<br />
-          Immer irgendwo warm.
+          {t('splash.taglineLine1')}<br />
+          {t('splash.taglineLine2')}
         </div>
 
         <div class="rightCol">
@@ -43,7 +47,7 @@ import '@fontsource/instrument-serif/400-italic.css';
               tabindex="0"
               class="cta"
             >
-              Enter
+              {t('splash.enter')}
               <span style="font-size:13px;line-height:0;">→</span>
             </a>
           </div>
