@@ -91,19 +91,18 @@ const ariaLabel = labelMap[lang] ?? labelMap.en;
   }
 </style>
 
-<script is:inline>
-  (function () {
-    var btn = document.querySelector('[data-theme-toggle]');
+<script>
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement | null;
+    const btn = target?.closest<HTMLElement>('[data-theme-toggle]');
     if (!btn) return;
-    btn.addEventListener('click', function () {
-      var current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
-      var next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = next;
-      try {
-        localStorage.setItem('iamguer_theme', next);
-      } catch (e) {
-        // ignore storage errors
-      }
-    });
-  })();
+    const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try {
+      localStorage.setItem('iamguer_theme', next);
+    } catch {
+      // ignore storage errors
+    }
+  });
 </script>

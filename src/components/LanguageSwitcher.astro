@@ -67,16 +67,16 @@ const codes = Object.keys(languages) as Lang[];
 </style>
 
 <script>
-  document.querySelectorAll<HTMLAnchorElement>('.lang-link').forEach((link) => {
-    link.addEventListener('click', () => {
-      const lang = link.dataset.lang;
-      if (lang) {
-        try {
-          localStorage.setItem('iamguer_lang', lang);
-        } catch (e) {
-          // ignore storage errors
-        }
-      }
-    });
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement | null;
+    const link = target?.closest<HTMLAnchorElement>('a.lang-link');
+    if (!link) return;
+    const lang = link.dataset.lang;
+    if (!lang) return;
+    try {
+      localStorage.setItem('iamguer_lang', lang);
+    } catch {
+      // ignore storage errors
+    }
   });
 </script>
