@@ -10,7 +10,8 @@ const t = useTranslations(lang);
 const payload = loadInstagramPosts();
 const allPosts = payload?.posts ?? [];
 const hero = allPosts[0];
-const gridPosts = allPosts.slice(1, 10);
+const mosaicPosts = allPosts.slice(1, 3);
+const gridPosts = allPosts.slice(3, 12);
 
 const altFallback = t('home.altFallback');
 const heroSrc = hero ? displaySrc(hero) : '/splash/portrait-pool.jpg';
@@ -86,13 +87,14 @@ const heroPermalink = hero?.permalink;
   <Splash />
 
   <section class="home-hero">
-    <div class="hero-photo">
+    <div class="hero-photo-wrap">
       {heroPermalink ? (
         <a
           href={heroPermalink}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={heroCaption || t('home.openOnInstagram')}
+          class="hero-photo-link"
         >
           <img
             src={heroSrc}
@@ -113,43 +115,72 @@ const heroPermalink = hero?.permalink;
       )}
     </div>
 
-    <div class="hero-info">
-      {hero && (
-        <div class="info-block">
-          <p class="info-date">{heroDate}</p>
-          {heroCaption && <p class="info-caption">{heroCaption}</p>}
-          {heroPermalink && (
-            <a
-              href={heroPermalink}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="info-link"
+    {hero && (
+      <div class="hero-caption">
+        <p class="caption-date">{heroDate}</p>
+        {heroCaption && <p class="caption-text">{heroCaption}</p>}
+        {heroPermalink && (
+          <a
+            href={heroPermalink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="caption-link"
+          >
+            {t('home.viewOnInstagram')}
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
             >
-              {t('home.viewOnInstagram')}
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M15 3h6v6"></path>
-                <path d="M10 14L21 3"></path>
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              </svg>
-            </a>
-          )}
-        </div>
-      )}
-    </div>
+              <path d="M15 3h6v6"></path>
+              <path d="M10 14L21 3"></path>
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            </svg>
+          </a>
+        )}
+      </div>
+    )}
   </section>
 
   {
-    gridPosts.length > 0 ? (
+    mosaicPosts.length === 2 && (
+      <section class="home-mosaic reveal">
+        <ul>
+          {mosaicPosts.map((post) => (
+            <li class="mosaic-item">
+              <a
+                href={post.permalink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={shortCaption(post.caption, 80) || altFallback}
+              >
+                <img
+                  src={displaySrc(post)}
+                  alt={shortCaption(post.caption, 120) || altFallback}
+                  title={formatDate(post.timestamp, lang)}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {post.media_type === 'VIDEO' && <span class="badge">Video</span>}
+                {post.media_type === 'CAROUSEL_ALBUM' && (
+                  <span class="badge">Album</span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    gridPosts.length > 0 && (
       <section class="home-grid reveal">
         <ul>
           {gridPosts.map((post, i) => (
@@ -171,9 +202,7 @@ const heroPermalink = hero?.permalink;
                   loading="lazy"
                   decoding="async"
                 />
-                {post.media_type === 'VIDEO' && (
-                  <span class="badge">Video</span>
-                )}
+                {post.media_type === 'VIDEO' && <span class="badge">Video</span>}
                 {post.media_type === 'CAROUSEL_ALBUM' && (
                   <span class="badge">Album</span>
                 )}
@@ -182,7 +211,11 @@ const heroPermalink = hero?.permalink;
           ))}
         </ul>
       </section>
-    ) : (
+    )
+  }
+
+  {
+    allPosts.length === 0 && (
       <section class="home-grid-empty reveal">
         <p>{t('home.noImagesYet')}</p>
       </section>
@@ -212,68 +245,74 @@ const heroPermalink = hero?.permalink;
 </BaseLayout>
 
 <style>
-  /* Hero */
+  /* Hero — centered, large */
   .home-hero {
-    display: grid;
-    grid-template-columns: 1fr;
     background: var(--color-canvas);
+    padding: 48px 24px 0;
   }
 
-  .hero-photo {
-    position: relative;
+  .hero-photo-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--color-canvas);
     overflow: hidden;
-    background: var(--color-canvas);
-    max-height: 80vh;
+    opacity: 0;
+    animation: heroIn 600ms ease-out forwards;
   }
 
-  .hero-photo a,
-  .hero-photo img {
+  .hero-photo-link,
+  .hero-photo-wrap img {
     display: block;
     width: 100%;
   }
 
-  .hero-photo img {
+  .hero-photo-wrap img {
     height: auto;
-    max-height: 80vh;
+    max-height: 70vh;
     object-fit: contain;
     object-position: center;
+    transition: filter 400ms ease-out;
   }
 
-  .hero-info {
-    background: var(--color-canvas);
+  .hero-photo-link:hover img,
+  .hero-photo-link:focus-visible img {
+    filter: brightness(1.05);
   }
 
-  .info-block {
-    padding: 24px;
-    max-width: 60ch;
+  .hero-caption {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 24px 48px;
+    text-align: center;
+    opacity: 0;
+    animation: heroIn 600ms ease-out 200ms forwards;
   }
 
-  .info-date {
+  .caption-date {
     font-family: 'Inter Variable', system-ui, sans-serif;
     font-weight: 300;
     font-size: 12px;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-text-muted);
-    margin: 0 0 12px 0;
+    margin: 0;
   }
 
-  .info-caption {
+  .caption-text {
     font-family: 'Inter Variable', system-ui, sans-serif;
     font-weight: 300;
     font-size: 14px;
     line-height: 1.6;
-    letter-spacing: -0.005em;
     color: var(--color-text-secondary);
-    margin: 0;
     max-width: 50ch;
+    margin: 12px auto 0;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .info-link {
+  .caption-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -286,66 +325,121 @@ const heroPermalink = hero?.permalink;
     transition: color 200ms ease;
   }
 
-  .info-link:hover,
-  .info-link:focus-visible {
+  .caption-link:hover,
+  .caption-link:focus-visible {
     color: var(--color-text-secondary);
     outline: none;
   }
 
-  .info-link svg {
+  .caption-link svg {
     flex-shrink: 0;
   }
 
   @media (min-width: 768px) {
     .home-hero {
-      grid-template-columns: 1fr 1fr;
-      height: 100vh;
-      height: 100dvh;
+      padding: 96px 48px 0;
     }
-
-    .hero-photo {
-      height: 100%;
-      max-height: none;
+    .hero-photo-wrap img {
+      max-height: 80vh;
     }
-
-    .hero-photo a {
-      height: 100%;
+    .hero-caption {
+      padding: 32px 48px 80px;
     }
-
-    .hero-photo img {
-      height: 100%;
-      max-height: none;
-      object-fit: contain;
-    }
-
-    .hero-info {
-      position: relative;
-      min-height: 320px;
-    }
-
-    .info-block {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 64px;
-    }
-
-    .info-date {
+    .caption-date {
       font-size: 14px;
     }
-
-    .info-caption {
+    .caption-text {
       font-size: 16px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home-hero {
+      padding: 120px 80px 0;
+    }
+    .hero-caption {
+      padding: 32px 80px 120px;
+    }
+  }
+
+  /* Mosaic 2-col */
+  .home-mosaic {
+    background: var(--color-canvas);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+
+  .home-mosaic ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .mosaic-item {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-tile);
+  }
+
+  .mosaic-item a,
+  .mosaic-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .mosaic-item img {
+    object-fit: cover;
+    transition: filter 400ms ease-out;
+  }
+
+  .mosaic-item a:hover img,
+  .mosaic-item a:focus-visible img {
+    filter: brightness(1.1);
+  }
+
+  .mosaic-item .badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    background: rgba(10, 10, 10, 0.7);
+    padding: 4px 8px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  @media (min-width: 768px) {
+    .home-mosaic {
+      padding: 0 48px 80px;
+    }
+    .home-mosaic ul {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home-mosaic {
+      padding: 0 80px 120px;
     }
   }
 
   /* 3-column grid */
   .home-grid {
     background: var(--color-canvas);
-    padding: 64px 24px;
-    max-width: 80rem;
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 24px 64px;
   }
 
   .home-grid ul {
@@ -413,7 +507,7 @@ const heroPermalink = hero?.permalink;
 
   @media (min-width: 768px) {
     .home-grid {
-      padding: 96px 48px;
+      padding: 0 48px 96px;
     }
     .home-grid ul {
       grid-template-columns: repeat(2, 1fr);
@@ -426,7 +520,7 @@ const heroPermalink = hero?.permalink;
 
   @media (min-width: 1024px) {
     .home-grid {
-      padding: 160px 48px;
+      padding: 0 80px 160px;
     }
     .home-grid-empty {
       padding: 160px 48px;
@@ -509,13 +603,30 @@ const heroPermalink = hero?.permalink;
     transform: translateY(0);
   }
 
+  @keyframes heroIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .grid-item img,
-    .cta-arrow {
+    .mosaic-item img,
+    .cta-arrow,
+    .hero-photo-wrap img {
       transition: none;
     }
     .grid-item a:hover img,
-    .grid-item a:focus-visible img {
+    .grid-item a:focus-visible img,
+    .mosaic-item a:hover img,
+    .mosaic-item a:focus-visible img,
+    .hero-photo-link:hover img,
+    .hero-photo-link:focus-visible img {
       filter: none;
     }
     .reveal,
@@ -525,6 +636,12 @@ const heroPermalink = hero?.permalink;
     }
     .reveal:not(.is-visible),
     .bento-stagger:not(.is-visible) {
+      transform: none;
+    }
+    .hero-photo-wrap,
+    .hero-caption {
+      animation: none;
+      opacity: 1;
       transform: none;
     }
   }
