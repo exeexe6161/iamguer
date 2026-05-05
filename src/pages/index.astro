@@ -224,34 +224,29 @@ const heroPermalink = hero?.permalink;
   .hero-photo {
     position: relative;
     overflow: hidden;
-    background: var(--color-tile);
-    height: 60vh;
+    background: var(--color-canvas);
+    max-height: 80vh;
   }
 
   .hero-photo a,
   .hero-photo img {
     display: block;
     width: 100%;
-    height: 100%;
   }
 
   .hero-photo img {
-    object-fit: cover;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
     object-position: center;
   }
 
   .hero-info {
-    position: relative;
     background: var(--color-canvas);
-    min-height: 320px;
   }
 
   .info-block {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 48px;
+    padding: 24px;
     max-width: 60ch;
   }
 
@@ -312,9 +307,30 @@ const heroPermalink = hero?.permalink;
 
     .hero-photo {
       height: 100%;
+      max-height: none;
+      background: var(--color-tile);
+    }
+
+    .hero-photo a {
+      height: 100%;
+    }
+
+    .hero-photo img {
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+    }
+
+    .hero-info {
+      position: relative;
+      min-height: 320px;
     }
 
     .info-block {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
       padding: 64px;
     }
 
@@ -330,7 +346,7 @@ const heroPermalink = hero?.permalink;
   /* 3-column grid */
   .home-grid {
     background: var(--color-canvas);
-    padding: 160px 24px;
+    padding: 64px 24px;
     max-width: 80rem;
     margin: 0 auto;
   }
@@ -385,7 +401,7 @@ const heroPermalink = hero?.permalink;
 
   .home-grid-empty {
     background: var(--color-canvas);
-    padding: 160px 24px;
+    padding: 64px 24px;
     text-align: center;
   }
 
@@ -400,18 +416,24 @@ const heroPermalink = hero?.permalink;
 
   @media (min-width: 768px) {
     .home-grid {
-      padding: 240px 48px;
+      padding: 96px 48px;
     }
     .home-grid ul {
       grid-template-columns: repeat(2, 1fr);
       gap: 32px;
     }
     .home-grid-empty {
-      padding: 240px 48px;
+      padding: 96px 48px;
     }
   }
 
   @media (min-width: 1024px) {
+    .home-grid {
+      padding: 160px 48px;
+    }
+    .home-grid-empty {
+      padding: 160px 48px;
+    }
     .home-grid ul {
       grid-template-columns: repeat(3, 1fr);
     }
@@ -420,7 +442,7 @@ const heroPermalink = hero?.permalink;
   /* CTA */
   .home-cta {
     background: var(--color-canvas);
-    padding: 80px 24px;
+    padding: 64px 24px;
     text-align: center;
   }
 
