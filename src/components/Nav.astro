@@ -1,6 +1,7 @@
 ---
 import BrandMark from './BrandMark.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeSwitcher from './ThemeSwitcher.astro';
 import {
   getLangFromUrl,
   useTranslations,
@@ -56,15 +57,20 @@ function isActive(dePath: string): boolean {
     }
   </ul>
 
-  <div class="flex items-center gap-2 md:gap-4 justify-self-end">
+  <div class="flex items-center gap-2 md:gap-3 justify-self-end">
     <LanguageSwitcher />
+    <span
+      class="hidden md:inline-block w-px h-4 bg-text-faint"
+      aria-hidden="true"
+    ></span>
+    <ThemeSwitcher />
     <button
       type="button"
       id="navMobileToggle"
       aria-label={t('nav.menuOpen')}
       aria-expanded="false"
       aria-controls="navMobileMenu"
-      class="md:hidden flex flex-col items-end justify-center gap-1.5 min-w-[44px] min-h-[44px]"
+      class="md:hidden flex flex-col items-end justify-center gap-1.5 min-w-[44px] min-h-[44px] ml-1"
     >
       <span class="block h-px w-[18px] bg-text-primary"></span>
       <span class="block h-px w-[18px] bg-text-primary"></span>
@@ -89,8 +95,9 @@ function isActive(dePath: string): boolean {
       <span aria-hidden="true">×</span>
     </button>
     <span class="justify-self-center text-lg tracking-tight text-text-primary">iamguer</span>
-    <div class="justify-self-end">
+    <div class="justify-self-end flex items-center gap-2">
       <LanguageSwitcher />
+      <ThemeSwitcher />
     </div>
   </div>
   <ul

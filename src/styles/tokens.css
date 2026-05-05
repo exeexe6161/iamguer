@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  /* Surfaces */
+  /* Surfaces (dark default) */
   --color-canvas:   #0a0a0a;
   --color-surface:  #0f0f0f;
   --color-elevated: #1a1a1a;
   --color-tile:     #161616;
 
-  /* Text scale (lightest → darkest) */
+  /* Text scale (dark default) */
   --color-text-primary:   #f5f1eb;
   --color-text-body:      #e8e6e1;
   --color-text-secondary: #b8b6b1;
@@ -19,7 +19,7 @@
   --color-accent:      #c08672;
   --color-accent-deep: #1a0f0a;
 
-  /* Lines */
+  /* Lines (dark default) */
   --color-line:        rgb(255 255 255 / 0.06);
   --color-line-strong: rgb(255 255 255 / 0.15);
 
@@ -27,6 +27,44 @@
   --font-sans:  'Inter Variable', system-ui, sans-serif;
   --font-serif: 'Inter Variable', system-ui, sans-serif;
   --font-mono:  ui-monospace, 'SF Mono', monospace;
+}
+
+[data-theme="light"] {
+  /* Surfaces (light) — warm off-white scale */
+  --color-canvas:   #f5f3ee;
+  --color-surface:  #efece6;
+  --color-elevated: #e8e5df;
+  --color-tile:     #ebe9e3;
+
+  /* Text scale (light) — anthracite, not pure black */
+  --color-text-primary:   #1a1814;
+  --color-text-body:      #2a2824;
+  --color-text-secondary: #4a4845;
+  --color-text-muted:     #6e6c68;
+  --color-text-faint:     #a8a6a1;
+  --color-text-trace:     #c4c1bd;
+
+  /* Brand accent (slightly darker coral for contrast on light bg) */
+  --color-accent:      #b8755e;
+  --color-accent-deep: #f5e8e0;
+
+  /* Lines (light) — dark with low opacity */
+  --color-line:        rgb(0 0 0 / 0.08);
+  --color-line-strong: rgb(0 0 0 / 0.18);
+}
+
+/* Smooth theme transitions */
+html {
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
+}
+
+* {
+  transition:
+    background-color 300ms ease,
+    color 300ms ease,
+    border-color 300ms ease;
 }
 
 @font-face {

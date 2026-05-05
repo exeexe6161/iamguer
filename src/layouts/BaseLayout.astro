@@ -61,6 +61,23 @@ const personJsonLd = {
     <script is:inline>
       (function () {
         try {
+          var stored = localStorage.getItem('iamguer_theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+            return;
+          }
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = prefersDark ? 'dark' : 'light';
+          document.documentElement.dataset.theme = theme;
+          localStorage.setItem('iamguer_theme', theme);
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script>
+    <script is:inline>
+      (function () {
+        try {
           var validLangs = ['de', 'en', 'tr'];
           var path = window.location.pathname;
           var pathLang = 'de';
@@ -115,7 +132,8 @@ const personJsonLd = {
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0a" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f3ee" />
 
     <link
       rel="preload"
