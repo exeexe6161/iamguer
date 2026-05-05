@@ -5,14 +5,22 @@ import { loadInstagramPosts, displaySrc, shortCaption } from '../lib/instagram';
 
 const payload = loadInstagramPosts();
 const allPosts = payload?.posts ?? [];
-const latest = allPosts[0];
-const gridPosts = allPosts.slice(1, 7);
+const hero = allPosts[0];
+const gridPosts = allPosts.slice(1, 10);
 
 const dateFmt = new Intl.DateTimeFormat('de-DE', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
+
+const heroSrc = hero ? displaySrc(hero) : '/splash/portrait-pool.jpg';
+const heroAlt = hero
+  ? shortCaption(hero.caption, 120) || 'Fotografie von Hakan / iamguer'
+  : 'Fotografie von Hakan / iamguer';
+const heroCaption = hero ? shortCaption(hero.caption, 280) : '';
+const heroDate = hero ? dateFmt.format(new Date(hero.timestamp)) : '';
+const heroPermalink = hero?.permalink;
 ---
 
 <BaseLayout
@@ -60,7 +68,7 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
               name: 'Hakan',
               url: 'https://iamguer.com',
             },
-            image: allPosts.slice(0, 7).map((p) => ({
+            image: allPosts.slice(0, 9).map((p) => ({
               '@type': 'ImageObject',
               contentUrl: p.media_url,
               url: p.permalink,
@@ -79,66 +87,84 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
 
   <Splash />
 
-  {
-    latest ? (
-      <section class="bg-canvas px-4 md:px-8 pt-20 md:pt-28 pb-20 md:pb-28">
-        <figure>
-          <a
-            href={latest.permalink}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block bg-tile group"
-          >
-            <img
-              src={displaySrc(latest)}
-              alt={shortCaption(latest.caption, 120) || 'Fotografie von Hakan / iamguer'}
-              title={dateFmt.format(new Date(latest.timestamp))}
-              loading="eager"
-              decoding="async"
-              class="block mx-auto max-h-[90vh] max-w-full object-contain transition-opacity duration-500 group-hover:opacity-90"
-            />
-          </a>
-          <figcaption class="mt-6 max-w-2xl mx-auto text-center">
-            <p class="font-mono text-[10px] uppercase tracking-widest text-text-muted">
-              {dateFmt.format(new Date(latest.timestamp))}
-            </p>
-            {latest.caption && (
-              <p class="text-text-secondary text-base md:text-lg mt-3 leading-relaxed">
-                {shortCaption(latest.caption, 220)}
-              </p>
-            )}
+  <section class="home-hero">
+    <div class="hero-photo">
+      {heroPermalink ? (
+        <a
+          href={heroPermalink}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={heroCaption || 'Foto auf Instagram öffnen'}
+        >
+          <img
+            src={heroSrc}
+            alt={heroAlt}
+            title={heroDate || undefined}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </a>
+      ) : (
+        <img
+          src={heroSrc}
+          alt={heroAlt}
+          loading="eager"
+          decoding="async"
+        />
+      )}
+    </div>
+
+    <div class="hero-info">
+      {hero && (
+        <div class="info-block">
+          <p class="info-date">{heroDate}</p>
+          {heroCaption && <p class="info-caption">{heroCaption}</p>}
+          {heroPermalink && (
             <a
-              href={latest.permalink}
+              href={heroPermalink}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-block mt-4 font-mono text-xs uppercase tracking-widest text-text-muted hover:text-text-primary transition-colors"
+              class="info-link"
             >
-              Auf Instagram ansehen ↗
+              Auf Instagram ansehen
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M15 3h6v6"></path>
+                <path d="M10 14L21 3"></path>
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              </svg>
             </a>
-          </figcaption>
-        </figure>
-      </section>
-    ) : (
-      <section class="bg-canvas px-7 pt-20 md:pt-28 pb-20 md:pb-28 text-center">
-        <p class="font-mono text-xs uppercase tracking-widest text-text-muted">
-          Noch keine Bilder verfügbar — bald folgen erste Aufnahmen.
-        </p>
-      </section>
-    )
-  }
+          )}
+        </div>
+      )}
+    </div>
+  </section>
 
   {
-    gridPosts.length > 0 && (
-      <section class="bg-canvas px-7 pb-20 md:pb-28">
-        <ul class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          {gridPosts.map((post) => (
-            <li class="group relative aspect-square overflow-hidden bg-tile">
+    gridPosts.length > 0 ? (
+      <section class="home-grid reveal">
+        <ul>
+          {gridPosts.map((post, i) => (
+            <li
+              class="grid-item bento-stagger"
+              data-stagger={i}
+              style={`--stagger-delay: ${i * 80}ms`}
+            >
               <a
                 href={post.permalink}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={shortCaption(post.caption, 80) || 'Fotografie von Hakan / iamguer'}
-                class="block w-full h-full"
               >
                 <img
                   src={displaySrc(post)}
@@ -146,33 +172,376 @@ const dateFmt = new Intl.DateTimeFormat('de-DE', {
                   title={dateFmt.format(new Date(post.timestamp))}
                   loading="lazy"
                   decoding="async"
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {post.media_type === 'VIDEO' && (
-                  <span class="absolute top-2 right-2 font-mono text-[10px] uppercase tracking-widest text-text-primary bg-canvas/70 px-2 py-1 backdrop-blur-sm">
-                    Video
-                  </span>
+                  <span class="badge">Video</span>
                 )}
                 {post.media_type === 'CAROUSEL_ALBUM' && (
-                  <span class="absolute top-2 right-2 font-mono text-[10px] uppercase tracking-widest text-text-primary bg-canvas/70 px-2 py-1 backdrop-blur-sm">
-                    Album
-                  </span>
+                  <span class="badge">Album</span>
                 )}
               </a>
             </li>
           ))}
         </ul>
       </section>
+    ) : (
+      <section class="home-grid-empty reveal">
+        <p>Noch keine Bilder verfügbar — bald folgen erste Aufnahmen.</p>
+      </section>
     )
   }
 
-  <section class="bg-canvas px-7 pb-32 md:pb-40 text-center">
-    <a
-      href="/galerien"
-      class="inline-flex items-baseline gap-3 text-text-secondary hover:text-text-primary text-2xl md:text-3xl font-light tracking-tight transition-colors"
-    >
+  <section class="home-cta reveal">
+    <a href="/galerien" class="cta-link">
       Alle Bilder ansehen
-      <span aria-hidden="true" class="text-xl">→</span>
+      <svg
+        class="cta-arrow"
+        width="0.85em"
+        height="0.85em"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
     </a>
   </section>
 </BaseLayout>
+
+<style>
+  /* Hero */
+  .home-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: var(--color-canvas);
+  }
+
+  .hero-photo {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-tile);
+    height: 60vh;
+  }
+
+  .hero-photo a,
+  .hero-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-photo img {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-info {
+    position: relative;
+    background: var(--color-canvas);
+    min-height: 320px;
+  }
+
+  .info-block {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 48px;
+    max-width: 60ch;
+  }
+
+  .info-date {
+    font-family: 'Inter Variable', system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 12px 0;
+  }
+
+  .info-caption {
+    font-family: 'Inter Variable', system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    color: var(--color-text-secondary);
+    margin: 0;
+    max-width: 50ch;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .info-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-family: 'Inter Variable', system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--color-text-faint);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .info-link:hover,
+  .info-link:focus-visible {
+    color: var(--color-text-secondary);
+    outline: none;
+  }
+
+  .info-link svg {
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .home-hero {
+      grid-template-columns: 1fr 1fr;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    .hero-photo {
+      height: 100%;
+    }
+
+    .info-block {
+      padding: 64px;
+    }
+
+    .info-date {
+      font-size: 14px;
+    }
+
+    .info-caption {
+      font-size: 16px;
+    }
+  }
+
+  /* 3-column grid */
+  .home-grid {
+    background: var(--color-canvas);
+    padding: 160px 24px;
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  .home-grid ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .grid-item {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-tile);
+  }
+
+  .grid-item a,
+  .grid-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .grid-item img {
+    object-fit: cover;
+    transition: filter 400ms ease-out;
+  }
+
+  .grid-item a:hover img,
+  .grid-item a:focus-visible img {
+    filter: brightness(1.1);
+  }
+
+  .grid-item .badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    background: rgba(10, 10, 10, 0.7);
+    padding: 4px 8px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .home-grid-empty {
+    background: var(--color-canvas);
+    padding: 160px 24px;
+    text-align: center;
+  }
+
+  .home-grid-empty p {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    .home-grid {
+      padding: 240px 48px;
+    }
+    .home-grid ul {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+    .home-grid-empty {
+      padding: 240px 48px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home-grid ul {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* CTA */
+  .home-cta {
+    background: var(--color-canvas);
+    padding: 80px 24px;
+    text-align: center;
+  }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: 'Inter Variable', system-ui, sans-serif;
+    font-weight: 200;
+    font-size: clamp(36px, 6vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .cta-link:hover,
+  .cta-link:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 1px;
+    outline: none;
+  }
+
+  .cta-arrow {
+    flex-shrink: 0;
+    transition: transform 300ms ease;
+  }
+
+  .cta-link:hover .cta-arrow,
+  .cta-link:focus-visible .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  @media (min-width: 768px) {
+    .home-cta {
+      padding: 120px 24px;
+    }
+  }
+
+  /* Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 800ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      transform 800ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .bento-stagger {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 700ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      transform 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition-delay: var(--stagger-delay, 0ms);
+  }
+
+  .bento-stagger.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grid-item img,
+    .cta-arrow {
+      transition: none;
+    }
+    .grid-item a:hover img,
+    .grid-item a:focus-visible img {
+      filter: none;
+    }
+    .reveal,
+    .bento-stagger {
+      transition: opacity 400ms ease;
+      transform: none;
+    }
+    .reveal:not(.is-visible),
+    .bento-stagger:not(.is-visible) {
+      transform: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var revealNodes = document.querySelectorAll('.reveal');
+    var staggerNodes = document.querySelectorAll('.bento-stagger');
+
+    if (!('IntersectionObserver' in window)) {
+      revealNodes.forEach(function (n) { n.classList.add('is-visible'); });
+      staggerNodes.forEach(function (n) { n.classList.add('is-visible'); });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealNodes.forEach(function (n) { io.observe(n); });
+
+    var staggerIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          staggerIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    staggerNodes.forEach(function (n) { staggerIo.observe(n); });
+  })();
+</script>
