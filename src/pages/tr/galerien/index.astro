@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import InstagramGallery from '../../../components/InstagramGallery.astro';
+import { loadInstagramPosts, shortCaption } from '../../../lib/instagram';
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const igPayload = loadInstagramPosts();
+const igPosts = igPayload?.posts ?? [];
+---
+
+<BaseLayout
+  title={t('galerien.metaTitle')}
+  description={t('galerien.metaDescription')}
+  currentPath="/galerien"
+>
+  {
+    igPosts.length > 0 && (
+      <Fragment slot="head-extra">
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ImageGallery',
+            name: t('galerien.schemaName'),
+            description: t('galerien.schemaDescription'),
+            url: 'https://iamguer.com/galerien',
+            author: {
+              '@type': 'Person',
+              name: 'Hakan',
+              url: 'https://iamguer.com',
+            },
+            image: igPosts.slice(0, 50).map((p) => ({
+              '@type': 'ImageObject',
+              contentUrl: p.media_url,
+              url: p.permalink,
+              ...(p.caption ? { caption: shortCaption(p.caption, 200) } : {}),
+              uploadDate: p.timestamp,
+              creator: {
+                '@type': 'Person',
+                name: 'Hakan',
+              },
+            })),
+          })}
+        />
+      </Fragment>
+    )
+  }
+  <section class="px-7 py-16 max-w-4xl mx-auto">
+    <h1 class="text-text-primary text-5xl tracking-tight font-light">
+      {t('galerien.heading')}
+    </h1>
+    <p class="text-text-secondary mt-4">
+      {t('galerien.intro')}
+    </p>
+
+    <div class="mt-16">
+      <header class="flex items-baseline justify-between mb-6">
+        <h2 class="text-text-primary text-2xl tracking-tight font-light">
+          {t('galerien.fromInstagram')}
+        </h2>
+        <a
+          href="https://instagram.com/iamguer"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-xs uppercase tracking-widest text-text-muted hover:text-text-primary transition-colors"
+        >
+          @iamguer ↗
+        </a>
+      </header>
+      <InstagramGallery />
+    </div>
+  </section>
+</BaseLayout>

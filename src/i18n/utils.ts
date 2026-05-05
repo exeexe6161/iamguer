@@ -1,4 +1,6 @@
 import deTranslations from './de.json';
+import enTranslations from './en.json';
+import trTranslations from './tr.json';
 
 export const languages = {
   de: 'Deutsch',
@@ -14,8 +16,8 @@ type Dict = typeof deTranslations;
 
 const translations: Record<Lang, Dict> = {
   de: deTranslations,
-  en: deTranslations,
-  tr: deTranslations,
+  en: enTranslations as Dict,
+  tr: trTranslations as Dict,
 };
 
 export function getLangFromUrl(url: URL): Lang {
@@ -27,6 +29,12 @@ export function getLangFromUrl(url: URL): Lang {
 export function stripLangPrefix(pathname: string): string {
   const cleaned = pathname.replace(/^\/(en|tr)(?=\/|$)/, '');
   return cleaned === '' ? '/' : cleaned;
+}
+
+export function localizedPath(path: string, lang: Lang): string {
+  if (lang === defaultLang) return path;
+  if (path === '/') return `/${lang}/`;
+  return `/${lang}${path}`;
 }
 
 function lookup(dict: unknown, keys: string[]): unknown {

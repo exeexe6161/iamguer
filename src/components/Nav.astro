@@ -1,63 +1,76 @@
 ---
 import BrandMark from './BrandMark.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import {
+  getLangFromUrl,
+  useTranslations,
+  stripLangPrefix,
+  localizedPath,
+} from '../i18n/utils';
 
 interface Props {
-  currentPath: string;
+  currentPath?: string;
 }
-
-const { currentPath } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const cleanPath = stripLangPrefix(Astro.url.pathname);
 
-const links = [
-  { href: '/', label: t('nav.index') },
-  { href: '/galerien', label: t('nav.galerien') },
-  { href: '/kontakt', label: t('nav.kontakt') },
+const navItems = [
+  { dePath: '/', label: t('nav.index') },
+  { dePath: '/galerien', label: t('nav.galerien') },
+  { dePath: '/kontakt', label: t('nav.kontakt') },
 ];
 
-function isActive(href: string): boolean {
-  if (href === '/') return currentPath === '/';
-  return currentPath === href || currentPath.startsWith(href + '/');
+function isActive(dePath: string): boolean {
+  if (dePath === '/') return cleanPath === '/';
+  return cleanPath === dePath || cleanPath.startsWith(dePath + '/');
 }
 ---
 
-<nav class="flex justify-between items-center px-7 py-5 border-b border-line">
-  <a href="/" class="text-lg tracking-tight text-text-primary">
+<nav class="grid grid-cols-3 items-center px-7 py-5 border-b border-line">
+  <a
+    href={localizedPath('/', lang)}
+    class="justify-self-start text-lg tracking-tight text-text-primary"
+  >
     <BrandMark />
   </a>
 
-  <ul class="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest">
+  <ul
+    class="hidden md:flex items-center gap-6 lg:gap-8 font-mono text-xs uppercase tracking-widest justify-self-center"
+  >
     {
-      links.map((link) => (
+      navItems.map((item) => (
         <li>
           <a
-            href={link.href}
+            href={localizedPath(item.dePath, lang)}
             class:list={[
               'transition-colors hover:text-text-primary',
-              isActive(link.href) ? 'text-text-primary' : 'text-text-muted',
+              isActive(item.dePath) ? 'text-text-primary' : 'text-text-muted',
             ]}
           >
-            {link.label}
+            {item.label}
           </a>
         </li>
       ))
     }
   </ul>
 
-  <button
-    type="button"
-    id="navMobileToggle"
-    aria-label={t('nav.menuOpen')}
-    aria-expanded="false"
-    aria-controls="navMobileMenu"
-    class="md:hidden flex flex-col items-end justify-center gap-1.5 min-w-[44px] min-h-[44px]"
-  >
-    <span class="block h-px w-[18px] bg-text-primary"></span>
-    <span class="block h-px w-[18px] bg-text-primary"></span>
-    <span class="block h-px w-[18px] bg-text-primary"></span>
-  </button>
+  <div class="flex items-center gap-2 md:gap-4 justify-self-end">
+    <LanguageSwitcher />
+    <button
+      type="button"
+      id="navMobileToggle"
+      aria-label={t('nav.menuOpen')}
+      aria-expanded="false"
+      aria-controls="navMobileMenu"
+      class="md:hidden flex flex-col items-end justify-center gap-1.5 min-w-[44px] min-h-[44px]"
+    >
+      <span class="block h-px w-[18px] bg-text-primary"></span>
+      <span class="block h-px w-[18px] bg-text-primary"></span>
+      <span class="block h-px w-[18px] bg-text-primary"></span>
+    </button>
+  </div>
 </nav>
 
 <div
@@ -66,30 +79,35 @@ function isActive(href: string): boolean {
   aria-hidden="true"
   class="md:hidden fixed inset-0 z-50 bg-canvas flex flex-col"
 >
-  <div class="flex justify-between items-center px-7 py-5 border-b border-line">
-    <span class="text-lg tracking-tight text-text-primary">iamguer</span>
+  <div class="grid grid-cols-3 items-center px-7 py-5 border-b border-line">
     <button
       type="button"
       id="navMobileClose"
       aria-label={t('nav.menuClose')}
-      class="min-w-[44px] min-h-[44px] flex items-center justify-center text-text-primary text-3xl leading-none"
+      class="justify-self-start min-w-[44px] min-h-[44px] flex items-center justify-center text-text-primary text-3xl leading-none"
     >
       <span aria-hidden="true">×</span>
     </button>
+    <span class="justify-self-center text-lg tracking-tight text-text-primary">iamguer</span>
+    <div class="justify-self-end">
+      <LanguageSwitcher />
+    </div>
   </div>
-  <ul class="flex flex-col px-7 py-12 gap-2 font-mono text-base uppercase tracking-widest">
+  <ul
+    class="flex-1 flex flex-col items-center justify-center gap-6 font-sans text-3xl tracking-tight font-light"
+  >
     {
-      links.map((link) => (
+      navItems.map((item) => (
         <li>
           <a
-            href={link.href}
+            href={localizedPath(item.dePath, lang)}
             class:list={[
-              'block min-h-[44px] py-3 transition-colors hover:text-text-primary',
-              isActive(link.href) ? 'text-text-primary' : 'text-text-muted',
+              'block transition-colors hover:text-text-primary',
+              isActive(item.dePath) ? 'text-text-primary' : 'text-text-muted',
             ]}
             data-nav-mobile-link
           >
-            {link.label}
+            {item.label}
           </a>
         </li>
       ))
@@ -125,7 +143,6 @@ function isActive(href: string): boolean {
 
     function open() {
       menu.hidden = false;
-      // Force reflow before adding the open class so the fade transition runs.
       void menu.offsetHeight;
       menu.classList.add('is-open');
       toggle.setAttribute('aria-expanded', 'true');

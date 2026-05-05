@@ -2,7 +2,7 @@
 import '../styles/tokens.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, stripLangPrefix } from '../i18n/utils';
 
 interface Props {
   title?: string;
@@ -32,6 +32,11 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 
 const ogLocaleMap = { de: 'de_DE', en: 'en_GB', tr: 'tr_TR' } as const;
 
+const cleanPath = stripLangPrefix(Astro.url.pathname);
+const altDe = `https://iamguer.com${cleanPath}`;
+const altEn = cleanPath === '/' ? 'https://iamguer.com/en/' : `https://iamguer.com/en${cleanPath}`;
+const altTr = cleanPath === '/' ? 'https://iamguer.com/tr/' : `https://iamguer.com/tr${cleanPath}`;
+
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -53,9 +58,57 @@ const personJsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (function () {
+        try {
+          var validLangs = ['de', 'en', 'tr'];
+          var path = window.location.pathname;
+          var pathLang = 'de';
+          if (path === '/en' || path.indexOf('/en/') === 0) pathLang = 'en';
+          else if (path === '/tr' || path.indexOf('/tr/') === 0) pathLang = 'tr';
+
+          var stored = null;
+          try { stored = localStorage.getItem('iamguer_lang'); } catch (e) {}
+
+          if (stored && validLangs.indexOf(stored) !== -1) {
+            if (stored !== pathLang) {
+              var dePath = path.replace(/^\/(en|tr)(?=\/|$)/, '') || '/';
+              var newPath = stored === 'de'
+                ? dePath
+                : '/' + stored + (dePath === '/' ? '/' : dePath);
+              if (newPath !== path) {
+                window.location.replace(newPath);
+                return;
+              }
+            }
+            return;
+          }
+
+          var langChoice;
+          if (pathLang !== 'de') {
+            langChoice = pathLang;
+          } else {
+            var bl = (navigator.language || 'de').split('-')[0].toLowerCase();
+            langChoice = bl === 'en' ? 'en' : bl === 'tr' ? 'tr' : 'de';
+          }
+          try { localStorage.setItem('iamguer_lang', langChoice); } catch (e) {}
+
+          if (langChoice !== 'de' && pathLang === 'de') {
+            var redirectPath = '/' + langChoice + (path === '/' ? '/' : path);
+            window.location.replace(redirectPath);
+          }
+        } catch (e) {
+          // never block page render on detection errors
+        }
+      })();
+    </script>
     <title>{computedTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="de" href={altDe} />
+    <link rel="alternate" hreflang="en" href={altEn} />
+    <link rel="alternate" hreflang="tr" href={altTr} />
+    <link rel="alternate" hreflang="x-default" href={altDe} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />

@@ -1,6 +1,6 @@
 ---
 import BrandMark from './BrandMark.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../i18n/utils';
 
 const year = new Date().getFullYear();
 
@@ -8,8 +8,8 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const sitemapLinks = [
-  { href: '/galerien', label: t('nav.galerien') },
-  { href: '/kontakt', label: t('nav.kontakt') },
+  { href: localizedPath('/galerien', lang), label: t('nav.galerien') },
+  { href: localizedPath('/kontakt', lang), label: t('nav.kontakt') },
 ];
 
 const followLinks = [
@@ -17,8 +17,8 @@ const followLinks = [
 ];
 
 const legalLinks = [
-  { href: '/impressum', label: t('footer.impressum') },
-  { href: '/datenschutz', label: t('footer.datenschutz') },
+  { href: localizedPath('/impressum', lang), label: t('footer.impressum') },
+  { href: localizedPath('/datenschutz', lang), label: t('footer.datenschutz') },
 ];
 ---
 

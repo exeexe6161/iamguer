@@ -21,5 +21,17 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [sitemap(), instagramSync()],
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'de',
+        locales: {
+          de: 'de-DE',
+          en: 'en-GB',
+          tr: 'tr-TR',
+        },
+      },
+    }),
+    instagramSync(),
+  ],
 });

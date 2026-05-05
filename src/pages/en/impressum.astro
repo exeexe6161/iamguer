@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  title={t('impressum.metaTitle')}
+  description={t('impressum.metaDescription')}
+  currentPath="/impressum"
+>
+  <article class="px-7 py-16 md:py-24 max-w-3xl mx-auto">
+    <header class="flex items-center gap-4">
+      <Icon name="file-text" class="text-text-secondary" size={28} />
+      <h1 class="text-text-primary text-5xl tracking-tight font-light">
+        {t('impressum.heading')}
+      </h1>
+    </header>
+
+    <section class="mt-16">
+      <h2
+        class="text-text-primary text-xl font-normal flex items-center gap-3"
+      >
+        <Icon name="map-pin" class="text-text-secondary" />
+        {t('impressum.tmgHeading')}
+      </h2>
+      <address
+        class="mt-4 not-italic text-text-body leading-relaxed font-light"
+      >
+        Hakan [NACHNAME]<br />
+        c/o [ANSCHRIFT-SERVICE]<br />
+        [STRASSE]<br />
+        [PLZ ORT]
+      </address>
+    </section>
+
+    <section class="mt-12">
+      <h2
+        class="text-text-primary text-xl font-normal flex items-center gap-3"
+      >
+        <Icon name="mail" class="text-text-secondary" />
+        {t('impressum.kontaktHeading')}
+      </h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('impressum.kontaktEmailLabel')} <a
+          href="mailto:hello@iamguer.com"
+          class="text-accent hover:text-text-primary transition-colors"
+          >hello@iamguer.com</a
+        >
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">
+        {t('impressum.mstvHeading')}
+      </h2>
+      <address
+        class="mt-4 not-italic text-text-body leading-relaxed font-light"
+      >
+        Hakan [NACHNAME]<br />
+        {t('impressum.addressLikeAbove')}
+      </address>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">{t('impressum.haftungInhalteHeading')}</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('impressum.haftungInhalteP1')}
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('impressum.haftungInhalteP2')}
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">{t('impressum.haftungLinksHeading')}</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('impressum.haftungLinksP1')}
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('impressum.haftungLinksP2')}
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">{t('impressum.urheberrechtHeading')}</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('impressum.urheberrechtP1')}
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">{t('impressum.euOdrHeading')}</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('impressum.euOdrP1')}
+        <a
+          href="https://ec.europa.eu/consumers/odr"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-accent hover:text-text-primary transition-colors inline-flex items-baseline gap-1 ml-1"
+        >
+          ec.europa.eu/consumers/odr
+          <Icon name="external-link" class="text-text-secondary" size={12} />
+        </a>
+      </p>
+    </section>
+  </article>
+</BaseLayout>
