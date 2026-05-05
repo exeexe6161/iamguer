@@ -20,11 +20,27 @@ const t = useTranslations(lang);
     <div class="chrome">
       <div class="topBar">
         <span class="mark"><span class="dot"></span>iamguer.com</span>
-        <span>MMXXVI</span>
+        <div class="langPicker" role="group" aria-label="Sprache">
+          <button
+            type="button"
+            class:list={['langBtn', lang === 'de' && 'active']}
+            data-splash-lang="de"
+          >DE</button>
+          <button
+            type="button"
+            class:list={['langBtn', lang === 'en' && 'active']}
+            data-splash-lang="en"
+          >EN</button>
+          <button
+            type="button"
+            class:list={['langBtn', lang === 'tr' && 'active']}
+            data-splash-lang="tr"
+          >TR</button>
+        </div>
       </div>
 
       <div class="bottomRow">
-        <div class="tag">
+        <div class="tag" id="splashTag">
           {t('splash.taglineLine1')}<br />
           {t('splash.taglineLine2')}
         </div>
@@ -47,7 +63,7 @@ const t = useTranslations(lang);
               tabindex="0"
               class="cta"
             >
-              {t('splash.enter')}
+              <span class="splashCtaText">{t('splash.enter')}</span>
               <span style="font-size:13px;line-height:0;">→</span>
             </a>
           </div>
@@ -156,6 +172,37 @@ const t = useTranslations(lang);
     align-items: center;
     gap: 10px;
     font-weight: 500;
+  }
+
+  .langPicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .langBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-family: 'Inter Variable', system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 200ms ease;
+    line-height: 1;
+  }
+
+  .langBtn:hover,
+  .langBtn:focus-visible {
+    color: rgba(255, 255, 255, 0.9);
+    outline: none;
+  }
+
+  .langBtn.active {
+    color: rgba(255, 255, 255, 1);
   }
 
   .dot {
@@ -310,17 +357,50 @@ const t = useTranslations(lang);
     }
 
     root.addEventListener('click', function (e) {
-      var instagramLink = e.target.closest('a[target="_blank"]');
+      var instagramLink = e.target.closest && e.target.closest('a[target="_blank"]');
       if (instagramLink) return;
+      var langBtn = e.target.closest && e.target.closest('[data-splash-lang]');
+      if (langBtn) return;
       dismiss();
     });
 
     document.addEventListener('keydown', function (e) {
       if (dismissed) return;
+      var active = document.activeElement;
+      if (active && active.closest && active.closest('[data-splash-lang]')) return;
       if (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ') {
         e.preventDefault();
         dismiss();
       }
     }, { once: false });
+
+    var taglines = {
+      de: 'Salz, Meer, Sommerlicht.<br>Immer irgendwo warm.',
+      en: 'Salt, sea, summer light.<br>Always warm somewhere.',
+      tr: 'Tuz, deniz, yaz ışığı.<br>Her zaman bir yerde sıcak.'
+    };
+    var ctaTexts = { de: 'Eintreten', en: 'Enter', tr: 'Giriş' };
+
+    var langBtns = root.querySelectorAll('[data-splash-lang]');
+    langBtns.forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var lang = btn.dataset.splashLang;
+        if (!lang || !taglines[lang]) return;
+        var tag = document.getElementById('splashTag');
+        var ctaText = root.querySelector('.splashCtaText');
+        if (tag) tag.innerHTML = taglines[lang];
+        if (ctaText) ctaText.textContent = ctaTexts[lang];
+        langBtns.forEach(function (b) {
+          b.classList.toggle('active', b === btn);
+        });
+        try { localStorage.setItem('iamguer_lang', lang); } catch (err) {}
+      });
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.stopPropagation();
+        }
+      });
+    });
   })();
 </script>

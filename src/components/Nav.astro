@@ -29,16 +29,18 @@ function isActive(dePath: string): boolean {
 }
 ---
 
-<nav class="grid grid-cols-3 items-center px-7 py-5 border-b border-line">
+<nav
+  class="flex justify-between items-center px-4 md:px-6 lg:px-7 lg:grid lg:grid-cols-3 py-5 border-b border-line"
+>
   <a
     href={localizedPath('/', lang)}
-    class="justify-self-start text-lg tracking-tight text-text-primary"
+    class="lg:justify-self-start text-lg tracking-tight text-text-primary"
   >
     <BrandMark />
   </a>
 
   <ul
-    class="hidden md:flex items-center gap-6 lg:gap-8 font-mono text-xs uppercase tracking-widest justify-self-center"
+    class="hidden lg:flex items-center gap-6 lg:gap-8 font-mono text-xs uppercase tracking-widest lg:justify-self-center"
   >
     {
       navItems.map((item) => (
@@ -57,10 +59,10 @@ function isActive(dePath: string): boolean {
     }
   </ul>
 
-  <div class="flex items-center gap-2 md:gap-3 justify-self-end">
+  <div class="flex items-center gap-2 lg:gap-3 lg:justify-self-end">
     <LanguageSwitcher />
     <span
-      class="hidden md:inline-block w-px h-4 bg-text-faint"
+      class="hidden lg:inline-block w-px h-4 bg-text-faint"
       aria-hidden="true"
     ></span>
     <ThemeSwitcher />
@@ -70,7 +72,7 @@ function isActive(dePath: string): boolean {
       aria-label={t('nav.menuOpen')}
       aria-expanded="false"
       aria-controls="navMobileMenu"
-      class="md:hidden flex flex-col items-end justify-center gap-1.5 min-w-[44px] min-h-[44px] ml-1"
+      class="lg:hidden flex flex-col items-end justify-center gap-1.5 min-w-[44px] min-h-[44px] ml-1"
     >
       <span class="block h-px w-[18px] bg-text-primary"></span>
       <span class="block h-px w-[18px] bg-text-primary"></span>
@@ -83,7 +85,7 @@ function isActive(dePath: string): boolean {
   id="navMobileMenu"
   hidden
   aria-hidden="true"
-  class="md:hidden fixed inset-0 z-50 bg-canvas flex flex-col"
+  class="lg:hidden fixed inset-0 z-50 bg-canvas flex flex-col"
 >
   <div class="grid grid-cols-3 items-center px-7 py-5 border-b border-line">
     <button
