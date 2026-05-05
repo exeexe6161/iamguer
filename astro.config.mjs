@@ -14,5 +14,10 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [sitemap(), instagramSync()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/preview/'),
+    }),
+    instagramSync(),
+  ],
 });
