@@ -124,5 +124,9 @@
     "taglineLine1": "Tuz, deniz, yaz ışığı.",
     "taglineLine2": "Her zaman bir yerde sıcak.",
     "enter": "Giriş"
+  },
+  "theme": {
+    "toggleToLight": "Açık",
+    "toggleToDark": "Koyu"
   }
 }

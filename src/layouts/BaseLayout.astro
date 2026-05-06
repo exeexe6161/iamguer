@@ -165,7 +165,10 @@ const personJsonLd = {
     <slot name="head-extra" />
   </head>
   <body
-    class="bg-canvas text-text-body font-sans antialiased min-h-screen flex flex-col"
+    class:list={[
+      'bg-canvas text-text-body font-sans antialiased min-h-screen flex flex-col',
+      cleanPath === '/' && 'is-home',
+    ]}
   >
     <Nav currentPath={currentPath} />
     <main class="flex-1">

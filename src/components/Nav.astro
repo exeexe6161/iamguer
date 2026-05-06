@@ -2,12 +2,7 @@
 import BrandMark from './BrandMark.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeSwitcher from './ThemeSwitcher.astro';
-import {
-  getLangFromUrl,
-  useTranslations,
-  stripLangPrefix,
-  localizedPath,
-} from '../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../i18n/utils';
 
 interface Props {
   currentPath?: string;
@@ -15,173 +10,119 @@ interface Props {
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const cleanPath = stripLangPrefix(Astro.url.pathname);
-
-const navItems = [
-  { dePath: '/', label: t('nav.index') },
-  { dePath: '/galerien', label: t('nav.galerien') },
-  { dePath: '/kontakt', label: t('nav.kontakt') },
-];
-
-function isActive(dePath: string): boolean {
-  if (dePath === '/') return cleanPath === '/';
-  return cleanPath === dePath || cleanPath.startsWith(dePath + '/');
-}
 ---
 
-<nav
-  class="flex justify-between items-center px-4 md:px-6 lg:px-7 lg:grid lg:grid-cols-3 py-5 border-b border-line"
->
+<nav class="site-nav" aria-label="Top">
   <a
     href={localizedPath('/', lang)}
-    class="lg:justify-self-start text-lg tracking-tight text-text-primary"
+    class="site-nav__logo"
+    aria-label="iamguer"
   >
     <BrandMark />
   </a>
 
-  <ul
-    class="hidden lg:flex items-center gap-6 lg:gap-8 font-mono text-xs uppercase tracking-widest lg:justify-self-center"
+  <button
+    type="button"
+    class="site-nav__menu-trigger"
+    aria-label={t('nav.menuOpen')}
+    aria-expanded="false"
+    data-menu-open
   >
-    {
-      navItems.map((item) => (
-        <li>
-          <a
-            href={localizedPath(item.dePath, lang)}
-            class:list={[
-              'transition-colors hover:text-text-primary',
-              isActive(item.dePath) ? 'text-text-primary' : 'text-text-muted',
-            ]}
-          >
-            {item.label}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </button>
 
-  <div class="flex items-center gap-2 lg:gap-3 lg:justify-self-end">
+  <div class="site-nav__cluster">
     <LanguageSwitcher />
-    <span
-      class="hidden lg:inline-block w-px h-4 bg-text-faint"
-      aria-hidden="true"
-    ></span>
     <ThemeSwitcher />
-    <button
-      type="button"
-      id="navMobileToggle"
-      aria-label={t('nav.menuOpen')}
-      aria-expanded="false"
-      aria-controls="navMobileMenu"
-      class="lg:hidden flex flex-col items-end justify-center gap-1.5 min-w-[44px] min-h-[44px] ml-1"
-    >
-      <span class="block h-px w-[18px] bg-text-primary"></span>
-      <span class="block h-px w-[18px] bg-text-primary"></span>
-      <span class="block h-px w-[18px] bg-text-primary"></span>
-    </button>
   </div>
 </nav>
 
-<div
-  id="navMobileMenu"
-  hidden
-  aria-hidden="true"
-  class="lg:hidden fixed inset-0 z-50 bg-canvas flex flex-col"
->
-  <div class="grid grid-cols-3 items-center px-7 py-5 border-b border-line">
-    <button
-      type="button"
-      id="navMobileClose"
-      aria-label={t('nav.menuClose')}
-      class="justify-self-start min-w-[44px] min-h-[44px] flex items-center justify-center text-text-primary text-3xl leading-none"
-    >
-      <span aria-hidden="true">×</span>
-    </button>
-    <span class="justify-self-center text-lg tracking-tight text-text-primary">iamguer</span>
-    <div class="justify-self-end flex items-center gap-2">
-      <LanguageSwitcher />
-      <ThemeSwitcher />
-    </div>
-  </div>
-  <ul
-    class="flex-1 flex flex-col items-center justify-center gap-6 font-sans text-3xl tracking-tight font-light"
-  >
-    {
-      navItems.map((item) => (
-        <li>
-          <a
-            href={localizedPath(item.dePath, lang)}
-            class:list={[
-              'block transition-colors hover:text-text-primary',
-              isActive(item.dePath) ? 'text-text-primary' : 'text-text-muted',
-            ]}
-            data-nav-mobile-link
-          >
-            {item.label}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
-</div>
-
 <style>
-  #navMobileMenu {
-    opacity: 0;
-    transition: opacity 200ms ease;
+  .site-nav {
+    position: relative;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 14px 16px;
+    background: var(--color-canvas);
+    border-bottom: 1px solid var(--color-line);
   }
-  #navMobileMenu.is-open {
-    opacity: 1;
+
+  :global(body.is-home) .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    border-bottom: none;
+    pointer-events: none;
   }
+
+  :global(body.is-home) .site-nav > * {
+    pointer-events: auto;
+  }
+
+  @media (min-width: 768px) {
+    .site-nav {
+      padding: 22px 28px;
+    }
+  }
+
+  .site-nav__logo {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+  }
+
+  .site-nav__menu-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 4px);
+    grid-template-rows: repeat(3, 4px);
+    gap: 5px;
+    justify-self: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    color: var(--color-text-primary);
+  }
+
+  .site-nav__menu-trigger:hover,
+  .site-nav__menu-trigger:focus-visible {
+    opacity: 0.65;
+    transform: scale(0.94);
+    outline: none;
+  }
+
+  .site-nav__menu-trigger span {
+    background: currentColor;
+    border-radius: 50%;
+    width: 4px;
+    height: 4px;
+    transition: background 300ms ease;
+  }
+
+  .site-nav__cluster {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    align-items: center;
+    justify-self: end;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    #navMobileMenu {
+    .site-nav__menu-trigger {
       transition: none;
+    }
+    .site-nav__menu-trigger:hover,
+    .site-nav__menu-trigger:focus-visible {
+      transform: none;
     }
   }
 </style>
-
-<script is:inline>
-  (function () {
-    var toggle = document.getElementById('navMobileToggle');
-    var menu = document.getElementById('navMobileMenu');
-    var closeBtn = document.getElementById('navMobileClose');
-    if (!toggle || !menu) return;
-
-    var reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-
-    function open() {
-      menu.hidden = false;
-      void menu.offsetHeight;
-      menu.classList.add('is-open');
-      toggle.setAttribute('aria-expanded', 'true');
-      menu.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      if (closeBtn) closeBtn.focus();
-    }
-
-    function close() {
-      menu.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      menu.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      var delay = reduceMotion ? 0 : 200;
-      setTimeout(function () {
-        menu.hidden = true;
-      }, delay);
-      toggle.focus();
-    }
-
-    toggle.addEventListener('click', open);
-    if (closeBtn) closeBtn.addEventListener('click', close);
-
-    var links = menu.querySelectorAll('[data-nav-mobile-link]');
-    for (var i = 0; i < links.length; i++) {
-      links[i].addEventListener('click', close);
-    }
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !menu.hidden) close();
-    });
-  })();
-</script>

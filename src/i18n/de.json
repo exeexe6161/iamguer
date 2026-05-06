@@ -124,5 +124,9 @@
     "taglineLine1": "Salz, Meer, Sommerlicht.",
     "taglineLine2": "Immer irgendwo warm.",
     "enter": "Eintreten"
+  },
+  "theme": {
+    "toggleToLight": "Hell",
+    "toggleToDark": "Dunkel"
   }
 }

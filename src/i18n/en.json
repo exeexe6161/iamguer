@@ -124,5 +124,9 @@
     "taglineLine1": "Salt, sea, summer light.",
     "taglineLine2": "Always warm somewhere.",
     "enter": "Enter"
+  },
+  "theme": {
+    "toggleToLight": "Light",
+    "toggleToDark": "Dark"
   }
 }
