@@ -1,0 +1,356 @@
+---
+import BrandMark from './BrandMark.astro';
+import { getCollection } from 'astro:content';
+import { loadInstagramPosts, displaySrc } from '../lib/instagram';
+import { getLangFromUrl, useTranslations, localizedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const galerien = await getCollection('galerien');
+const sortedGalerien = [...galerien].sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+const igPayload = loadInstagramPosts();
+const igPosts = igPayload?.posts ?? [];
+const fallbackPost = igPosts[0];
+const fallbackCover = fallbackPost
+  ? displaySrc(fallbackPost)
+  : '/splash/portrait-pool.jpg';
+
+const tiles = sortedGalerien.map((entry) => ({
+  href: localizedPath(`/galerien/${entry.id}`, lang),
+  name: entry.data.title,
+  count: entry.data.images?.length ?? 0,
+  cover: entry.data.cover ?? fallbackCover,
+}));
+---
+
+<div
+  id="siteMenuOverlay"
+  class="menu-overlay"
+  data-menu-overlay
+  hidden
+  aria-hidden="true"
+>
+  <div class="menu-overlay__topbar">
+    <a
+      href={localizedPath('/', lang)}
+      class="menu-overlay__logo"
+      aria-label="iamguer"
+    >
+      <BrandMark />
+    </a>
+    <button
+      type="button"
+      class="menu-overlay__close"
+      aria-label={t('nav.menuClose')}
+      data-menu-close
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+    <span class="menu-overlay__spacer" aria-hidden="true"></span>
+  </div>
+
+  <div class="menu-overlay__inner">
+    {tiles.length > 0 && (
+      <ul class="menu-overlay__tiles">
+        {tiles.map((tile) => (
+          <li>
+            <a href={tile.href} class="menu-tile">
+              <img
+                src={tile.cover}
+                alt={tile.name}
+                loading="lazy"
+                decoding="async"
+                class="menu-tile__cover"
+              />
+              <span class="menu-tile__label">
+                <span class="menu-tile__name">{tile.name}</span>
+                <span class="menu-tile__count">{tile.count}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</div>
+
+<style>
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--color-canvas);
+    color: var(--color-text-primary);
+    transform: translateY(-100%);
+    transition: transform 600ms cubic-bezier(0.7, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+
+  .menu-overlay[hidden] {
+    display: none;
+  }
+
+  .menu-overlay.is-open {
+    transform: translateY(0);
+  }
+
+  .menu-overlay__topbar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--color-canvas);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  @media (min-width: 768px) {
+    .menu-overlay__topbar {
+      padding: 22px 28px;
+    }
+  }
+
+  .menu-overlay__logo {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+  }
+
+  .menu-overlay__close {
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1;
+    cursor: pointer;
+    padding: 8px 12px;
+    justify-self: center;
+    transition: transform 300ms ease, opacity 300ms ease;
+  }
+
+  .menu-overlay__close:hover,
+  .menu-overlay__close:focus-visible {
+    transform: rotate(90deg);
+    outline: none;
+  }
+
+  .menu-overlay__spacer {
+    justify-self: end;
+  }
+
+  .menu-overlay__inner {
+    padding: 30px 16px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 800px) {
+    .menu-overlay__inner {
+      padding: 50px 28px 70px;
+    }
+  }
+
+  .menu-overlay__tiles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  @media (min-width: 800px) {
+    .menu-overlay__tiles {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+  }
+
+  .menu-tile {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    aspect-ratio: 16 / 10;
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-tile);
+  }
+
+  @media (min-width: 800px) {
+    .menu-tile {
+      aspect-ratio: 1.35 / 1;
+    }
+  }
+
+  .menu-tile__cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .menu-tile:hover .menu-tile__cover,
+  .menu-tile:focus-visible .menu-tile__cover {
+    transform: scale(1.05);
+  }
+
+  .menu-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.55),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+
+  .menu-tile__label {
+    position: absolute;
+    bottom: 14px;
+    left: 16px;
+    right: 16px;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: #fff;
+  }
+
+  .menu-tile__name {
+    font-family: 'Inter Variable', system-ui, sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .menu-tile__count {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 11px;
+    opacity: 0.7;
+    letter-spacing: 0.04em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-overlay {
+      transition: opacity 300ms ease;
+      transform: none;
+      opacity: 0;
+    }
+    .menu-overlay.is-open {
+      transform: none;
+      opacity: 1;
+    }
+    .menu-tile__cover {
+      transition: none;
+    }
+    .menu-tile:hover .menu-tile__cover,
+    .menu-tile:focus-visible .menu-tile__cover {
+      transform: none;
+    }
+    .menu-overlay__close {
+      transition: none;
+    }
+    .menu-overlay__close:hover,
+    .menu-overlay__close:focus-visible {
+      transform: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var overlay = document.getElementById('siteMenuOverlay');
+    if (!overlay) return;
+
+    var reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    var slideMs = reduceMotion ? 300 : 600;
+    var lastTrigger = null;
+    var hideTimer = null;
+
+    function setTriggersExpanded(isOpen) {
+      var triggers = document.querySelectorAll('[data-menu-open]');
+      for (var i = 0; i < triggers.length; i++) {
+        triggers[i].setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+    }
+
+    function openMenu(trigger) {
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+      lastTrigger = trigger || null;
+      overlay.hidden = false;
+      // force reflow so transition runs from initial state
+      void overlay.offsetHeight;
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTriggersExpanded(true);
+      var closeBtn = overlay.querySelector('[data-menu-close]');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeMenu() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      setTriggersExpanded(false);
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        overlay.hidden = true;
+        hideTimer = null;
+      }, slideMs);
+      if (lastTrigger) {
+        try {
+          lastTrigger.focus();
+        } catch (e) {
+          // ignore focus errors
+        }
+        lastTrigger = null;
+      }
+    }
+
+    document.addEventListener('click', function (e) {
+      var target = e.target;
+      if (!target || !target.closest) return;
+      var openBtn = target.closest('[data-menu-open]');
+      if (openBtn) {
+        e.preventDefault();
+        if (overlay.classList.contains('is-open')) {
+          closeMenu();
+        } else {
+          openMenu(openBtn);
+        }
+        return;
+      }
+      var closeBtn = target.closest('[data-menu-close]');
+      if (closeBtn) {
+        e.preventDefault();
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+        closeMenu();
+      }
+    });
+  })();
+</script>

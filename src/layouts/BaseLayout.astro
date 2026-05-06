@@ -1,6 +1,7 @@
 ---
 import '../styles/tokens.css';
 import Nav from '../components/Nav.astro';
+import MenuOverlay from '../components/MenuOverlay.astro';
 import Footer from '../components/Footer.astro';
 import { getLangFromUrl, useTranslations, stripLangPrefix } from '../i18n/utils';
 
@@ -175,5 +176,6 @@ const personJsonLd = {
       <slot />
     </main>
     <Footer />
+    <MenuOverlay />
   </body>
 </html>
