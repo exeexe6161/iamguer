@@ -7,6 +7,13 @@ import { getLangFromUrl, useTranslations, localizedPath } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+const quickLinksLabelMap = {
+  de: 'Schnellzugriff',
+  en: 'Quick links',
+  tr: 'Hızlı bağlantılar',
+} as const;
+const quickLinksLabel = quickLinksLabelMap[lang] ?? quickLinksLabelMap.en;
+
 const galerien = await getCollection('galerien');
 const sortedGalerien = [...galerien].sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -54,6 +61,18 @@ const tiles = sortedGalerien.map((entry) => ({
   </div>
 
   <div class="menu-overlay__inner">
+    <nav class="menu-overlay__quicklinks" aria-label={quickLinksLabel}>
+      <a href={localizedPath('/', lang)} class="menu-overlay__quicklink">
+        {t('nav.home')}
+      </a>
+      <a href={localizedPath('/galerien', lang)} class="menu-overlay__quicklink">
+        {t('nav.galerien')}
+      </a>
+      <a href={localizedPath('/kontakt', lang)} class="menu-overlay__quicklink">
+        {t('nav.kontakt')}
+      </a>
+    </nav>
+
     {tiles.length > 0 && (
       <ul class="menu-overlay__tiles">
         {tiles.map((tile) => (
@@ -156,6 +175,41 @@ const tiles = sortedGalerien.map((entry) => ({
   @media (min-width: 800px) {
     .menu-overlay__inner {
       padding: 50px 28px 70px;
+    }
+  }
+
+  .menu-overlay__quicklinks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+
+  .menu-overlay__quicklink {
+    display: inline-block;
+    width: fit-content;
+    font-family: 'Inter Variable', system-ui, sans-serif;
+    font-weight: 300;
+    font-size: clamp(24px, 4vw, 32px);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .menu-overlay__quicklink:hover,
+  .menu-overlay__quicklink:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 1px;
+    outline: none;
+  }
+
+  @media (min-width: 800px) {
+    .menu-overlay__quicklinks {
+      gap: 10px;
+      margin-bottom: 40px;
     }
   }
 
