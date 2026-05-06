@@ -22,7 +22,9 @@
     "schemaName": "iamguer — Güncel fotoğraflar",
     "schemaDescription": "Marburg'dan ve yollardan güncel fotoğraflar; Hakan tarafından derlendi.",
     "noImagesYet": "Henüz fotoğraf yok — ilk kareler yakında gelecek.",
-    "viewAllImages": "Tüm fotoğrafları gör"
+    "viewAllImages": "Tüm fotoğrafları gör",
+    "latestPost": "Güncel gönderi",
+    "onInstagramShort": "Instagram'da"
   },
   "galerien": {
     "metaTitle": "Galeriler",

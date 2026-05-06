@@ -22,7 +22,9 @@
     "schemaName": "iamguer — Recent images",
     "schemaDescription": "Recent photographs from Marburg and the road, curated by Hakan.",
     "noImagesYet": "No images available yet — the first frames will follow soon.",
-    "viewAllImages": "View all images"
+    "viewAllImages": "View all images",
+    "latestPost": "Latest post",
+    "onInstagramShort": "On Instagram"
   },
   "galerien": {
     "metaTitle": "Galleries",
