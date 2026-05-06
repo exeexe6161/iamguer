@@ -26,6 +26,7 @@ src/data/instagram-posts.json
 
 # macOS-specific files
 .DS_Store
+**/.DS_Store
 
 # jetbrains setting folder
 .idea/
@@ -41,3 +42,4 @@ IMG_*.jpeg
 Cinematic*.html
 logoiamguer/
 .design-ref/
+iamguer-brand-kittest/

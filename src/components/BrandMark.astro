@@ -1,41 +1,75 @@
 ---
 interface Props {
   label?: string;
+  size?: number;
+  wordmark?: boolean;
 }
 
-const { label = 'iamguer' } = Astro.props;
+const { label = 'iamguer', size = 40, wordmark = false } = Astro.props;
 ---
 
-<span class="brand-mark">
-  <span class="brand-pulse" aria-hidden="true"></span>
-  <span>{label}</span>
+<span
+  class:list={['brand-mark', wordmark && 'brand-mark--with-wordmark']}
+  style={`--brand-mark-size: ${size}px`}
+>
+  <svg
+    class="brand-mark__glyph"
+    viewBox="0 0 100 100"
+    width={size}
+    height={size}
+    aria-hidden="true"
+  >
+    <rect x="29.5" y="24" width="3" height="3" fill="#c08672" />
+    <rect x="29.5" y="34" width="3" height="42" fill="currentColor" />
+    <circle
+      cx="58"
+      cy="50"
+      r="13"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+    />
+    <rect x="69.75" y="50" width="2.5" height="22" fill="currentColor" />
+    <rect x="58" y="69.5" width="14.25" height="2.5" fill="currentColor" />
+  </svg>
+
+  {wordmark ? (
+    <svg
+      class="brand-mark__word"
+      viewBox="0 0 320 80"
+      height={size * 0.65}
+      aria-hidden="true"
+    >
+      <text
+        x="160"
+        y="52"
+        text-anchor="middle"
+        font-family="'JetBrains Mono', 'Fira Code', 'Liberation Mono', monospace"
+        font-size="36"
+        font-weight="400"
+        fill="currentColor"
+        letter-spacing="-0.5"
+      >iamguer</text>
+      <rect x="248" y="60" width="8" height="2.5" fill="#c08672" />
+    </svg>
+  ) : (
+    <span class="sr-only">{label}</span>
+  )}
 </span>
 
 <style>
   .brand-mark {
     display: inline-flex;
     align-items: center;
-    gap: 0.625rem;
   }
 
-  .brand-pulse {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    display: inline-block;
-    animation: brand-pulse-anim 2.4s ease-in-out infinite;
+  .brand-mark--with-wordmark {
+    gap: calc(var(--brand-mark-size, 40px) * 0.2);
   }
 
-  @keyframes brand-pulse-anim {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50%      { opacity: 1;   transform: scale(1.2); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .brand-pulse {
-      animation: none;
-      opacity: 0.8;
-    }
+  .brand-mark__glyph,
+  .brand-mark__word {
+    display: block;
+    flex-shrink: 0;
   }
 </style>

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="iamguer">
-  <title>iamguer</title>
-  <rect x="0" y="0" width="1200" height="630" fill="#0a0a0a"/>
-  <rect x="510" y="225" width="180" height="180" fill="none" stroke="#e8e6e1" stroke-width="3"/>
-  <text x="600" y="342" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="96" font-weight="300" fill="#e8e6e1" letter-spacing="-3">guer</text>
-  <rect x="649" y="364" width="42" height="42" fill="#0a0a0a"/>
-  <circle cx="690" cy="405" r="13.5" fill="#c08672"/>
-</svg>
