@@ -1,37 +1,12 @@
 ---
 import BrandMark from './BrandMark.astro';
-import { getCollection } from 'astro:content';
-import { loadInstagramPosts, displaySrc } from '../lib/instagram';
 import { getLangFromUrl, useTranslations, localizedPath } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const quickLinksLabelMap = {
-  de: 'Schnellzugriff',
-  en: 'Quick links',
-  tr: 'Hızlı bağlantılar',
-} as const;
-const quickLinksLabel = quickLinksLabelMap[lang] ?? quickLinksLabelMap.en;
-
-const galerien = await getCollection('galerien');
-const sortedGalerien = [...galerien].sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
-
-const igPayload = loadInstagramPosts();
-const igPosts = igPayload?.posts ?? [];
-const fallbackPost = igPosts[0];
-const fallbackCover = fallbackPost
-  ? displaySrc(fallbackPost)
-  : '/splash/portrait-pool.jpg';
-
-const tiles = sortedGalerien.map((entry) => ({
-  href: localizedPath(`/galerien/${entry.id}`, lang),
-  name: entry.data.title,
-  count: entry.data.images?.length ?? 0,
-  cover: entry.data.cover ?? fallbackCover,
-}));
+const menuLabelMap = { de: 'Menü', en: 'Menu', tr: 'Menü' } as const;
+const menuLabel = menuLabelMap[lang] ?? menuLabelMap.en;
 ---
 
 <div
@@ -61,39 +36,20 @@ const tiles = sortedGalerien.map((entry) => ({
   </div>
 
   <div class="menu-overlay__inner">
-    <nav class="menu-overlay__quicklinks" aria-label={quickLinksLabel}>
-      <a href={localizedPath('/', lang)} class="menu-overlay__quicklink">
-        {t('nav.home')}
+    <nav class="menu-overlay__nav" aria-label={menuLabel}>
+      <a href={localizedPath('/', lang)} class="menu-pill">
+        <span>{t('nav.home')}</span>
+        <span class="menu-pill__arrow" aria-hidden="true">↗</span>
       </a>
-      <a href={localizedPath('/galerien', lang)} class="menu-overlay__quicklink">
-        {t('nav.galerien')}
+      <a href={localizedPath('/galerien', lang)} class="menu-pill">
+        <span>{t('nav.galerien')}</span>
+        <span class="menu-pill__arrow" aria-hidden="true">↗</span>
       </a>
-      <a href={localizedPath('/kontakt', lang)} class="menu-overlay__quicklink">
-        {t('nav.kontakt')}
+      <a href={localizedPath('/kontakt', lang)} class="menu-pill">
+        <span>{t('nav.kontakt')}</span>
+        <span class="menu-pill__arrow" aria-hidden="true">↗</span>
       </a>
     </nav>
-
-    {tiles.length > 0 && (
-      <ul class="menu-overlay__tiles">
-        {tiles.map((tile) => (
-          <li>
-            <a href={tile.href} class="menu-tile">
-              <img
-                src={tile.cover}
-                alt={tile.name}
-                loading="lazy"
-                decoding="async"
-                class="menu-tile__cover"
-              />
-              <span class="menu-tile__label">
-                <span class="menu-tile__name">{tile.name}</span>
-                <span class="menu-tile__count">{tile.count}</span>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    )}
   </div>
 </div>
 
@@ -107,6 +63,8 @@ const tiles = sortedGalerien.map((entry) => ({
     transform: translateY(-100%);
     transition: transform 600ms cubic-bezier(0.7, 0, 0.2, 1);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
   }
 
   .menu-overlay[hidden] {
@@ -170,6 +128,11 @@ const tiles = sortedGalerien.map((entry) => ({
     padding: 30px 16px 50px;
     max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   @media (min-width: 800px) {
@@ -178,124 +141,47 @@ const tiles = sortedGalerien.map((entry) => ({
     }
   }
 
-  .menu-overlay__quicklinks {
+  .menu-overlay__nav {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 30px;
+    gap: 12px;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
   }
 
-  .menu-overlay__quicklink {
-    display: inline-block;
-    width: fit-content;
-    font-family: 'Inter Variable', system-ui, sans-serif;
-    font-weight: 300;
-    font-size: clamp(24px, 4vw, 32px);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+  .menu-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 24px;
+    background: color-mix(in srgb, currentColor 6%, transparent);
     color: var(--color-text-primary);
+    border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
     text-decoration: none;
-    transition: color 200ms ease;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    transform: translateZ(0);
   }
 
-  .menu-overlay__quicklink:hover,
-  .menu-overlay__quicklink:focus-visible {
-    text-decoration: underline;
-    text-underline-offset: 6px;
-    text-decoration-thickness: 1px;
+  .menu-pill:hover,
+  .menu-pill:focus-visible {
+    background: color-mix(in srgb, currentColor 14%, transparent);
+    border-color: color-mix(in srgb, currentColor 45%, transparent);
     outline: none;
   }
 
-  @media (min-width: 800px) {
-    .menu-overlay__quicklinks {
-      gap: 10px;
-      margin-bottom: 40px;
-    }
-  }
-
-  .menu-overlay__tiles {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-
-  @media (max-width: 360px) {
-    .menu-overlay__tiles {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (min-width: 800px) {
-    .menu-overlay__tiles {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-  }
-
-  .menu-tile {
-    display: block;
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    aspect-ratio: 4 / 3;
-    text-decoration: none;
-    color: inherit;
-    background: var(--color-tile);
-  }
-
-  .menu-tile__cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .menu-tile:hover .menu-tile__cover,
-  .menu-tile:focus-visible .menu-tile__cover {
-    transform: scale(1.05);
-  }
-
-  .menu-tile::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.55),
-      transparent 60%
-    );
-    pointer-events: none;
-  }
-
-  .menu-tile__label {
-    position: absolute;
-    bottom: 14px;
-    left: 16px;
-    right: 16px;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    color: #fff;
-  }
-
-  .menu-tile__name {
-    font-family: 'Inter Variable', system-ui, sans-serif;
-    font-size: 17px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
-
-  .menu-tile__count {
-    font-family: ui-monospace, 'SF Mono', monospace;
-    font-size: 11px;
+  .menu-pill__arrow {
+    font-size: 13px;
+    line-height: 0;
     opacity: 0.7;
-    letter-spacing: 0.04em;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -307,13 +193,6 @@ const tiles = sortedGalerien.map((entry) => ({
     .menu-overlay.is-open {
       transform: none;
       opacity: 1;
-    }
-    .menu-tile__cover {
-      transition: none;
-    }
-    .menu-tile:hover .menu-tile__cover,
-    .menu-tile:focus-visible .menu-tile__cover {
-      transform: none;
     }
     .menu-overlay__close {
       transition: none;
