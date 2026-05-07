@@ -82,3 +82,20 @@ html {
   font-style: italic;
   font-display: swap;
 }
+
+/* ─────── Photo asset protection ─────── */
+/* Applied to <img> tags rendering photos (Instagram feed + hero).
+   Psychological deterrent only — DevTools/screenshots still bypass.
+   NOT applied to icons or brand SVGs. */
+.photo-protected {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: auto;
+}
+
+.photo-protected::selection {
+  background: transparent;
+}

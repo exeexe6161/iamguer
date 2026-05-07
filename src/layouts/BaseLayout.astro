@@ -197,5 +197,15 @@ const personJsonLd = {
     </main>
     <Footer />
     <MenuOverlay />
+    <script is:inline>
+      (function () {
+        document.addEventListener('contextmenu', function (e) {
+          var target = e.target;
+          if (target instanceof Element && target.closest('.photo-protected')) {
+            e.preventDefault();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

@@ -34,7 +34,8 @@ const altFallback = t('home.altFallback');
                 title={formatDate(post.timestamp, lang)}
                 loading="lazy"
                 decoding="async"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                draggable="false"
+                class="photo-protected w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               {post.media_type === 'VIDEO' && (
                 <span class="absolute top-2 right-2 font-mono text-[10px] uppercase tracking-widest text-text-primary bg-canvas/70 px-2 py-1 backdrop-blur-sm">

@@ -94,6 +94,8 @@ const heroPermalink = hero?.permalink;
         loading="eager"
         decoding="async"
         fetchpriority="high"
+        draggable="false"
+        class="photo-protected"
       />
     </div>
 
@@ -104,9 +106,10 @@ const heroPermalink = hero?.permalink;
             <img
               src={heroSrc}
               alt=""
-              class="hero-info-card__thumb"
+              class="hero-info-card__thumb photo-protected"
               loading="eager"
               decoding="async"
+              draggable="false"
             />
             <div class="hero-info-card__title">
               <span class="hero-info-card__caption">
@@ -170,6 +173,8 @@ const heroPermalink = hero?.permalink;
                   title={formatDate(post.timestamp, lang)}
                   loading="lazy"
                   decoding="async"
+                  draggable="false"
+                  class="photo-protected"
                 />
                 {post.media_type === 'VIDEO' && (
                   <span class="grid-item__badge">Video</span>
