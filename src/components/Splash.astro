@@ -295,22 +295,23 @@ const t = useTranslations(lang);
     text-decoration: none;
     transition: transform 0.3s ease, background 0.3s ease;
     font-weight: 500;
+    transform: translateZ(0);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .cta:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) translateZ(0);
     background: #fff;
   }
 
   .cta.ghost {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.08);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(8px);
   }
 
   .cta.ghost:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.18);
     border-color: rgba(255, 255, 255, 0.55);
   }
 

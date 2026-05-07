@@ -218,14 +218,20 @@ const tiles = sortedGalerien.map((entry) => ({
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+  }
+
+  @media (max-width: 360px) {
+    .menu-overlay__tiles {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (min-width: 800px) {
     .menu-overlay__tiles {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
     }
   }
 
@@ -234,16 +240,10 @@ const tiles = sortedGalerien.map((entry) => ({
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 4 / 3;
     text-decoration: none;
     color: inherit;
     background: var(--color-tile);
-  }
-
-  @media (min-width: 800px) {
-    .menu-tile {
-      aspect-ratio: 1.35 / 1;
-    }
   }
 
   .menu-tile__cover {
