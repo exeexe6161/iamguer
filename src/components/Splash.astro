@@ -51,6 +51,7 @@ const t = useTranslations(lang);
               href="https://instagram.com/iamguer"
               target="_blank"
               rel="noopener"
+              data-splash-external
               class="cta ghost"
             >
               @iamguer
@@ -58,12 +59,24 @@ const t = useTranslations(lang);
             </a>
             <a
               href="#"
-              id="splashEnter"
+              id="splashEnterMusic"
               role="button"
               tabindex="0"
-              class="cta"
+              class="cta ghost"
+              data-audio-choice="music"
             >
-              <span class="splashCtaText">{t('splash.enter')}</span>
+              <span class="splashCtaTextMusic">{t('splash.enterWithMusic')}</span>
+              <span style="font-size:13px;line-height:0;">→</span>
+            </a>
+            <a
+              href="#"
+              id="splashEnterMuted"
+              role="button"
+              tabindex="0"
+              class="cta ghost"
+              data-audio-choice="muted"
+            >
+              <span class="splashCtaTextMuted">{t('splash.enterMuted')}</span>
               <span style="font-size:13px;line-height:0;">→</span>
             </a>
           </div>
@@ -274,7 +287,9 @@ const t = useTranslations(lang);
 
   .ctaRow {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
+    row-gap: 8px;
     align-items: center;
   }
 
@@ -327,13 +342,32 @@ const t = useTranslations(lang);
   }
 </style>
 
-<script is:inline>
+<script is:inline data-astro-rerun="false">
   (function () {
     var root = document.getElementById('splashRoot');
     if (!root) return;
-    var enterBtn = document.getElementById('splashEnter');
+    var enterBtns = root.querySelectorAll('[data-audio-choice]');
     var dismissed = false;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function tryPreview() {
+      try {
+        if (sessionStorage.getItem('iamguer_splash_seen') === '1') return;
+      } catch (e) { return; }
+
+      var audio = document.getElementById('ambientAudio');
+      if (!audio) return;
+
+      audio.volume = 0.1;
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', tryPreview, { once: true });
+    } else {
+      tryPreview();
+    }
 
     function dismiss() {
       if (dismissed) return;
@@ -344,24 +378,55 @@ const t = useTranslations(lang);
       setTimeout(function () { root.classList.add('is-gone'); }, delay);
     }
 
-    if (enterBtn) {
-      enterBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        dismiss();
-      });
-      enterBtn.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          dismiss();
-        }
-      });
+    function dispatchAudioMode(mode) {
+      document.dispatchEvent(new CustomEvent('iamguer-audio-set', { detail: { mode: mode } }));
     }
 
+    function startMusic() {
+      var audio = document.getElementById('ambientAudio');
+      if (!audio) return;
+      audio.pause();
+      try { audio.currentTime = 0; } catch (e) {}
+      audio.volume = 0.3;
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    function resetAudio() {
+      var audio = document.getElementById('ambientAudio');
+      if (!audio) return;
+      audio.pause();
+      try { audio.currentTime = 0; } catch (e) {}
+      audio.volume = 0.3;
+    }
+
+    enterBtns.forEach(function (btn) {
+      function activate(e) {
+        e.preventDefault();
+        var choice = btn.dataset.audioChoice;
+        if (choice === 'music') {
+          startMusic();
+        } else {
+          resetAudio();
+        }
+        dispatchAudioMode(choice);
+        dismiss();
+      }
+      btn.addEventListener('click', activate);
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') activate(e);
+      });
+    });
+
     root.addEventListener('click', function (e) {
-      var instagramLink = e.target.closest && e.target.closest('a[target="_blank"]');
-      if (instagramLink) return;
+      var externalLink = e.target.closest && e.target.closest('[data-splash-external]');
+      if (externalLink) return;
       var langBtn = e.target.closest && e.target.closest('[data-splash-lang]');
       if (langBtn) return;
+      var audioBtn = e.target.closest && e.target.closest('[data-audio-choice]');
+      if (audioBtn) return;
+      resetAudio();
+      dispatchAudioMode('muted');
       dismiss();
     });
 
@@ -369,8 +434,11 @@ const t = useTranslations(lang);
       if (dismissed) return;
       var active = document.activeElement;
       if (active && active.closest && active.closest('[data-splash-lang]')) return;
+      if (active && active.closest && active.closest('[data-audio-choice]')) return;
       if (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ') {
         e.preventDefault();
+        resetAudio();
+        dispatchAudioMode('muted');
         dismiss();
       }
     }, { once: false });
@@ -380,7 +448,10 @@ const t = useTranslations(lang);
       en: 'Salt, sea, summer light.<br>Always warm somewhere.',
       tr: 'Tuz, deniz, yaz ışığı.<br>Her zaman bir yerde sıcak.'
     };
-    var ctaTexts = { de: 'Eintreten', en: 'Enter', tr: 'Giriş' };
+    var ctaTexts = {
+      music: { de: 'Mit Musik betreten', en: 'Enter with music', tr: 'Müzikli giriş' },
+      muted: { de: 'Stumm betreten', en: 'Enter muted', tr: 'Sessiz giriş' },
+    };
 
     var langBtns = root.querySelectorAll('[data-splash-lang]');
     langBtns.forEach(function (btn) {
@@ -389,9 +460,11 @@ const t = useTranslations(lang);
         var lang = btn.dataset.splashLang;
         if (!lang || !taglines[lang]) return;
         var tag = document.getElementById('splashTag');
-        var ctaText = root.querySelector('.splashCtaText');
+        var musicText = root.querySelector('.splashCtaTextMusic');
+        var mutedText = root.querySelector('.splashCtaTextMuted');
         if (tag) tag.innerHTML = taglines[lang];
-        if (ctaText) ctaText.textContent = ctaTexts[lang];
+        if (musicText) musicText.textContent = ctaTexts.music[lang];
+        if (mutedText) mutedText.textContent = ctaTexts.muted[lang];
         langBtns.forEach(function (b) {
           b.classList.toggle('active', b === btn);
         });

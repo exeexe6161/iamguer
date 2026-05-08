@@ -3,6 +3,8 @@ import '../styles/tokens.css';
 import Nav from '../components/Nav.astro';
 import MenuOverlay from '../components/MenuOverlay.astro';
 import Footer from '../components/Footer.astro';
+import AmbientAudio from '../components/AmbientAudio.astro';
+import { ClientRouter } from 'astro:transitions';
 import { getLangFromUrl, useTranslations, stripLangPrefix } from '../i18n/utils';
 
 interface Props {
@@ -74,6 +76,16 @@ const personJsonLd = {
         } catch (e) {
           document.documentElement.dataset.theme = 'dark';
         }
+      })();
+    </script>
+    <script is:inline>
+      (function () {
+        try {
+          var pref = sessionStorage.getItem('iamguer-audio');
+          if (pref === 'music' || pref === 'muted') {
+            document.documentElement.classList.add('audio-mode-' + pref);
+          }
+        } catch (e) {}
       })();
     </script>
     <script is:inline>
@@ -184,6 +196,7 @@ const personJsonLd = {
 
     <meta name="generator" content={Astro.generator} />
     <slot name="head-extra" />
+    <ClientRouter />
   </head>
   <body
     class:list={[
@@ -197,15 +210,27 @@ const personJsonLd = {
     </main>
     <Footer />
     <MenuOverlay />
-    <script is:inline>
-      (function () {
-        document.addEventListener('contextmenu', function (e) {
-          var target = e.target;
-          if (target instanceof Element && target.closest('.photo-protected')) {
-            e.preventDefault();
-          }
-        });
-      })();
+    <AmbientAudio />
+    <script>
+      let cleanup = null;
+
+      function contextmenuHandler(e) {
+        const target = e.target;
+        if (target instanceof Element && target.closest('.photo-protected')) {
+          e.preventDefault();
+        }
+      }
+
+      function init() {
+        if (cleanup) cleanup();
+        document.addEventListener('contextmenu', contextmenuHandler);
+        cleanup = () => {
+          document.removeEventListener('contextmenu', contextmenuHandler);
+        };
+      }
+
+      init();
+      document.addEventListener('astro:page-load', init);
     </script>
   </body>
 </html>

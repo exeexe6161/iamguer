@@ -1,0 +1,160 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const muteLabel = t('audio.muteLabel');
+const unmuteLabel = t('audio.unmuteLabel');
+---
+
+<audio id="ambientAudio" transition:persist="ambient-audio" src="/audio/iamguer-ambient.mp3" loop preload="auto"></audio>
+
+<button
+  id="ambientToggle"
+  type="button"
+  class="ambient-toggle"
+  transition:persist="ambient-toggle"
+  aria-label={unmuteLabel}
+  data-label-mute={muteLabel}
+  data-label-unmute={unmuteLabel}
+>
+  <svg class="ambient-icon ambient-icon--on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M11 5 6 9H2v6h4l5 4V5z" />
+    <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+    <path d="M19 5a9 9 0 0 1 0 14" />
+  </svg>
+  <svg class="ambient-icon ambient-icon--off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M11 5 6 9H2v6h4l5 4V5z" />
+    <line x1="22" y1="9" x2="16" y2="15" />
+    <line x1="16" y1="9" x2="22" y2="15" />
+  </svg>
+</button>
+
+<style>
+  .ambient-toggle {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 50;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: color-mix(in srgb, var(--color-canvas) 90%, transparent);
+    color: var(--color-text-primary);
+    border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  :global(html.audio-mode-music) .ambient-toggle,
+  :global(html.audio-mode-muted) .ambient-toggle {
+    display: inline-flex;
+  }
+
+  .ambient-toggle:hover,
+  .ambient-toggle:focus-visible {
+    background: color-mix(in srgb, var(--color-canvas) 96%, transparent);
+    border-color: color-mix(in srgb, currentColor 45%, transparent);
+    outline: none;
+  }
+  .ambient-toggle:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-text-primary);
+  }
+
+  .ambient-icon { display: none; }
+  :global(html.audio-mode-music) .ambient-icon--on { display: block; }
+  :global(html.audio-mode-muted) .ambient-icon--off { display: block; }
+</style>
+
+<script is:inline data-astro-rerun="false">
+  (function () {
+    var audio = document.getElementById('ambientAudio');
+    var btn = document.getElementById('ambientToggle');
+    var html = document.documentElement;
+    if (!audio || !btn) return;
+    audio.volume = 0.3;
+    var labelMute = btn.dataset.labelMute;
+    var labelUnmute = btn.dataset.labelUnmute;
+
+    function setMode(mode) {
+      html.classList.remove('audio-mode-music', 'audio-mode-muted');
+      html.classList.add('audio-mode-' + mode);
+      btn.setAttribute('aria-label', mode === 'music' ? labelMute : labelUnmute);
+      try { sessionStorage.setItem('iamguer-audio', mode); } catch (e) {}
+    }
+
+    function savePosition() {
+      try {
+        sessionStorage.setItem('iamguer-audio-position', String(audio.currentTime));
+        sessionStorage.setItem('iamguer-audio-was-playing', !audio.paused ? 'true' : 'false');
+      } catch (e) {}
+    }
+
+    function tryStart() {
+      var pref = null;
+      try { pref = sessionStorage.getItem('iamguer-audio'); } catch (e) {}
+      if (pref !== 'music') return;
+
+      var wasPlaying = null;
+      var savedPos = null;
+      try {
+        wasPlaying = sessionStorage.getItem('iamguer-audio-was-playing');
+        savedPos = sessionStorage.getItem('iamguer-audio-position');
+      } catch (e) {}
+
+      if (wasPlaying === 'false') return;
+
+      if (wasPlaying === 'true' && savedPos !== null) {
+        var pos = parseFloat(savedPos);
+        if (!isNaN(pos) && pos >= 0) {
+          audio.currentTime = pos;
+        }
+      }
+
+      var p = audio.play();
+      if (p && p.catch) {
+        p.catch(function () {
+          var unlock = function () {
+            audio.play().catch(function () {});
+            document.removeEventListener('click', unlock);
+            document.removeEventListener('touchstart', unlock);
+          };
+          document.addEventListener('click', unlock, { once: true });
+          document.addEventListener('touchstart', unlock, { once: true });
+        });
+      }
+    }
+
+    if (html.classList.contains('audio-mode-music')) {
+      btn.setAttribute('aria-label', labelMute);
+    }
+
+    btn.addEventListener('click', function () {
+      if (audio.paused) {
+        var p = audio.play();
+        if (p && p.catch) p.catch(function () {});
+        setMode('music');
+      } else {
+        audio.pause();
+        setMode('muted');
+      }
+    });
+
+    document.addEventListener('iamguer-audio-set', function (e) {
+      if (!e.detail || !e.detail.mode) return;
+      setMode(e.detail.mode);
+    });
+
+    window.addEventListener('pagehide', function (e) {
+      if (e.persisted) return;
+      savePosition();
+    });
+
+    tryStart();
+  })();
+</script>

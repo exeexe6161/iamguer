@@ -204,86 +204,101 @@ const menuLabel = menuLabelMap[lang] ?? menuLabelMap.en;
   }
 </style>
 
-<script is:inline>
-  (function () {
-    var overlay = document.getElementById('siteMenuOverlay');
+<script>
+  let cleanup = null;
+  let lastTrigger = null;
+  let hideTimer = null;
+  const reduceMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+  const slideMs = reduceMotion ? 300 : 600;
+
+  function setTriggersExpanded(isOpen) {
+    const triggers = document.querySelectorAll('[data-menu-open]');
+    for (let i = 0; i < triggers.length; i++) {
+      triggers[i].setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+  }
+
+  function openMenu(trigger) {
+    const overlay = document.getElementById('siteMenuOverlay');
     if (!overlay) return;
-
-    var reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    var slideMs = reduceMotion ? 300 : 600;
-    var lastTrigger = null;
-    var hideTimer = null;
-
-    function setTriggersExpanded(isOpen) {
-      var triggers = document.querySelectorAll('[data-menu-open]');
-      for (var i = 0; i < triggers.length; i++) {
-        triggers[i].setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      }
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      hideTimer = null;
     }
+    lastTrigger = trigger || null;
+    overlay.hidden = false;
+    // force reflow so transition runs from initial state
+    void overlay.offsetHeight;
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTriggersExpanded(true);
+    const closeBtn = overlay.querySelector('[data-menu-close]');
+    if (closeBtn) closeBtn.focus();
+  }
 
-    function openMenu(trigger) {
-      if (hideTimer) {
-        clearTimeout(hideTimer);
-        hideTimer = null;
+  function closeMenu() {
+    const overlay = document.getElementById('siteMenuOverlay');
+    if (!overlay) return;
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setTriggersExpanded(false);
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      overlay.hidden = true;
+      hideTimer = null;
+    }, slideMs);
+    if (lastTrigger) {
+      try {
+        lastTrigger.focus();
+      } catch (e) {
+        // ignore focus errors
       }
-      lastTrigger = trigger || null;
-      overlay.hidden = false;
-      // force reflow so transition runs from initial state
-      void overlay.offsetHeight;
-      overlay.classList.add('is-open');
-      overlay.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      setTriggersExpanded(true);
-      var closeBtn = overlay.querySelector('[data-menu-close]');
-      if (closeBtn) closeBtn.focus();
+      lastTrigger = null;
     }
+  }
 
-    function closeMenu() {
-      overlay.classList.remove('is-open');
-      overlay.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      setTriggersExpanded(false);
-      if (hideTimer) clearTimeout(hideTimer);
-      hideTimer = setTimeout(function () {
-        overlay.hidden = true;
-        hideTimer = null;
-      }, slideMs);
-      if (lastTrigger) {
-        try {
-          lastTrigger.focus();
-        } catch (e) {
-          // ignore focus errors
-        }
-        lastTrigger = null;
-      }
-    }
-
-    document.addEventListener('click', function (e) {
-      var target = e.target;
-      if (!target || !target.closest) return;
-      var openBtn = target.closest('[data-menu-open]');
-      if (openBtn) {
-        e.preventDefault();
-        if (overlay.classList.contains('is-open')) {
-          closeMenu();
-        } else {
-          openMenu(openBtn);
-        }
-        return;
-      }
-      var closeBtn = target.closest('[data-menu-close]');
-      if (closeBtn) {
-        e.preventDefault();
+  function clickHandler(e) {
+    const target = e.target;
+    if (!(target instanceof Element)) return;
+    const openBtn = target.closest('[data-menu-open]');
+    if (openBtn) {
+      e.preventDefault();
+      const overlay = document.getElementById('siteMenuOverlay');
+      if (overlay && overlay.classList.contains('is-open')) {
         closeMenu();
+      } else {
+        openMenu(openBtn);
       }
-    });
+      return;
+    }
+    const closeBtn = target.closest('[data-menu-close]');
+    if (closeBtn) {
+      e.preventDefault();
+      closeMenu();
+    }
+  }
 
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
-        closeMenu();
-      }
-    });
-  })();
+  function keydownHandler(e) {
+    const overlay = document.getElementById('siteMenuOverlay');
+    if (e.key === 'Escape' && overlay && overlay.classList.contains('is-open')) {
+      closeMenu();
+    }
+  }
+
+  function init() {
+    if (cleanup) cleanup();
+    document.addEventListener('click', clickHandler);
+    document.addEventListener('keydown', keydownHandler);
+    cleanup = () => {
+      document.removeEventListener('click', clickHandler);
+      document.removeEventListener('keydown', keydownHandler);
+    };
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>

@@ -72,6 +72,10 @@
     "hostingP2Label": "Vercel privacy policy:",
     "cookiesHeading": "Cookies",
     "cookiesP1": "This website does not use cookies and does not employ any tracking technologies. No analysis of user behaviour takes place.",
+    "audioStorageHeading": "Local Storage (sessionStorage)",
+    "audioStorageP1": "We use your browser's session storage to remember your audio preference (with music / muted) during your visit. This data is stored only on your device, never transmitted to us, and automatically deleted when you close your browser tab.",
+    "audioStorageP2": "Legal basis: Art. 6(1)(f) GDPR (legitimate interest in functional website operation) and § 25(2)(2) TDDDG (technically necessary).",
+    "audioStorageP3": "No consent is required.",
     "instagramHeading": "Instagram content",
     "instagramP1": "This website embeds content from Instagram (Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, Ireland). The images are fetched at build time via the official Instagram Graph API and delivered as static content. No data is transmitted to Meta during normal use of the website. Only when you click an Instagram link do you leave this site and get redirected to instagram.com.",
     "instagramP2Label": "Meta privacy policy:",
@@ -123,7 +127,12 @@
   "splash": {
     "taglineLine1": "Salt, sea, summer light.",
     "taglineLine2": "Always warm somewhere.",
-    "enter": "Enter"
+    "enterWithMusic": "Enter with music",
+    "enterMuted": "Enter muted"
+  },
+  "audio": {
+    "muteLabel": "Mute music",
+    "unmuteLabel": "Play music"
   },
   "theme": {
     "toggleToLight": "Light",

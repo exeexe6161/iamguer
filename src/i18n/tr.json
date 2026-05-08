@@ -72,6 +72,10 @@
     "hostingP2Label": "Vercel'in gizlilik politikası:",
     "cookiesHeading": "Çerezler",
     "cookiesP1": "Bu web sitesi çerez kullanmaz ve takip teknolojilerinden yararlanmaz. Kullanıcı davranışına ilişkin herhangi bir analiz yapılmaz.",
+    "audioStorageHeading": "Yerel Depolama (sessionStorage)",
+    "audioStorageP1": "Ziyaretiniz sırasında ses tercihlerinizi (müzikli / sessiz) hatırlamak için tarayıcınızın oturum depolamasını kullanırız. Bu veriler yalnızca cihazınızda saklanır, bize iletilmez ve tarayıcı sekmesini kapattığınızda otomatik olarak silinir.",
+    "audioStorageP2": "Yasal dayanak: GDPR Madde 6(1)(f) (işlevsel web sitesi çalışması için meşru menfaat) ve TDDDG § 25(2)(2) (teknik olarak gerekli).",
+    "audioStorageP3": "Onay gerekli değildir.",
     "instagramHeading": "Instagram içerikleri",
     "instagramP1": "Bu sitede Instagram (Meta Platforms Ireland Limited, 4 Grand Canal Square, Dublin 2, İrlanda) içerikleri gömülüdür. Fotoğraflar, derleme zamanında resmi Instagram Graph API üzerinden çekilir ve statik içerik olarak sunulur. Sitenin normal kullanımında Meta'ya hiçbir veri aktarılmaz. Ancak bir Instagram bağlantısına tıkladığınızda bu siteden ayrılır ve instagram.com'a yönlendirilirsiniz.",
     "instagramP2Label": "Meta'nın gizlilik politikası:",
@@ -123,7 +127,12 @@
   "splash": {
     "taglineLine1": "Tuz, deniz, yaz ışığı.",
     "taglineLine2": "Her zaman bir yerde sıcak.",
-    "enter": "Giriş"
+    "enterWithMusic": "Müzikli giriş",
+    "enterMuted": "Sessiz giriş"
+  },
+  "audio": {
+    "muteLabel": "Müziği sustur",
+    "unmuteLabel": "Müziği çal"
   },
   "theme": {
     "toggleToLight": "Açık",

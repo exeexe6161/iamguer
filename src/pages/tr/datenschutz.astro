@@ -9,7 +9,7 @@ const t = useTranslations(lang);
 const logsItems = t<string[]>('datenschutz.logsItems');
 const rechteItems = t<string[]>('datenschutz.rechteItems');
 
-const standDatum = '04.05.2026';
+const standDatum = '08.05.2026';
 ---
 
 <BaseLayout
@@ -59,6 +59,19 @@ const standDatum = '04.05.2026';
       <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.cookiesHeading')}</h2>
       <p class="mt-4 text-text-body leading-relaxed font-light">
         {t('datenschutz.cookiesP1')}
+      </p>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-text-primary text-xl font-normal">{t('datenschutz.audioStorageHeading')}</h2>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('datenschutz.audioStorageP1')}
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('datenschutz.audioStorageP2')}
+      </p>
+      <p class="mt-4 text-text-body leading-relaxed font-light">
+        {t('datenschutz.audioStorageP3')}
       </p>
     </section>
 
