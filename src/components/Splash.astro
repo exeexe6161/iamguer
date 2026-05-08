@@ -62,7 +62,7 @@ const t = useTranslations(lang);
               id="splashEnterMusic"
               role="button"
               tabindex="0"
-              class="cta ghost"
+              class="cta cta--music"
               data-audio-choice="music"
             >
               <span class="splashCtaTextMusic">{t('splash.enterWithMusic')}</span>
@@ -73,7 +73,7 @@ const t = useTranslations(lang);
               id="splashEnterMuted"
               role="button"
               tabindex="0"
-              class="cta ghost"
+              class="cta cta--muted"
               data-audio-choice="muted"
             >
               <span class="splashCtaTextMuted">{t('splash.enterMuted')}</span>
@@ -346,6 +346,15 @@ const t = useTranslations(lang);
   (function () {
     var root = document.getElementById('splashRoot');
     if (!root) return;
+    try {
+      if (sessionStorage.getItem('iamguer_splash_seen') === '1') {
+        document.documentElement.classList.add('splash-skip');
+        document.documentElement.classList.remove('splash-show');
+        root.classList.add('is-gone');
+        return;
+      }
+    } catch (e) {}
+
     var enterBtns = root.querySelectorAll('[data-audio-choice]');
     var dismissed = false;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -373,6 +382,8 @@ const t = useTranslations(lang);
       if (dismissed) return;
       dismissed = true;
       try { sessionStorage.setItem('iamguer_splash_seen', '1'); } catch (e) {}
+      document.documentElement.classList.add('splash-skip');
+      document.documentElement.classList.remove('splash-show');
       root.classList.add('is-leaving');
       var delay = reduceMotion ? 0 : 420;
       setTimeout(function () { root.classList.add('is-gone'); }, delay);
