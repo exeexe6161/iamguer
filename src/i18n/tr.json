@@ -5,7 +5,8 @@
     "kontakt": "İletişim",
     "menuOpen": "Menüyü aç",
     "menuClose": "Menüyü kapat",
-    "home": "Anasayfa"
+    "home": "Anasayfa",
+    "tesla": "Tesla önerisi"
   },
   "footer": {
     "sitemap": "Menü",
@@ -158,5 +159,15 @@
   "theme": {
     "toggleToLight": "Açık",
     "toggleToDark": "Koyu"
+  },
+  "tesla": {
+    "metaTitle": "Tesla önerisi",
+    "metaDescription": "iamguer tarafından şeffaf şekilde belirtilen kişisel Tesla referans bağlantısı.",
+    "eyebrow": "Reklam / referans bağlantısı",
+    "heading": "Tesla önerisi",
+    "intro": "Tesla siparişi vermeyi düşünüyorsan kişisel referans bağlantımı kullanabilirsin. Tesla'nın güncel programına göre senin ve/veya benim için avantajlar oluşabilir. Kesin şartları Tesla sipariş sürecinde gösterir.",
+    "button": "Tesla bağlantısını aç",
+    "note": "Tesla'ya giden harici bağlantı. Tesla değilim ve Tesla ile resmi bir bağlantım yok. Bu bağlantı üzerinden uygun bir sipariş veya test sürüşü yapılırsa avantaj elde edebilirim.",
+    "small": "Programlar ve avantajlar değişebileceği için güncel şartları doğrudan Tesla'dan kontrol et."
   }
 }

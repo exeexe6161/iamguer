@@ -5,7 +5,8 @@
     "kontakt": "Contact",
     "menuOpen": "Open menu",
     "menuClose": "Close menu",
-    "home": "Home"
+    "home": "Home",
+    "tesla": "Tesla referral"
   },
   "footer": {
     "sitemap": "Sitemap",
@@ -158,5 +159,15 @@
   "theme": {
     "toggleToLight": "Light",
     "toggleToDark": "Dark"
+  },
+  "tesla": {
+    "metaTitle": "Tesla referral",
+    "metaDescription": "Personal Tesla referral link by iamguer with transparent disclosure.",
+    "eyebrow": "Ad / referral link",
+    "heading": "Tesla referral",
+    "intro": "If you are thinking about ordering a Tesla, you can use my personal referral link. Depending on Tesla's current program, benefits may apply for you and/or me. Tesla shows the exact conditions during the order process.",
+    "button": "Open Tesla link",
+    "note": "External link to Tesla. I am not Tesla and I am not officially affiliated with Tesla. I may receive benefits if a qualifying order or test drive is made through this link.",
+    "small": "Please check the current conditions directly with Tesla because programs and benefits can change."
   }
 }

@@ -5,7 +5,8 @@
     "kontakt": "Kontakt",
     "menuOpen": "Menü öffnen",
     "menuClose": "Menü schließen",
-    "home": "Startseite"
+    "home": "Startseite",
+    "tesla": "Tesla Empfehlung"
   },
   "footer": {
     "sitemap": "Sitemap",
@@ -158,5 +159,15 @@
   "theme": {
     "toggleToLight": "Hell",
     "toggleToDark": "Dunkel"
+  },
+  "tesla": {
+    "metaTitle": "Tesla Empfehlung",
+    "metaDescription": "Persönlicher Tesla Empfehlungslink von iamguer mit transparenter Kennzeichnung.",
+    "eyebrow": "Anzeige / Empfehlungslink",
+    "heading": "Tesla Empfehlung",
+    "intro": "Wenn du überlegst, einen Tesla zu bestellen, kannst du meinen persönlichen Empfehlungslink nutzen. Je nach aktuellem Tesla-Programm können für dich und/oder mich Vorteile entstehen. Die konkreten Bedingungen zeigt Tesla direkt im Bestellprozess.",
+    "button": "Tesla Link öffnen",
+    "note": "Externer Link zu Tesla. Ich bin nicht Tesla und nicht offiziell mit Tesla verbunden. Ich erhalte ggf. Vorteile, wenn über diesen Link eine qualifizierte Bestellung oder Probefahrt erfolgt.",
+    "small": "Bitte prüfe die aktuellen Bedingungen direkt bei Tesla, weil Programme und Vorteile sich ändern können."
   }
 }

@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const referralUrl = 'https://www.tesla.com/referral/hakan929605';
+---
+
+<BaseLayout
+  title={t('tesla.metaTitle')}
+  description={t('tesla.metaDescription')}
+  currentPath="/tesla"
+  noIndex={true}
+>
+  <section class="px-7 py-20 md:py-28 max-w-6xl mx-auto">
+    <div class="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+      <div class="space-y-7">
+        <p class="text-sm uppercase text-black/45 dark:text-white/45">{t('tesla.eyebrow')}</p>
+        <h1 class="text-6xl md:text-8xl font-light leading-none">{t('tesla.heading')}</h1>
+        <p class="max-w-2xl text-lg leading-8 text-black/65 dark:text-white/65">{t('tesla.intro')}</p>
+      </div>
+
+      <aside class="rounded-[2rem] border border-black/10 bg-black/[0.03] p-7 shadow-sm dark:border-white/12 dark:bg-white/[0.04] sm:p-9">
+        <div class="space-y-6">
+          <p class="text-sm uppercase text-black/45 dark:text-white/45">{t('tesla.eyebrow')}</p>
+          <a
+            href={referralUrl}
+            target="_blank"
+            rel="sponsored noopener noreferrer"
+            class="inline-flex min-h-14 w-full items-center justify-center rounded-full bg-black px-7 text-center text-sm font-medium text-white transition hover:bg-black/85 dark:bg-white dark:text-black dark:hover:bg-white/85 sm:w-auto"
+          >
+            {t('tesla.button')} <span aria-hidden="true" class="ml-3">↗</span>
+          </a>
+          <p class="text-sm leading-7 text-black/60 dark:text-white/60">{t('tesla.note')}</p>
+          <p class="text-xs leading-6 text-black/45 dark:text-white/45">{t('tesla.small')}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
