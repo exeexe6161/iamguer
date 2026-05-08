@@ -134,6 +134,17 @@ const labelToDark = t('theme.toggleToDark');
 </style>
 
 <script>
+  function refreshRevealStateAfterThemeChange() {
+    function show() {
+      document.querySelectorAll('.reveal, .bento-stagger').forEach((node) => {
+        node.classList.add('is-visible');
+      });
+    }
+
+    requestAnimationFrame(show);
+    window.setTimeout(show, 120);
+  }
+
   document.addEventListener('click', (event) => {
     const target = event.target as HTMLElement | null;
     const btn = target?.closest<HTMLElement>('[data-theme-toggle]');
@@ -147,5 +158,10 @@ const labelToDark = t('theme.toggleToDark');
     } catch {
       // ignore storage errors
     }
+
+    refreshRevealStateAfterThemeChange();
+    window.dispatchEvent(new CustomEvent('iamguer:themechange', {
+      detail: { theme: next },
+    }));
   });
 </script>
