@@ -221,9 +221,25 @@ const personJsonLd = {
         }
       }
 
+      function refreshRevealFallback() {
+        function showVisibleRevealNodes() {
+          document.querySelectorAll('.reveal, .bento-stagger').forEach((node) => {
+            if (!(node instanceof HTMLElement)) return;
+            const rect = node.getBoundingClientRect();
+            if (rect.top < window.innerHeight + 180) {
+              node.classList.add('is-visible');
+            }
+          });
+        }
+
+        requestAnimationFrame(showVisibleRevealNodes);
+        window.setTimeout(showVisibleRevealNodes, 120);
+      }
+
       function init() {
         if (cleanup) cleanup();
         document.addEventListener('contextmenu', contextmenuHandler);
+        refreshRevealFallback();
         cleanup = () => {
           document.removeEventListener('contextmenu', contextmenuHandler);
         };
