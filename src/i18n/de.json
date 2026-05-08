@@ -101,7 +101,7 @@
     "logsHeading": "Server-Logs",
     "logsP1": "Beim Aufruf der Website erhebt der Hosting-Provider (Vercel) automatisch technische Daten:",
     "logsItems": [
-      "IP-Adresse (anonymisiert)",
+      "IP-Adresse bzw. technische Zugriffsdaten",
       "Browser-Typ und -Version",
       "Verwendetes Betriebssystem",
       "Datum und Uhrzeit der Anfrage",
@@ -131,7 +131,7 @@
     "aktualitaetP2": "Bei wesentlichen Änderungen aktualisieren wir diese Datenschutzerklärung. Die jeweils aktuelle Version finden Sie auf dieser Seite.",
     "contactFormHeading": "Kontaktformular",
     "contactFormP1": "Wenn du das Kontaktformular nutzt, verarbeiten wir die von dir eingegebenen Angaben wie Name, E-Mail-Adresse, Anfrageart, optionale Profil- oder Webadresse und Nachricht, um deine Anfrage zu beantworten.",
-    "contactFormP2": "Die Übermittlung erfolgt über diese Website auf Vercel. Für den E-Mail-Versand kann ein externer E-Mail-Dienst, zum Beispiel Resend, eingesetzt werden. Die Angaben werden dabei ausschließlich zur Zustellung und Bearbeitung deiner Anfrage verarbeitet.",
+    "contactFormP2": "Die Übermittlung erfolgt über diese Website auf Vercel. Für den E-Mail-Versand nutzen wir Resend, Inc. Die Angaben werden dabei ausschließlich zur Zustellung und Bearbeitung deiner Anfrage verarbeitet.",
     "contactFormP3": "Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit es um vorvertragliche oder vertragliche Anfragen geht, sowie Art. 6 Abs. 1 lit. f DSGVO für sonstige Kommunikation. Anfragen werden gelöscht, sobald sie nicht mehr erforderlich sind, sofern keine gesetzlichen Aufbewahrungspflichten bestehen."
   },
   "notFound": {
@@ -168,6 +168,6 @@
     "intro": "Wenn du überlegst, einen Tesla zu bestellen, kannst du meinen persönlichen Empfehlungslink nutzen. Je nach aktuellem Tesla-Programm können für dich und/oder mich Vorteile entstehen. Die konkreten Bedingungen zeigt Tesla direkt im Bestellprozess.",
     "button": "Tesla Link öffnen",
     "note": "Externer Link zu Tesla. Ich bin nicht Tesla und nicht offiziell mit Tesla verbunden. Ich erhalte ggf. Vorteile, wenn über diesen Link eine qualifizierte Bestellung oder Probefahrt erfolgt.",
-    "small": "Bitte prüfe die aktuellen Bedingungen direkt bei Tesla, weil Programme und Vorteile sich ändern können."
+    "small": "Bitte prüfe die aktuellen Bedingungen direkt bei Tesla, weil Programme und Vorteile sich ändern können. Dies ist keine Kauf-, Finanz- oder Rechtsberatung."
   }
 }

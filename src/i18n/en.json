@@ -101,7 +101,7 @@
     "logsHeading": "Server logs",
     "logsP1": "When the website is accessed, the hosting provider (Vercel) automatically collects technical data:",
     "logsItems": [
-      "IP address (anonymised)",
+      "IP address or technical access data",
       "Browser type and version",
       "Operating system in use",
       "Date and time of the request",
@@ -131,7 +131,7 @@
     "aktualitaetP2": "We update this privacy policy when material changes occur. The current version can always be found on this page.",
     "contactFormHeading": "Contact Form",
     "contactFormP1": "When you use the contact form, we process the information you enter, such as name, email address, enquiry type, optional profile or website address and message, in order to respond to your enquiry.",
-    "contactFormP2": "The form is transmitted through this website hosted on Vercel. An external email service, for example Resend, may be used for email delivery. The information is processed only to deliver and handle your enquiry.",
+    "contactFormP2": "The form is transmitted through this website hosted on Vercel. We use Resend, Inc. for email delivery. The information is processed only to deliver and handle your enquiry.",
     "contactFormP3": "The legal basis is Art. 6(1)(b) GDPR where the enquiry relates to pre-contractual or contractual communication, and Art. 6(1)(f) GDPR for other communication. Enquiries are deleted once they are no longer required, unless statutory retention obligations apply."
   },
   "notFound": {
@@ -168,6 +168,6 @@
     "intro": "If you are thinking about ordering a Tesla, you can use my personal referral link. Depending on Tesla's current program, benefits may apply for you and/or me. Tesla shows the exact conditions during the order process.",
     "button": "Open Tesla link",
     "note": "External link to Tesla. I am not Tesla and I am not officially affiliated with Tesla. I may receive benefits if a qualifying order or test drive is made through this link.",
-    "small": "Please check the current conditions directly with Tesla because programs and benefits can change."
+    "small": "Please check the current conditions directly with Tesla because programs and benefits can change. This is not purchasing, financial or legal advice."
   }
 }

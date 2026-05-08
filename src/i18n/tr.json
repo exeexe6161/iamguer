@@ -101,7 +101,7 @@
     "logsHeading": "Sunucu kayıtları",
     "logsP1": "Site açıldığında barındırma sağlayıcısı (Vercel) otomatik olarak teknik veriler toplar:",
     "logsItems": [
-      "IP adresi (anonimleştirilmiş)",
+      "IP adresi veya teknik erişim verileri",
       "Tarayıcı türü ve sürümü",
       "Kullanılan işletim sistemi",
       "Talebin tarih ve saati",
@@ -131,7 +131,7 @@
     "aktualitaetP2": "Önemli değişiklikler olduğunda bu gizlilik politikasını güncelleriz. Güncel sürümünü her zaman bu sayfada bulabilirsiniz.",
     "contactFormHeading": "İletişim formu",
     "contactFormP1": "İletişim formunu kullandığınızda ad, e-posta adresi, talep türü, isteğe bağlı profil veya web adresi ve mesaj gibi girdiğiniz bilgileri talebinizi yanıtlamak için işleriz.",
-    "contactFormP2": "Form bu web sitesi üzerinden, Vercel altyapısı kullanılarak iletilir. E-posta gönderimi için Resend gibi harici bir e-posta hizmeti kullanılabilir. Bilgiler yalnızca talebinizin iletilmesi ve işlenmesi için kullanılır.",
+    "contactFormP2": "Form bu web sitesi üzerinden, Vercel altyapısı kullanılarak iletilir. E-posta gönderimi için Resend, Inc. kullanıyoruz. Bilgiler yalnızca talebinizin iletilmesi ve işlenmesi için kullanılır.",
     "contactFormP3": "Hukuki dayanak, sözleşme öncesi veya sözleşmeye ilişkin talepler için GDPR Madde 6(1)(b), diğer iletişimler için GDPR Madde 6(1)(f)'dir. Talepler artık gerekli olmadığında silinir; yasal saklama yükümlülükleri saklıdır."
   },
   "notFound": {
@@ -168,6 +168,6 @@
     "intro": "Tesla siparişi vermeyi düşünüyorsan kişisel referans bağlantımı kullanabilirsin. Tesla'nın güncel programına göre senin ve/veya benim için avantajlar oluşabilir. Kesin şartları Tesla sipariş sürecinde gösterir.",
     "button": "Tesla bağlantısını aç",
     "note": "Tesla'ya giden harici bağlantı. Tesla değilim ve Tesla ile resmi bir bağlantım yok. Bu bağlantı üzerinden uygun bir sipariş veya test sürüşü yapılırsa avantaj elde edebilirim.",
-    "small": "Programlar ve avantajlar değişebileceği için güncel şartları doğrudan Tesla'dan kontrol et."
+    "small": "Programlar ve avantajlar değişebileceği için güncel şartları doğrudan Tesla'dan kontrol et. Bu bir satın alma, finans veya hukuk tavsiyesi değildir."
   }
 }
