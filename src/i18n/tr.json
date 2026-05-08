@@ -18,8 +18,6 @@
   "home": {
     "metaDescription": "iamguer — Hakan'ın foto günlüğü. Marburg'dan ve başka her yerden, tam çözünürlükte fotoğraflar.",
     "altFallback": "Hakan / iamguer fotoğrafları",
-    "viewOnInstagram": "Instagram'da görüntüle",
-    "openOnInstagram": "Fotoğrafı Instagram'da aç",
     "schemaName": "iamguer — Güncel fotoğraflar",
     "schemaDescription": "Marburg'dan ve yollardan güncel fotoğraflar; Hakan tarafından derlendi.",
     "noImagesYet": "Henüz fotoğraf yok — ilk kareler yakında gelecek.",

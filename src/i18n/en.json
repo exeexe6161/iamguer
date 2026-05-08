@@ -18,8 +18,6 @@
   "home": {
     "metaDescription": "iamguer — a photo diary by Hakan. Images from Marburg and everywhere else, in full resolution.",
     "altFallback": "Photography by Hakan / iamguer",
-    "viewOnInstagram": "View on Instagram",
-    "openOnInstagram": "Open photo on Instagram",
     "schemaName": "iamguer — Recent images",
     "schemaDescription": "Recent photographs from Marburg and the road, curated by Hakan.",
     "noImagesYet": "No images available yet — the first frames will follow soon.",
