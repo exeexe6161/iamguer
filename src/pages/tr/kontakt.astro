@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactForm from '../../components/ContactForm.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -11,11 +12,39 @@ const t = useTranslations(lang);
   description={t('kontakt.metaDescription')}
   currentPath="/kontakt"
 >
-  <section class="px-7 py-16 max-w-4xl mx-auto">
-    <h1 class="text-text-primary text-5xl tracking-tight font-light">{t('kontakt.heading')}</h1>
-    <p class="text-text-secondary mt-4">
-      {t('kontakt.intro')}
-      <a href="mailto:hello@iamguer.com" class="text-accent">hello@iamguer.com</a>
-    </p>
+  <section class="px-7 py-16 md:py-24 max-w-6xl mx-auto">
+    <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+      <div>
+        <p class="text-xs uppercase tracking-[0.28em] text-text-muted">
+          {t('kontakt.eyebrow')}
+        </p>
+        <h1 class="mt-5 text-text-primary text-5xl md:text-7xl tracking-tight font-light">
+          {t('kontakt.heading')}
+        </h1>
+        <p class="mt-6 max-w-xl text-text-secondary leading-relaxed font-light">
+          {t('kontakt.intro')}
+        </p>
+
+        <div class="mt-10 space-y-5 border-t border-line pt-8">
+          <div>
+            <p class="text-xs uppercase tracking-[0.22em] text-text-muted">
+              {t('kontakt.directLabel')}
+            </p>
+            <a
+              href="mailto:hello@iamguer.com"
+              class="mt-2 inline-flex text-xl text-text-primary transition hover:text-accent"
+            >
+              hello@iamguer.com
+            </a>
+          </div>
+
+          <p class="max-w-md text-sm leading-relaxed text-text-muted">
+            {t('kontakt.note')}
+          </p>
+        </div>
+      </div>
+
+      <ContactForm lang={lang} />
+    </div>
   </section>
 </BaseLayout>

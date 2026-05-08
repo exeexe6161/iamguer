@@ -35,9 +35,25 @@
   },
   "kontakt": {
     "metaTitle": "İletişim",
-    "metaDescription": "İletişim talepleri ve iş birlikleri — doğrudan hello@iamguer.com adresine yazabilirsiniz.",
+    "metaDescription": "iamguer için iletişim, sponsorluk ve iş birliği talepleri formu.",
     "heading": "İletişim",
-    "intro": "Bana yazmaktan çekinmeyin. İletişim formu yakında — o zamana kadar doğrudan:"
+    "intro": "Genel sorular, sponsorluklar, iş birlikleri veya görsel kullanım talepleri için buradan yazabilirsiniz.",
+    "eyebrow": "İletişim",
+    "directLabel": "Direkt",
+    "note": "Sponsorluk ve iş birliği taleplerinde lütfen zamanlama, platform ve genel fikri ekleyin. En kısa sürede dönüş yaparım.",
+    "typeLabel": "Talep türü",
+    "typeGeneral": "Genel soru",
+    "typeSponsor": "Sponsorluk / marka talebi",
+    "typeCollaboration": "İş birliği",
+    "typePhoto": "Görsel kullanımı / haklar",
+    "nameLabel": "İsim",
+    "emailLabel": "E-posta",
+    "handleLabel": "Instagram / web sitesi",
+    "messageLabel": "Mesaj",
+    "privacyBefore": "",
+    "privacyLink": "Gizlilik bilgilendirmesini",
+    "privacyAfter": " okudum ve bilgilerimin bu talebin işlenmesi için kullanılmasını kabul ediyorum.",
+    "submitLabel": "Talebi gönder"
   },
   "impressum": {
     "metaTitle": "Künye",
@@ -111,7 +127,11 @@
     "rechteP3": "Yetkili denetim makamına şikayette bulunma hakkına sahipsiniz. Hessen için bu makam, Hessen Veri Koruma ve Bilgi Edinme Özgürlüğü Yetkilisi'dir:",
     "aktualitaetHeading": "Güncellik",
     "aktualitaetStand": "Son güncelleme: {date}",
-    "aktualitaetP2": "Önemli değişiklikler olduğunda bu gizlilik politikasını güncelleriz. Güncel sürümünü her zaman bu sayfada bulabilirsiniz."
+    "aktualitaetP2": "Önemli değişiklikler olduğunda bu gizlilik politikasını güncelleriz. Güncel sürümünü her zaman bu sayfada bulabilirsiniz.",
+    "contactFormHeading": "İletişim formu",
+    "contactFormP1": "İletişim formunu kullandığınızda ad, e-posta adresi, talep türü, isteğe bağlı profil veya web adresi ve mesaj gibi girdiğiniz bilgileri talebinizi yanıtlamak için işleriz.",
+    "contactFormP2": "Form bu web sitesi üzerinden, Vercel altyapısı kullanılarak iletilir. E-posta gönderimi için Resend gibi harici bir e-posta hizmeti kullanılabilir. Bilgiler yalnızca talebinizin iletilmesi ve işlenmesi için kullanılır.",
+    "contactFormP3": "Hukuki dayanak, sözleşme öncesi veya sözleşmeye ilişkin talepler için GDPR Madde 6(1)(b), diğer iletişimler için GDPR Madde 6(1)(f)'dir. Talepler artık gerekli olmadığında silinir; yasal saklama yükümlülükleri saklıdır."
   },
   "notFound": {
     "metaTitle": "404",

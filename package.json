@@ -17,6 +17,7 @@
     "@fontsource/instrument-serif": "^5.2.8",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.2.1",
+    "resend": "^6.12.3",
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {

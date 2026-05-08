@@ -1,0 +1,190 @@
+---
+import { localizedPath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const privacyPath = localizedPath('/datenschutz', lang);
+
+const types = [
+  ['general', t('kontakt.typeGeneral')],
+  ['sponsor', t('kontakt.typeSponsor')],
+  ['collaboration', t('kontakt.typeCollaboration')],
+  ['photo', t('kontakt.typePhoto')],
+];
+---
+
+<form
+  data-contact-form
+  action="/api/contact"
+  method="post"
+  class="rounded-[2rem] border border-line bg-surface/70 p-5 md:p-8 shadow-2xl shadow-black/10 backdrop-blur"
+>
+  <input type="hidden" name="lang" value={lang} />
+
+  <div class="hidden" aria-hidden="true">
+    <label>
+      Website
+      <input name="website" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <label class="block">
+      <span class="text-xs uppercase tracking-[0.22em] text-text-muted">{t('kontakt.typeLabel')}</span>
+      <select
+        name="type"
+        required
+        class="mt-2 w-full rounded-2xl border border-line bg-canvas px-4 py-3 text-text-primary outline-none transition focus:border-line-strong"
+      >
+        {types.map(([value, label]) => <option value={value}>{label}</option>)}
+      </select>
+    </label>
+
+    <label class="block">
+      <span class="text-xs uppercase tracking-[0.22em] text-text-muted">{t('kontakt.nameLabel')}</span>
+      <input
+        name="name"
+        required
+        minlength="2"
+        maxlength="120"
+        autocomplete="name"
+        class="mt-2 w-full rounded-2xl border border-line bg-canvas px-4 py-3 text-text-primary outline-none transition focus:border-line-strong"
+      />
+    </label>
+  </div>
+
+  <div class="mt-4 grid gap-4 md:grid-cols-2">
+    <label class="block">
+      <span class="text-xs uppercase tracking-[0.22em] text-text-muted">{t('kontakt.emailLabel')}</span>
+      <input
+        name="email"
+        type="email"
+        required
+        maxlength="180"
+        autocomplete="email"
+        class="mt-2 w-full rounded-2xl border border-line bg-canvas px-4 py-3 text-text-primary outline-none transition focus:border-line-strong"
+      />
+    </label>
+
+    <label class="block">
+      <span class="text-xs uppercase tracking-[0.22em] text-text-muted">{t('kontakt.handleLabel')}</span>
+      <input
+        name="handle"
+        maxlength="160"
+        autocomplete="url"
+        placeholder="@iamguer / Website"
+        class="mt-2 w-full rounded-2xl border border-line bg-canvas px-4 py-3 text-text-primary outline-none transition focus:border-line-strong"
+      />
+    </label>
+  </div>
+
+  <label class="mt-4 block">
+    <span class="text-xs uppercase tracking-[0.22em] text-text-muted">{t('kontakt.messageLabel')}</span>
+    <textarea
+      name="message"
+      required
+      minlength="10"
+      maxlength="3000"
+      rows="7"
+      class="mt-2 w-full resize-y rounded-2xl border border-line bg-canvas px-4 py-3 text-text-primary outline-none transition focus:border-line-strong"
+    ></textarea>
+  </label>
+
+  <label class="mt-5 flex gap-3 text-sm leading-relaxed text-text-secondary">
+    <input
+      type="checkbox"
+      name="privacy"
+      value="yes"
+      required
+      class="mt-1 h-4 w-4 rounded border-line bg-canvas accent-text-primary"
+    />
+    <span>
+      {t('kontakt.privacyBefore')}
+      <a href={privacyPath} class="text-accent transition hover:text-text-primary">{t('kontakt.privacyLink')}</a>
+      {t('kontakt.privacyAfter')}
+    </span>
+  </label>
+
+  <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <p
+      data-contact-status
+      class="min-h-5 text-sm text-text-secondary"
+      role="status"
+      aria-live="polite"
+      hidden
+    ></p>
+    <button
+      type="submit"
+      class="inline-flex min-h-12 items-center justify-center rounded-full border border-line-strong bg-text-primary px-7 text-sm font-medium uppercase tracking-[0.22em] text-canvas transition hover:bg-accent disabled:cursor-wait disabled:opacity-60"
+    >
+      {t('kontakt.submitLabel')}
+      <span class="ml-3" aria-hidden="true">→</span>
+    </button>
+  </div>
+</form>
+
+<script is:inline data-astro-rerun>
+  (function () {
+    function initContactForms() {
+      document.querySelectorAll('[data-contact-form]').forEach(function (form) {
+        if (form.dataset.ready === '1') return;
+        form.dataset.ready = '1';
+
+        var status = form.querySelector('[data-contact-status]');
+        var submit = form.querySelector('button[type="submit"]');
+
+        function show(message, ok) {
+          if (!status) return;
+          status.hidden = false;
+          status.textContent = message;
+          status.classList.toggle('text-accent', !!ok);
+          status.classList.toggle('text-text-secondary', !ok);
+        }
+
+        form.addEventListener('submit', async function (event) {
+          event.preventDefault();
+
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+
+          var body = Object.fromEntries(new FormData(form).entries());
+
+          submit.disabled = true;
+          show('Wird gesendet ...', false);
+
+          try {
+            var response = await fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(body),
+            });
+
+            var result = await response.json().catch(function () {
+              return {};
+            });
+
+            if (!response.ok || !result.ok) {
+              throw new Error(result.error || 'Senden fehlgeschlagen.');
+            }
+
+            form.reset();
+            show(result.message || 'Danke, deine Nachricht wurde gesendet.', true);
+          } catch (error) {
+            show(error.message || 'Die Nachricht konnte gerade nicht gesendet werden.', false);
+          } finally {
+            submit.disabled = false;
+          }
+        });
+      });
+    }
+
+    document.addEventListener('astro:page-load', initContactForms);
+    initContactForms();
+  })();
+</script>

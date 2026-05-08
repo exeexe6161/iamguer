@@ -35,9 +35,25 @@
   },
   "kontakt": {
     "metaTitle": "Contact",
-    "metaDescription": "Enquiries and collaborations — write directly to hello@iamguer.com.",
+    "metaDescription": "Contact form for enquiries, sponsorships and collaborations with iamguer.",
     "heading": "Contact",
-    "intro": "Drop me a line. Contact form coming soon — until then:"
+    "intro": "For general enquiries, sponsorships, collaborations or image licensing, you can write directly here.",
+    "eyebrow": "Contact",
+    "directLabel": "Direct",
+    "note": "For sponsorship and collaboration enquiries, please include timing, platform and a rough idea. I will reply as soon as possible.",
+    "typeLabel": "Enquiry type",
+    "typeGeneral": "General enquiry",
+    "typeSponsor": "Sponsorship / brand enquiry",
+    "typeCollaboration": "Collaboration",
+    "typePhoto": "Image use / rights",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "handleLabel": "Instagram / website",
+    "messageLabel": "Message",
+    "privacyBefore": "I have read the ",
+    "privacyLink": "privacy notice",
+    "privacyAfter": " and agree that my details may be processed to handle this enquiry.",
+    "submitLabel": "Send enquiry"
   },
   "impressum": {
     "metaTitle": "Imprint",
@@ -111,7 +127,11 @@
     "rechteP3": "You have the right to lodge a complaint with the competent supervisory authority. For Hessen, this is the Hessischer Beauftragter für Datenschutz und Informationsfreiheit:",
     "aktualitaetHeading": "Currency of this notice",
     "aktualitaetStand": "Last updated: {date}",
-    "aktualitaetP2": "We update this privacy policy when material changes occur. The current version can always be found on this page."
+    "aktualitaetP2": "We update this privacy policy when material changes occur. The current version can always be found on this page.",
+    "contactFormHeading": "Contact Form",
+    "contactFormP1": "When you use the contact form, we process the information you enter, such as name, email address, enquiry type, optional profile or website address and message, in order to respond to your enquiry.",
+    "contactFormP2": "The form is transmitted through this website hosted on Vercel. An external email service, for example Resend, may be used for email delivery. The information is processed only to deliver and handle your enquiry.",
+    "contactFormP3": "The legal basis is Art. 6(1)(b) GDPR where the enquiry relates to pre-contractual or contractual communication, and Art. 6(1)(f) GDPR for other communication. Enquiries are deleted once they are no longer required, unless statutory retention obligations apply."
   },
   "notFound": {
     "metaTitle": "404",

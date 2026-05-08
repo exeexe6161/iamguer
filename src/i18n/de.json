@@ -35,9 +35,25 @@
   },
   "kontakt": {
     "metaTitle": "Kontakt",
-    "metaDescription": "Kontaktanfragen und Kollaborationen — schreib direkt an hello@iamguer.com.",
+    "metaDescription": "Kontaktformular für Anfragen, Sponsoring und Kooperationen mit iamguer.",
     "heading": "Kontakt",
-    "intro": "Schreib mir gerne. Formular kommt bald — bis dahin direkt:"
+    "intro": "Für normale Anfragen, Sponsorings, Kooperationen oder Bildnutzungen kannst du mir hier direkt schreiben.",
+    "eyebrow": "Kontakt",
+    "directLabel": "Direkt",
+    "note": "Sponsor- und Kooperationsanfragen bitte mit Zeitraum, Plattform und grober Idee senden. Ich antworte so bald wie möglich.",
+    "typeLabel": "Anfrageart",
+    "typeGeneral": "Normale Anfrage",
+    "typeSponsor": "Sponsoring / Brand Anfrage",
+    "typeCollaboration": "Kooperation",
+    "typePhoto": "Bildnutzung / Rechte",
+    "nameLabel": "Name",
+    "emailLabel": "E-Mail",
+    "handleLabel": "Instagram / Website",
+    "messageLabel": "Nachricht",
+    "privacyBefore": "Ich habe die ",
+    "privacyLink": "Datenschutzhinweise",
+    "privacyAfter": " gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage einverstanden.",
+    "submitLabel": "Anfrage senden"
   },
   "impressum": {
     "metaTitle": "Impressum",
@@ -111,7 +127,11 @@
     "rechteP3": "Sie haben das Recht, sich bei der zuständigen Aufsichtsbehörde zu beschweren. Für Hessen ist dies der Hessische Beauftragte für Datenschutz und Informationsfreiheit:",
     "aktualitaetHeading": "Aktualität",
     "aktualitaetStand": "Stand: {date}",
-    "aktualitaetP2": "Bei wesentlichen Änderungen aktualisieren wir diese Datenschutzerklärung. Die jeweils aktuelle Version finden Sie auf dieser Seite."
+    "aktualitaetP2": "Bei wesentlichen Änderungen aktualisieren wir diese Datenschutzerklärung. Die jeweils aktuelle Version finden Sie auf dieser Seite.",
+    "contactFormHeading": "Kontaktformular",
+    "contactFormP1": "Wenn du das Kontaktformular nutzt, verarbeiten wir die von dir eingegebenen Angaben wie Name, E-Mail-Adresse, Anfrageart, optionale Profil- oder Webadresse und Nachricht, um deine Anfrage zu beantworten.",
+    "contactFormP2": "Die Übermittlung erfolgt über diese Website auf Vercel. Für den E-Mail-Versand kann ein externer E-Mail-Dienst, zum Beispiel Resend, eingesetzt werden. Die Angaben werden dabei ausschließlich zur Zustellung und Bearbeitung deiner Anfrage verarbeitet.",
+    "contactFormP3": "Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit es um vorvertragliche oder vertragliche Anfragen geht, sowie Art. 6 Abs. 1 lit. f DSGVO für sonstige Kommunikation. Anfragen werden gelöscht, sobald sie nicht mehr erforderlich sind, sofern keine gesetzlichen Aufbewahrungspflichten bestehen."
   },
   "notFound": {
     "metaTitle": "404",
