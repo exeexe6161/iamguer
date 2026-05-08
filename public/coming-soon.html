@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>iamguer — coming soon</title>
+<meta name="robots" content="noindex,nofollow" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --fg: #f3efe8;
+    --muted: rgba(243, 239, 232, 0.5);
+    --faint: rgba(243, 239, 232, 0.18);
+    --hair: rgba(243, 239, 232, 0.12);
+    --warm: oklch(78% 0.06 70);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--fg); }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* warm radial wash, like the last hour of sun */
+  .wash {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 55%, oklch(28% 0.05 60 / 0.55), transparent 70%),
+      radial-gradient(ellipse 100% 80% at 50% 120%, oklch(22% 0.04 50 / 0.4), transparent 60%),
+      var(--bg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* film grain */
+  .grain {
+    position: fixed; inset: -20%;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 1   0 0 0 0 1   0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 5;
+    animation: grainShift 1.6s steps(6) infinite;
+  }
+  @keyframes grainShift {
+    0%   { transform: translate(0,0); }
+    20%  { transform: translate(-4%, 3%); }
+    40%  { transform: translate(3%, -2%); }
+    60%  { transform: translate(-2%, -3%); }
+    80%  { transform: translate(2%, 4%); }
+    100% { transform: translate(0,0); }
+  }
+
+  /* vignette */
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 55%, rgba(0,0,0,0.65) 100%);
+    pointer-events: none;
+    z-index: 6;
+  }
+
+  .stage {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    z-index: 10;
+  }
+
+  /* top bar */
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 36px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* language switcher */
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--hair);
+    border-radius: 999px;
+    padding: 4px;
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(6px);
+  }
+  .lang button {
+    appearance: none;
+    background: transparent;
+    color: var(--muted);
+    border: 0;
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 200ms ease, background 200ms ease;
+  }
+  .lang button:hover { color: var(--fg); }
+  .lang button.active {
+    color: var(--bg);
+    background: var(--fg);
+  }
+  body.light .lang { background: rgba(0,0,0,0.03); }
+
+  /* sound toggle */
+  .sound {
+    appearance: none;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--hair);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .sound:hover { color: var(--fg); border-color: var(--fg); }
+  .sound .ico {
+    display: inline-block;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--warm);
+    box-shadow: 0 0 8px oklch(78% 0.1 70 / 0.5);
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+  .sound[data-on="false"] .ico { background: var(--faint); box-shadow: none; }
+  header.top .dot {
+    display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--warm);
+    margin-right: 10px;
+    box-shadow: 0 0 10px oklch(78% 0.1 70 / 0.6);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.8); }
+  }
+  header.top .right { display: flex; gap: 22px; }
+  header.top .right span { color: var(--faint); }
+
+  /* center block */
+  main.center {
+    position: relative;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  /* the dimmed/blurred wordmark */
+  .mark-wrap {
+    position: relative;
+    width: min(1100px, 92vw);
+    aspect-ratio: 1100 / 320;
+    display: grid;
+    place-items: center;
+  }
+  .mark {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    font-size: clamp(72px, 18vw, 240px);
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--fg);
+    filter: blur(var(--mark-blur, 8px));
+    opacity: var(--mark-opacity, 0.32);
+    mix-blend-mode: screen;
+    user-select: none;
+    animation: breathe 7s ease-in-out infinite;
+    text-shadow: 0 0 40px oklch(70% 0.08 60 / 0.25);
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: var(--mark-opacity, 0.32); filter: blur(var(--mark-blur, 8px)); }
+    50%      { transform: scale(1.015); opacity: calc(var(--mark-opacity, 0.32) * 1.4); filter: blur(calc(var(--mark-blur, 8px) * 0.7)); }
+  }
+
+  /* overlaid copy block sitting in front of the mark */
+  .copy {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    grid-auto-flow: row;
+    gap: 28px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .tagline {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(20px, 2.6vw, 30px);
+    line-height: 1.35;
+    color: var(--fg);
+    max-width: 28ch;
+    text-wrap: pretty;
+  }
+  .tagline .accent { color: var(--warm); }
+
+  /* countdown */
+  .countdown {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: end;
+    gap: clamp(14px, 3vw, 40px);
+    margin-top: 8px;
+  }
+  .unit {
+    display: grid;
+    gap: 8px;
+    text-align: center;
+    min-width: 64px;
+  }
+  .unit .num {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    font-size: clamp(36px, 5.5vw, 72px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg);
+  }
+  .unit .label {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sep {
+    align-self: center;
+    color: var(--faint);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 100;
+    transform: translateY(-6px);
+  }
+
+  /* footer */
+  footer.bottom {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 28px 36px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    gap: 24px;
+  }
+  footer.bottom .center-cell {
+    color: var(--faint);
+    text-align: center;
+  }
+  footer.bottom .right-cell {
+    text-align: right;
+    display: inline-flex;
+    gap: 18px;
+    justify-self: end;
+  }
+  footer.bottom a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--hair);
+    padding-bottom: 1px;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  footer.bottom a:hover { color: var(--fg); border-color: var(--fg); }
+
+  /* hair line bottom */
+  .progress {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--hair);
+  }
+  .progress > span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--warm), transparent);
+    width: 0%;
+    transition: width 1s linear;
+  }
+
+  /* light theme variant */
+  body.light {
+    --bg: #efeae1;
+    --fg: #1a1815;
+    --muted: rgba(26,24,21,0.55);
+    --faint: rgba(26,24,21,0.25);
+    --hair: rgba(26,24,21,0.18);
+  }
+  body.light .wash {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 55%, oklch(85% 0.04 70 / 0.5), transparent 70%),
+      radial-gradient(ellipse 100% 80% at 50% 120%, oklch(80% 0.03 50 / 0.35), transparent 60%),
+      var(--bg);
+  }
+  body.light .grain { mix-blend-mode: multiply; opacity: 0.12; }
+  body.light .vignette { background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 55%, rgba(0,0,0,0.18) 100%); }
+  body.light .mark { mix-blend-mode: multiply; }
+
+  @media (max-width: 640px) {
+    header.top, footer.bottom { padding: 20px 20px; }
+    footer.bottom { grid-template-columns: 1fr; text-align: center; }
+    footer.bottom .right-cell { justify-self: center; }
+    .countdown { gap: 14px; }
+    .copy { gap: 22px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wash"></div>
+
+  <div class="stage">
+    <header class="top">
+      <div><span class="dot"></span><span id="topLine">iamguer · launch incoming</span></div>
+      <div class="right">
+        <nav class="lang" id="lang" aria-label="Language">
+          <button data-lang="de" type="button">DE</button>
+          <button data-lang="en" type="button">EN</button>
+          <button data-lang="tr" type="button">TR</button>
+        </nav>
+        <button class="sound" id="sound" data-on="false" type="button">
+          <span class="ico"></span><span id="soundLabel">Sound</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="center">
+      <div class="mark-wrap">
+        <div class="mark" id="mark">iamguer</div>
+        <div class="copy">
+          <div class="eyebrow" id="eyebrow">Coming soon</div>
+          <div class="tagline" id="tagline">
+            A photo diary, slowly developing.<br/>
+            <span class="accent">Salt, sea, summer light</span> — soon, somewhere warm.
+          </div>
+          <div class="countdown" id="countdown" aria-live="polite">
+            <div class="unit"><div class="num" id="d">00</div><div class="label" data-key="days">Days</div></div>
+            <div class="sep">:</div>
+            <div class="unit"><div class="num" id="h">00</div><div class="label" data-key="hours">Hours</div></div>
+            <div class="sep">:</div>
+            <div class="unit"><div class="num" id="m">00</div><div class="label" data-key="minutes">Minutes</div></div>
+            <div class="sep">:</div>
+            <div class="unit"><div class="num" id="s">00</div><div class="label" data-key="seconds">Seconds</div></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="left-cell">© 2026 · iamguer</div>
+      <div class="center-cell" id="launchLabel">Launches —</div>
+      <div class="right-cell">
+        <a href="https://instagram.com/iamguer" target="_blank" rel="noopener">Instagram ↗</a>
+      </div>
+    </footer>
+
+    <audio id="bgaudio" src="/audio/iamguer-ambient.mp3" loop preload="auto"></audio>
+
+    <div class="progress"><span id="bar"></span></div>
+  </div>
+
+  <div class="vignette"></div>
+  <div class="grain"></div>
+
+  <script>
+    // ---- Tweakable defaults ----
+    const TWEAKS = /*EDITMODE-BEGIN*/{
+      "launchISO": "2026-05-31T20:00:00+02:00",
+      "blurPx": 6,
+      "opacity": 0.16,
+      "copyVariant": "shutter",
+      "theme": "light",
+      "lang": "de"
+    }/*EDITMODE-END*/;
+
+    // localized copy: per-language → per-variant
+    const COPY = {
+      en: {
+        topLine: 'iamguer · launch incoming',
+        sound: { on: 'Sound on', off: 'Sound off' },
+        labels: { days: 'Days', hours: 'Hours', minutes: 'Minutes', seconds: 'Seconds' },
+        launchPrefix: 'Launches',
+        locale: 'en-GB',
+        variants: {
+          salt:    { eyebrow: 'Coming soon',         html: 'A photo diary, slowly developing.<br/><span class="accent">Salt, sea, summer light</span> — soon, somewhere warm.' },
+          shutter: { eyebrow: 'Loading the shutter', html: 'Frames waiting to be seen.<br/><span class="accent">A new chapter</span> opens shortly.' },
+          quiet:   { eyebrow: 'Almost there',        html: 'Quiet light. Long exposures.<br/>The site arrives <span class="accent">very soon</span>.' },
+          memory:  { eyebrow: 'On its way',          html: 'A small archive of warm days.<br/><span class="accent">Returning</span> — slower, brighter, soon.' },
+        },
+      },
+      de: {
+        topLine: 'iamguer · Start steht bevor',
+        sound: { on: 'Ton an', off: 'Ton aus' },
+        labels: { days: 'Tage', hours: 'Stunden', minutes: 'Minuten', seconds: 'Sekunden' },
+        launchPrefix: 'Erscheint',
+        locale: 'de-DE',
+        variants: {
+          salt:    { eyebrow: 'In Kürze',            html: 'Ein Foto-Tagebuch, das sich langsam entwickelt.<br/><span class="accent">Salz, Meer, Sommerlicht</span> — bald, irgendwo warm.' },
+          shutter: { eyebrow: 'Der Verschluss lädt', html: 'Bilder, die noch gesehen werden wollen.<br/><span class="accent">Ein neues Kapitel</span> öffnet sich bald.' },
+          quiet:   { eyebrow: 'Fast da',             html: 'Stilles Licht. Lange Belichtungen.<br/>Die Seite erscheint <span class="accent">sehr bald</span>.' },
+          memory:  { eyebrow: 'Auf dem Weg',         html: 'Ein kleines Archiv warmer Tage.<br/><span class="accent">Zurück</span> — langsamer, heller, bald.' },
+        },
+      },
+      tr: {
+        topLine: 'iamguer · lansman yaklaşıyor',
+        sound: { on: 'Ses açık', off: 'Ses kapalı' },
+        labels: { days: 'Gün', hours: 'Saat', minutes: 'Dakika', seconds: 'Saniye' },
+        launchPrefix: 'Açılış',
+        locale: 'tr-TR',
+        variants: {
+          salt:    { eyebrow: 'Çok yakında',            html: 'Yavaşça gelişen bir fotoğraf günlüğü.<br/><span class="accent">Tuz, deniz, yaz ışığı</span> — yakında, sıcak bir yerde.' },
+          shutter: { eyebrow: 'Deklanşör yükleniyor',   html: 'Görülmeyi bekleyen kareler.<br/><span class="accent">Yeni bir bölüm</span> yakında açılıyor.' },
+          quiet:   { eyebrow: 'Neredeyse burada',       html: 'Sessiz ışık. Uzun pozlama.<br/>Site <span class="accent">çok yakında</span> geliyor.' },
+          memory:  { eyebrow: 'Yolda',                  html: 'Sıcak günlerin küçük bir arşivi.<br/><span class="accent">Geri dönüyor</span> — daha yavaş, daha parlak, yakında.' },
+        },
+      },
+    };
+
+    function applyTweaks(t) {
+      document.body.classList.toggle('light', t.theme === 'light');
+      const mark = document.getElementById('mark');
+      mark.style.setProperty('--mark-blur', t.blurPx + 'px');
+      mark.style.setProperty('--mark-opacity', t.opacity);
+      // breathe animation reads from the same vars on the element
+      mark.style.filter = `blur(${t.blurPx}px)`;
+      mark.style.opacity = t.opacity;
+
+      const lang = COPY[t.lang] ? t.lang : 'en';
+      const L = COPY[lang];
+      document.documentElement.setAttribute('lang', lang);
+
+      const cv = L.variants[t.copyVariant] || L.variants.salt;
+      document.getElementById('eyebrow').textContent = cv.eyebrow;
+      document.getElementById('tagline').innerHTML = cv.html;
+
+      // top header line
+      document.getElementById('topLine').textContent = L.topLine;
+
+      // countdown unit labels
+      document.querySelectorAll('.unit .label').forEach((el) => {
+        const k = el.getAttribute('data-key');
+        if (L.labels[k]) el.textContent = L.labels[k];
+      });
+
+      // sound button label reflects current state, but uses localized strings
+      const sb = document.getElementById('sound');
+      const slbl = document.getElementById('soundLabel');
+      if (sb && slbl) {
+        const on = sb.getAttribute('data-on') === 'true';
+        slbl.textContent = on ? L.sound.on : L.sound.off;
+      }
+
+      // active language pill
+      document.querySelectorAll('.lang button').forEach((b) => {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+      });
+
+      // launch label
+      try {
+        const d = new Date(t.launchISO);
+        const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('launchLabel').textContent =
+          L.launchPrefix + ' · ' + d.toLocaleDateString(L.locale, opts);
+      } catch (e) {}
+    }
+
+    // ---- Countdown ticker ----
+    const START = Date.now();
+    function tick() {
+      const target = new Date(TWEAKS.launchISO).getTime();
+      const now = Date.now();
+      let diff = Math.max(0, target - now);
+      const day = 86400000, hr = 3600000, mn = 60000;
+      const D = Math.floor(diff / day); diff -= D * day;
+      const H = Math.floor(diff / hr); diff -= H * hr;
+      const M = Math.floor(diff / mn); diff -= M * mn;
+      const S = Math.floor(diff / 1000);
+      const pad = (n) => String(n).padStart(2, '0');
+      document.getElementById('d').textContent = pad(D);
+      document.getElementById('h').textContent = pad(H);
+      document.getElementById('m').textContent = pad(M);
+      document.getElementById('s').textContent = pad(S);
+
+      // progress bar — assumes a 60-day window; clamps either side
+      const total = 60 * day;
+      const elapsed = Math.min(total, Math.max(0, total - (target - now)));
+      const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
+      document.getElementById('bar').style.width = pct + '%';
+    }
+    applyTweaks(TWEAKS);
+    tick();
+    setInterval(tick, 1000);
+
+    // ---- Language switcher ----
+    document.querySelectorAll('.lang button').forEach((b) => {
+      b.addEventListener('click', () => {
+        const lang = b.getAttribute('data-lang');
+        TWEAKS.lang = lang;
+        try { localStorage.setItem('iamguer.lang', lang); } catch (e) {}
+        applyTweaks(TWEAKS);
+      });
+    });
+    // restore saved language on load
+    try {
+      const saved = localStorage.getItem('iamguer.lang');
+      if (saved && COPY[saved]) {
+        TWEAKS.lang = saved;
+        applyTweaks(TWEAKS);
+      }
+    } catch (e) {}
+
+    // ---- Audio: try to autoplay; fall back to first-interaction unlock ----
+    (function () {
+      const audio = document.getElementById('bgaudio');
+      const btn = document.getElementById('sound');
+      const lbl = document.getElementById('soundLabel');
+      if (!audio || !btn) return;
+      audio.volume = 0.3;
+
+      function setUI(on) {
+        btn.setAttribute('data-on', on ? 'true' : 'false');
+        const L = COPY[TWEAKS.lang] || COPY.en;
+        lbl.textContent = on ? L.sound.on : L.sound.off;
+      }
+
+      function play() {
+        const p = audio.play();
+        if (p && typeof p.then === 'function') {
+          p.then(() => setUI(true)).catch(() => setUI(false));
+        } else {
+          setUI(true);
+        }
+      }
+      function pause() { audio.pause(); setUI(false); }
+
+      // Toggle on click
+      btn.addEventListener('click', () => {
+        if (audio.paused) play(); else pause();
+      });
+
+      // Auto-attempt on load
+      play();
+
+      // If autoplay was blocked, unlock on first user interaction
+      function unlock() {
+        if (audio.paused) play();
+        if (!audio.paused) {
+          ['pointerdown','keydown','touchstart'].forEach((ev) =>
+            window.removeEventListener(ev, unlock, true));
+        }
+      }
+      ['pointerdown','keydown','touchstart'].forEach((ev) =>
+        window.addEventListener(ev, unlock, { capture: true, once: false }));
+    })();
+  </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "devCommand": "astro dev --port $PORT --host",
   "crons": [
     {
       "path": "/api/sync-instagram",
