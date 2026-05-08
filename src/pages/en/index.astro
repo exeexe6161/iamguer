@@ -189,6 +189,15 @@ const heroPermalink = hero?.permalink;
             </li>
           ))}
         </ul>
+        <div class="home-grid__footer">
+          <a
+            href={localizedPath('/galerien', lang)}
+            class="home-grid__view-all"
+          >
+            <span>{t('home.viewAllImages')}</span>
+            <span class="home-grid__view-all-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </section>
     )
   }
@@ -420,6 +429,42 @@ const heroPermalink = hero?.permalink;
     padding: 30px 16px 50px;
   }
 
+  .home-grid__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+  }
+
+  .home-grid__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: color-mix(in srgb, currentColor 6%, transparent);
+    color: var(--color-text-primary);
+    border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+    border-radius: 999px;
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .home-grid__view-all:hover,
+  .home-grid__view-all:focus-visible {
+    background: color-mix(in srgb, currentColor 14%, transparent);
+    border-color: color-mix(in srgb, currentColor 45%, transparent);
+    outline: none;
+  }
+
+  .home-grid__view-all-arrow {
+    font-size: 13px;
+    line-height: 0;
+    opacity: 0.7;
+  }
+
   .home-grid ul {
     list-style: none;
     margin: 0;
@@ -510,6 +555,9 @@ const heroPermalink = hero?.permalink;
   @media (min-width: 800px) {
     .home-grid {
       padding: 60px 28px 80px;
+    }
+    .home-grid__footer {
+      margin-top: 40px;
     }
     .home-grid ul {
       grid-template-columns: repeat(3, 1fr);
