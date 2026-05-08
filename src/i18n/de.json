@@ -16,7 +16,7 @@
     "datenschutz": "Datenschutz"
   },
   "home": {
-    "metaDescription": "iamguer — Foto-Tagebuch von Hakan. Bilder aus Marburg und überall sonst, in voller Auflösung.",
+    "metaDescription": "iamguer — Foto-Tagebuch von Hakan. Weboptimierte Bilder aus Marburg und überall sonst.",
     "altFallback": "Fotografie von Hakan / iamguer",
     "schemaName": "iamguer — Aktuelle Bilder",
     "schemaDescription": "Aktuelle Fotografien aus Marburg und unterwegs, kuratiert von Hakan.",
@@ -27,7 +27,7 @@
   },
   "galerien": {
     "metaTitle": "Galerien",
-    "metaDescription": "Vollständige Foto-Galerie von iamguer. Aufnahmen aus Marburg und unterwegs, kuratiert von Hakan.",
+    "metaDescription": "Foto-Galerie von iamguer. Weboptimierte Auswahl aus Marburg und unterwegs, kuratiert von Hakan.",
     "heading": "Galerien",
     "fromInstagram": "Aus Instagram",
     "schemaName": "iamguer — Galerien",
@@ -122,7 +122,8 @@
   },
   "instagramGallery": {
     "empty": "Noch keine Posts geladen — der Cron-Job synchronisiert alle 6h.",
-    "lastSync": "Zuletzt synchronisiert:"
+    "lastSync": "Zuletzt synchronisiert:",
+    "rightsNotice": "Alle Bilder © iamguer. Keine Nutzung ohne Erlaubnis."
   },
   "splash": {
     "taglineLine1": "Salz, Meer, Sommerlicht.",

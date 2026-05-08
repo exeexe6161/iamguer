@@ -16,7 +16,7 @@
     "datenschutz": "Gizlilik"
   },
   "home": {
-    "metaDescription": "iamguer — Hakan'ın foto günlüğü. Marburg'dan ve başka her yerden, tam çözünürlükte fotoğraflar.",
+    "metaDescription": "iamguer — Hakan'ın foto günlüğü. Marburg'dan ve başka yerlerden web için optimize edilmiş kareler.",
     "altFallback": "Hakan / iamguer fotoğrafları",
     "schemaName": "iamguer — Güncel fotoğraflar",
     "schemaDescription": "Marburg'dan ve yollardan güncel fotoğraflar; Hakan tarafından derlendi.",
@@ -27,7 +27,7 @@
   },
   "galerien": {
     "metaTitle": "Galeriler",
-    "metaDescription": "iamguer'in tam foto galerisi. Marburg'dan ve yollardan kareler; Hakan tarafından derlendi.",
+    "metaDescription": "iamguer foto galerisi. Marburg'dan ve yollardan web için optimize edilmiş seçki; Hakan tarafından derlendi.",
     "heading": "Galeriler",
     "fromInstagram": "Instagram'dan",
     "schemaName": "iamguer — Galeriler",
@@ -122,7 +122,8 @@
   },
   "instagramGallery": {
     "empty": "Henüz gönderi yüklenmedi — cron işi 6 saatte bir senkronize eder.",
-    "lastSync": "Son senkronizasyon:"
+    "lastSync": "Son senkronizasyon:",
+    "rightsNotice": "Tüm görseller © iamguer. İzin olmadan kullanılamaz."
   },
   "splash": {
     "taglineLine1": "Tuz, deniz, yaz ışığı.",

@@ -16,7 +16,7 @@
     "datenschutz": "Privacy"
   },
   "home": {
-    "metaDescription": "iamguer — a photo diary by Hakan. Images from Marburg and everywhere else, in full resolution.",
+    "metaDescription": "iamguer — a photo diary by Hakan. Web-optimized images from Marburg and everywhere else.",
     "altFallback": "Photography by Hakan / iamguer",
     "schemaName": "iamguer — Recent images",
     "schemaDescription": "Recent photographs from Marburg and the road, curated by Hakan.",
@@ -27,7 +27,7 @@
   },
   "galerien": {
     "metaTitle": "Galleries",
-    "metaDescription": "The full photo gallery of iamguer. Images from Marburg and the road, curated by Hakan.",
+    "metaDescription": "Photo gallery by iamguer. A web-optimized selection from Marburg and the road, curated by Hakan.",
     "heading": "Galleries",
     "fromInstagram": "From Instagram",
     "schemaName": "iamguer — Galleries",
@@ -122,7 +122,8 @@
   },
   "instagramGallery": {
     "empty": "No posts loaded yet — the cron job syncs every 6 h.",
-    "lastSync": "Last synced:"
+    "lastSync": "Last synced:",
+    "rightsNotice": "All images © iamguer. No use without permission."
   },
   "splash": {
     "taglineLine1": "Salt, sea, summer light.",
