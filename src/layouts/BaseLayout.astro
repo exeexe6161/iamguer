@@ -23,7 +23,7 @@ const {
   title = 'iamguer',
   description = t('home.metaDescription'),
   currentPath = '/',
-  ogImage = '/og-image.png',
+  ogImage = '/og-card.png',
   ogType = 'website',
   noIndex = false,
 } = Astro.props;
@@ -146,19 +146,20 @@ const personJsonLd = {
     <link rel="alternate" hreflang="x-default" href={altDe} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicons/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicons/android-chrome-512x512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
 
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="application-name" content="iamguer" />
 
     <meta name="msapplication-TileColor" content="#0a0a0a" />
+    <meta name="msapplication-TileImage" content="/favicons/mstile-150x150.png" />
     <meta name="msapplication-config" content="/browserconfig.xml" />
 
     <meta name="apple-mobile-web-app-title" content="iamguer" />

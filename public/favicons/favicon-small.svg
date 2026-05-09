@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="iamguer">
+  <title>iamguer</title>
+  <path d="M 9 9 L 91 9 L 91 60 L 87 64 L 90 70 L 80 75 L 84 82 L 70 86 L 65 91 L 9 91 Z" fill="#0a0a0a"/>
+  <circle cx="42" cy="46" r="15" fill="none" stroke="#e8e6e1" stroke-width="6"/>
+  <line x1="56" y1="46" x2="56" y2="78" stroke="#e8e6e1" stroke-width="6" stroke-linecap="square"/>
+  <line x1="44" y1="75" x2="56" y2="75" stroke="#e8e6e1" stroke-width="6" stroke-linecap="square"/>
+</svg>

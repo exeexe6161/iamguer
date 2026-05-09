@@ -43,3 +43,6 @@ Cinematic*.html
 logoiamguer/
 .design-ref/
 iamguer-brand-kittest/
+
+# Local backups
+public.backup-*
