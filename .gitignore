@@ -46,3 +46,6 @@ iamguer-brand-kittest/
 
 # Local backups
 public.backup-*
+
+# Phase 7 staging (post-vacation work)
+.phase7-staging/
