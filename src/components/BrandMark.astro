@@ -6,71 +6,48 @@ interface Props {
 }
 
 const { label = 'iamguer', size = 40, wordmark = false } = Astro.props;
+const lightSrc = wordmark ? '/brand/iamguer-wordmark-light.svg' : '/brand/iamguer-icon-light.svg';
+const darkSrc = wordmark ? '/brand/iamguer-wordmark-dark.svg' : '/brand/iamguer-icon-dark.svg';
 ---
 
-<span
-  class:list={['brand-mark', wordmark && 'brand-mark--with-wordmark']}
-  style={`--brand-mark-size: ${size}px`}
->
-  <svg
-    class="brand-mark__glyph"
-    viewBox="0 0 60 70"
-    height={size}
-    aria-hidden="true"
-  >
-    <circle cx="20" cy="22" r="14" fill="none" stroke="currentColor" stroke-width="3"/>
-    <line x1="33.5" y1="22" x2="33.5" y2="54" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
-    <line x1="22" y1="52.5" x2="33.5" y2="52.5" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
-  </svg>
-
-  {wordmark ? (
-    <svg
-      class="brand-mark__word"
-      viewBox="0 0 480 130"
-      height={size}
-      aria-hidden="true"
-    >
-      <text x="0" y="92" font-family="Inter, InterVariable, system-ui, sans-serif"
-            font-weight="500" font-size="84" fill="currentColor" letter-spacing="-3">iam</text>
-      <g transform="translate(155 0)">
-        <circle cx="26" cy="66" r="26" fill="none" stroke="currentColor" stroke-width="5.5"/>
-        <line x1="49.25" y1="66" x2="49.25" y2="112" stroke="currentColor" stroke-width="5.5" stroke-linecap="square"/>
-        <line x1="28" y1="109.25" x2="49.25" y2="109.25" stroke="currentColor" stroke-width="5.5" stroke-linecap="square"/>
-      </g>
-      <g transform="translate(225 0)">
-        <line x1="2.75" y1="40" x2="2.75" y2="84" stroke="currentColor" stroke-width="5.5" stroke-linecap="square"/>
-        <path d="M 2.75 84 Q 2.75 92 10.75 92 L 35 92 Q 43 92 43 84 L 43 40"
-              fill="none" stroke="currentColor" stroke-width="5.5" stroke-linejoin="miter" stroke-linecap="square"/>
-        <line x1="43" y1="40" x2="43" y2="92" stroke="currentColor" stroke-width="5.5" stroke-linecap="square"/>
-      </g>
-      <g transform="translate(283 0)">
-        <circle cx="26" cy="66" r="26" fill="none" stroke="currentColor" stroke-width="5.5"/>
-        <line x1="2.75" y1="64" x2="49.25" y2="64" stroke="currentColor" stroke-width="5.5" stroke-linecap="square"/>
-      </g>
-      <g transform="translate(345 0)">
-        <line x1="2.75" y1="40" x2="2.75" y2="92" stroke="currentColor" stroke-width="5.5" stroke-linecap="square"/>
-        <path d="M 2.75 51 Q 11 38 26 47"
-              fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="square"/>
-      </g>
-    </svg>
-  ) : (
-    <span class="sr-only">{label}</span>
-  )}
+<span class:list={['brand-mark', wordmark ? 'brand-mark--wordmark' : 'brand-mark--icon']} style={'--brand-mark-size: ' + size + 'px'} aria-label={label} role="img">
+  <img class="brand-mark__asset brand-mark__asset--light" src={lightSrc} alt="" aria-hidden="true" loading="eager" decoding="async" />
+  <img class="brand-mark__asset brand-mark__asset--dark" src={darkSrc} alt="" aria-hidden="true" loading="eager" decoding="async" />
 </span>
 
 <style>
   .brand-mark {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    height: var(--brand-mark-size, 40px);
+    flex: 0 0 auto;
   }
 
-  .brand-mark--with-wordmark {
-    gap: calc(var(--brand-mark-size, 40px) * 0.2);
+  .brand-mark--icon {
+    width: var(--brand-mark-size, 40px);
   }
 
-  .brand-mark__glyph,
-  .brand-mark__word {
+  .brand-mark--wordmark {
+    width: calc(var(--brand-mark-size, 40px) * 3.6);
+  }
+
+  .brand-mark__asset {
     display: block;
-    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .brand-mark__asset--dark {
+    display: none;
+  }
+
+  :global([data-theme='light']) .brand-mark__asset--dark {
+    display: block;
+  }
+
+  :global([data-theme='light']) .brand-mark__asset--light {
+    display: none;
   }
 </style>
