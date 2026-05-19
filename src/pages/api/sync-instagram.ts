@@ -32,7 +32,32 @@ async function readExistingCount(filepath: string): Promise<number> {
   }
 }
 
-export const GET: APIRoute = async () => {
+function getBearerToken(request: Request): string {
+  const header = request.headers.get('authorization') ?? '';
+  const match = header.match(/^Bearer\s+(.+)$/i);
+  return match?.[1]?.trim() ?? '';
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return mismatch === 0;
+}
+
+export const GET: APIRoute = async ({ request }) => {
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) {
+    return jsonResponse({ ok: false, error: 'Sync endpoint is not configured.' }, 503);
+  }
+
+  const suppliedToken = getBearerToken(request);
+  if (!suppliedToken || !timingSafeEqual(suppliedToken, cronSecret)) {
+    return jsonResponse({ ok: false, error: 'Unauthorized.' }, 401);
+  }
+
   const token = process.env.IG_TOKEN;
   const secret = process.env.IG_APP_SECRET;
   const userId = process.env.IG_USER_ID;
